@@ -26,6 +26,7 @@ media
 *.iws /out/
 .idea/deployment.xml
 .idea/webServers.xml
+.idea
 
 # Environments
 .env
