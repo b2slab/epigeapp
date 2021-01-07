@@ -18,5 +18,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('analysis_qpcr.urls', namespace='analysis_qpcr'))
+    path('', include('core_app.urls', namespace='core_app'))
 ]
