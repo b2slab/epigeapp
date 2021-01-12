@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .forms import UploadFileForm
-from .pipeline import handle_uploaded_file, read_txt_pcr, standard_names, processing_data
+from .pipeline import handle_uploaded_file, read_txt_pcr, standard_names, processing_data, run_max
 
 
 def main_view(request):
@@ -11,6 +11,7 @@ def main_view(request):
             read_txt_pcr()
             standard_names()
             processing_data()
+            run_max()
             return render(request, 'core_app/success.html')
     else:
         form = UploadFileForm()
