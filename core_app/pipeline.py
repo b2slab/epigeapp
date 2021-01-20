@@ -195,14 +195,14 @@ def processing_data():
     return print('Dataframe has been written.')
 
 
-def run_max():
+def run_r_script():
     # Change accordingly to your Rscript.exe & R script path
-    R_path = "/Library/Frameworks/R.framework/Resources/bin/Rscript"
+    r_path = "/Library/Frameworks/R.framework/Resources/bin/Rscript"
     script_path = media_root + "/r_scripts/predict_plsda.R"
     # Used as input arguments to the R code
     args = "~/epigen_app/media/results/dataframe.csv"
     # Execute command
-    cmd = [R_path, script_path, args]
+    cmd = [r_path, script_path, args]
     result = subprocess.check_output(cmd, universal_newlines=True)
     # Display result
     return print("The result is:", result)

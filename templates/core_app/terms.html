@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="col-md-12">
+        <h3 class="mb-3">Terms and conditions</h3>
+        <hr>
+        <h4>Preamble</h4>
+        <div class="mb-3">The tool described below was developed by DKFZ – hereinafter known as Supplier – This leasing contract deals with the tool and serves only scientific purposes, but has not been validated clinically and constitutes neither a medical treatment concept nor is it designed to be used for diagnostic purposes.</div>
+        <h4>Section 1 Subject-matter of the contract</h4>
+        <ol>
+          <li>On this website the Supplier provides access free of charge to a tool with a DNA based molecular classification algorithm.</li>
+          <li>A contract shall materialise between the Supplier and the User without a consideration having to be paid when the tool is used and the User grants his consent to these terms and conditions of use.</li>
+          <li>These terms and conditions of use alone shall apply. Other contractual terms and conditions shall not become the content of this contract of use.</li>
+        </ol>
+        <h4>Section 2 Type of Use</h4>
+        <div class="mb-2">A distinction is to be made between</div>
+          <ol type="a">
+            <li>The use of the platform purely for information purposes (for everyone without registration being required).</li>
+            <li>Active use of the tool by persons registered and therefore authorised to do so. <br /> In particular: the requirement for registration /authentication, including consent to the data protection declaration.</li>
+          </ol>
+        <ol>
+          <li>The registered user may upload so-called IDAT files about tumour samples of interest to him enabling him to use the classification algorithm. The software facilitates a comparison between the individual methylation profile of a tumour with a reference data base as well as the production of a confidence score. In addition to this the software facilitates working out a DNA copy number profile automatically from the data as well as the predication with regard to the MGMT methylation status.</li>
+          <li>The Supplier provides the User with instructions for using the platform for downloading under the heading “Instructions for use”. The User is obliged to obey the instructions in it regarding platform access, data base access, data base research as well as molecular classifications.</li>
+        </ol>
+        <h4>Section 3 Scope of the Right of Use</h4>
+        <ol class="mb-3">
+          <li>The Supplier alone is entitled to all rights to the tool – in particular patent right and copyright. Insofar as parts of the tool are subject to a general public licence, the above-named restriction shall not apply.</li>
+          <li>The right of use may be revoked by the Supplier if he has an important reason for doing so. This type of reason shall be extant in particular in the event of a breach against these terms and conditions.</li>
+          <li>The User must not modify the tool.</li>
+        </ol>
+        <h4>Section 4 Availability</h4>
+        <ol>
+          <li>The Supplier shall not furnish any warranty that the software will be continuously available. In particular, the Supplier shall reserve the right to put the tool offline at any time without prior notice on a permanent or temporary basis.</li>
+          <li>Modifications, adjustments and additions to the tool as well as measures serving to identify and rectify malfunctions shall only result in temporary stoppage or impairment of availability in those cases in which this is absolutely essential for technical reasons.</li>
+          <li>The Supplier shall endeavour to draw attention on the website in good time to impending maintenance or support work.</li>
+        </ol>
+        <h4>Section 5 Updating software</h4>
+        <ol>
+          <li>The Supplier does not have a contractual or statutory obligation to maintain the tool.</li>
+          <li>The Supplier is entitled to modify the tool including its service offer and its user interface. The Supplier shall endeavour to provide information about the corresponding modifications concerning this on time through his website.</li>
+        </ol>
+        <h4>Section 6 Registration</h4>
+        <ol>
+          <li>A User must be registered prior to using the tool. He shall be obliged to give the Supplier correct and full responses to the data requested during registration.</li>
+          <li>Important objectives of the tool are the expansion of the reference database with DNA methylation profiles, a comparison of individual methylation profiles of a tumour with the reference data base as well as the preparation of the confidence score for scientific purposes. The Supplier shall therefore reserve the right to only guarantee those users access who can prove that they have a relevant scientific or medical interest.</li>
+          <li>After registration, the User shall receive user identification and a password. The User shall have to protect and keep the user identification allocated to him and the password safe from access by third parties.  If, an incorrect password is entered on three consecutive occasions during registration using the same user identification, the connection will be cut off. The user identification and the password must not be handed over to third parties.</li>
+          <li>If the User breaches the above duties, he will be blocked from accessing the tool.</li>
+        </ol>
+        <h4>Section 7 Technical preconditions</h4>
+        <ol>
+          <li>The User shall have to comply with the requirements defined under the heading “technical preconditions” in order to have uninterrupted access to the website and its contents. The User shall be personally responsible for maintaining compliance with the corresponding preconditions.</li>
+          <li>The Supplier cannot be held liable for the security and existence of data communication. The Supplier cannot be held liable either for stoppages in data transmission caused by technical defects or configuration problems on the User’s side.</li>
+        </ol>
+        <h4>Section 8 Function</h4>
+        <div class="mb-3">The function of the tool is described under &quot;upload sample&quot;. Further information about how the classification algorithm works is in the website under &quot;Classifier&quot;.</div>
+        <h4>Section 9 Granting rights of use</h4>
+        <ol>
+          <li>The tool as well as the individual contents are – unless stated otherwise – protected by copyright. The User is obliged to comply with the existing copyrights and he shall undertake not to breach them. The User may only call off, store and use the contents for his own use. The limits stipulated in Section 53 of the German Copyright Act shall apply as a benchmark for this.</li>
+          <li>The User is not authorised to modify the contents, reproduce them for third parties, make them accessible, forward them, sell them or to exploit them commercially by other means.</li>
+          <li>The Supplier is entitled to use the information and IDAT files uploaded by the Users to expand the reference database, - should the User agree to this procedure on the basis of a declaration of consent by the patients – to improve the classification algorithm for scientific purposes. This includes the publication of corresponding publications by the Supplier.</li>
+        </ol>
+        <h4>Section 10 Reservation of future remuneration</h4>
+        <div class="mb-3">The tool may be used free of charge. The Supplier shall reserve the right to demand a remuneration for the use of the tool.</div>
+        <h4>Section 11 Data Protection / Collection of User Data</h4>
+        <ol>
+          <li>The Supplier shall not collect any personal data when using the tool. The Supplier shall, however, undertake moreover, to comply with the regulations of the regional data protection act for Baden-Württemberg as well as special legal regulations over and above this, insofar as they should apply hereto. The regulations and terms and conditions of use shall be supplemented with the data protection declaration published in the internet <a href="{% url 'core_app:privacy' %}">[Link]</a>.</li>
+          <li>The Supplier is entitled to collect data about the following procedures: type of use, contents of transmissions, duration of transmissions, personal data identifying the User.</li>
+          <li>The Supplier shall collect and use this data incompliance with the data protection regulations. The data shall not be passed on or transmitted to third parties.</li>
+          <li>The User is only entitled to upload data from the reference database if he is entitled to use the data and / or he has the express consent of the entitled person – e.g. a trial customer -     is use is being made only for scientific purposes. If the User is in breach of the requirement to obtain consent, he shall exempt the Supplier from all third party claims in connection with the corresponding breach.</li>
+        </ol>
+        <h4>Section 12 Copy Protection</h4>
+        <div class="mb-3">The Supplier is entitled to provide contents made available with coding in order to prevent unauthorised use. The User is not entitled to remove this coding. </div>
+        <h4>Section 13 Warranty and Liability</h4>
+        <ol>
+          <li>The Supplier cannot be held liable for the information offered being up-to-date, correct, permanently available, nor for restrictions on use or for the results of calculations.</li>
+          <li>The Supplier shall not accept any liability for damage incurred as a result of incorrect data and information. Furthermore, the Supplier shall not furnish any assurance whatsoever about the suitability, availability and quality of the data and information shown in the tool, for which the respective Users alone are personally responsible.</li>
+          <li>Insofar as the Supplier avails himself of data from third parties, he shall only inspect it with reasonable measures for manifest errors.</li>
+          <li>As a result of the use of the tool being free of charge, the Supplier can only be held liable for intent and gross negligence in accordance with Sections 823 et seq. of the German Civil Code [BGB].</li>
+          <li>The Supplier shall be held liable for ordinary negligence only in the event of a breach of important contractual duties. The maximum amount for which the Supplier may be held liable on account of a breach against a main contractual duty attributable to ordinary negligence is the amount of damage typically foreseeable. The Supplier cannot be held liable in the event of a breach of minor contractual duties attributable to ordinary negligence.</li>
+          <li>The Supplier cannot be held liable for the existence, suitability and freedom from defects of the public transmission lines used by the User and the User’s own data communication devices.</li>
+        </ol>
+        <h4>Section 14 Applicable Law</h4>
+        <div class="mb-3">The contract which has materialised with the User shall be governed by German law alone. The UN law on sales [CISG] shall not apply.</div>
+        <h4>Section 15 Agreement on Legal Venue</h4>
+        <div class="mb-3">If the User is a legal entity created under public law or a public law special fund, or businessmen within the meaning of commercial law regulations, the sole place of jurisdiction shall be courts having jurisdiction where the Supplier is based, that is in Heidelberg.</div>
+        <h4>Section 16 Final Provision</h4>
+        <ol>
+          <li>There are no verbal side agreements to these terms and conditions of use. Amendments or supplements to these terms and conditions of use must be made in writing to be legally valid. This requirement cannot be waived by verbal agreement.</li>
+          <li>Should individual provisions in these terms and conditions of use be, or become, invalid, the validity of the remaining provisions shall not be affected as a result. The invalid provisions are to be replaced with provisions which the Parties would have agreed, given the originally objective sought after, had they been aware that the invalid provisions they had agreed were void.  The same shall apply in the event that there is a gap in these terms and conditions of use.</li>
+        </ol>
+    </div>
+{% endblock %}

@@ -4,6 +4,11 @@ from . import views
 app_name = 'core_app'
 
 urlpatterns = [
-    path('', views.instructions_view, name='instructions'),
+    path('', views.home_view, name='home'),
+    path('instructions/', views.instructions_view, name='instructions'),
     path('upload_file/', views.analysis_view, name='analysis'),
+    path('success/', views.success_view, name='success'),
+    path('terms_and_conditions/', views.terms_view, name='terms'),
+    path('data_privacy/', views.privacy_view, name='privacy'),
+    path('legal_notice/', views.legal_view, name='legal'),
 ]

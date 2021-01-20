@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="col-md-12">
+        <h3 class="mb-3">Home</h3>
+        <hr>
+        <div class="mb-3" style="text-align: justify;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis suscipit diam, vel malesuada nisl. Nullam ullamcorper, quam nec condimentum vulputate, massa libero viverra est, vitae efficitur est enim sit amet elit. Nunc magna ex, tempus nec purus dictum, efficitur lacinia sem. Aenean vulputate, ligula ac commodo pharetra, mauris nisl ultricies nulla, at fermentum odio lacus ac tortor. Suspendisse turpis mauris, finibus at est sit amet, commodo interdum ex. Quisque nisl nunc, imperdiet quis mauris nec, mollis pellentesque turpis. Curabitur non iaculis arcu. Quisque ultrices lectus eget urna luctus, vel sodales turpis fringilla. Vivamus ut diam posuere, iaculis libero vitae, viverra sapien. Ut quis tortor et orci cursus finibus quis vel risus. Morbi aliquam orci ut sem efficitur, nec faucibus sapien facilisis. Donec placerat justo sed augue condimentum, sed eleifend metus volutpat. Aenean id nisl nisi. Sed sit amet dui vel purus dapibus aliquam. Donec quis porttitor mauris.</div>
+        <a class="btn btn-primary btn-lg btn-block" href="{% url 'core_app:instructions' %}" role="button">Start</a>
+    </div>
+{% endblock %}

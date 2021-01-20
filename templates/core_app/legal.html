@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="col-md-12">
+        <h3 class="mb-3">Legal notice</h3>
+        <hr>
+        <div><b>This web application is hosted by:</b></div>
+        <div>Division of Pediatric Neurooncology </div>
+        <div>Division of Neuropathology </div>
+
+        <br />
+        <div><b>Address:</b></div>
+
+        <div>Deutsches Krebsforschungszentrum</div>
+        <div>Im Neuenheimer Feld 280</div>
+        <div>69120 Heidelberg</div>
+        <div>Telefon: +49 (0)6221 424618</div>
+        <div>Telefax: +49 (0)6221 424639</div>
+        <br />
+        <div><b>Legal form:</b></div>
+        <div>Deutsches Krebsforschungszentrum (Foundation under Public Law)</div>
+        <div>Value added tax identification number: DE 143293537</div>
+
+        <br />
+        <div><b>Persons authorised to represent:</b></div>
+        <div>Prof. Dr. Michael Baumann (Scientific director)</div>
+        <div>Prof. Dr. Josef Puchta (Administrative director)</div>
+        <br />
+        <div><b>Responsible for site content:</b></div>
+        <div>Prof. Dr. Stefan Pfister</div>
+        <div>Prof. Dr. Andreas von Deimling</div>
+        <br />
+        <div><b>Disclaimer:</b></div>
+        <div>Our goal is to keep this information up to date and accurate. If errors are brought to our attention, we will try to correct them. However, we accept no responsibility or liability whatsoever with regard to the material on this site. This material is:  a) Information of a general nature only, not intended to address the specific circumstances of any particular individual or entity; b) Not necessarily comprehensive, complete, accurate or up to date; c) Not professional or medical advice (if you need specific advice, you should always consult a suitably qualified professional); Some webpages are linked to external sites over which we have no control. Links have been proved during setup. Since information on the WWW is subject of current change we accept no responsibility with regard to such problems, or the consequences thereof, incurred as a result of using this site or any linked external sites. This disclaimer is not intended to contravene any requirements laid down in applicable national law nor to exclude liability for matters which may not be excluded under that law.</div>
+        <br />
+
+        <div><b>Data Protection Provisions <a href="{% url 'core_app:privacy' %}">[Link]</a>:</b></div>
+        <div>We undertake to protect the private sphere of all persons using its website and to treat any personal information provided in strictest confidence. The information is solely used for the respective purposes given and will not be passed on to third parties. It will be deleted as soon as it has served the given purpose. Your web browser or client software may transfer information without your knowledge via your computer (for example IP address) to our server. Such information is never brought in direct connection with you, but is evaluated in anonymous form for statistical purposes for system management or to improve the efficiency of our internet platform.</div>
+        <br />
+        <div>This web interface is intended for non-commercial use only. </div>
+
+        <br />
+        <h4>Terms and Conditions of Use</h4>
+        <div>The terms and conditions of use can be found under <a href="{% url 'core_app:terms' %}">link</a>.</div>
+        <br />
+        <h4>Involved parties</h4>
+        <div><a href="http://www.klinikum.uni-heidelberg.de">University Hospital Heidelberg</a></div>
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div><a href="http://www.klinikum.uni-heidelberg.de/Neuropathologie.370.0.html">Neuropathology</a></div>
+        </div>
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div><a href="http://www.klinikum.uni-heidelberg.de/Prof-Dr-med-Stefan-Pfister.130136.0.html">Pediatric Oncology</a></div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div><a href="http://www.klinikum.uni-heidelberg.de/Abteilung-fuer-Neuroonkologie.105540.0.html">Neurooncology</a></div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div><a href="http://www.klinikum.uni-heidelberg.de/Willkommen.120228.0.html">Neurosurgery</a></div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div><a href="http://www.klinikum.uni-heidelberg.de/Willkommen.116036.0.html">Radiation Oncology and Therapy</a></div>
+        </div>
+        <br />
+        <div><a href="http://www.dkfz.de/en/index.html">German Cancer Research Center (DKFZ)</a></div>
+
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div><a href="http://www.dkfz.de/en/paediatrische-neuroonkologie/index.php">Pediatric Neurooncology</a></div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div><a href="http://www.dkfz.de/en/neuropathologie/">CCU Neuropathology</a></div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div><a href="http://www.dkfz.de/en/biostatistics/">Biostatistics</a></div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div><a href="http://www.dkfz.de/en/genetics/index.php">Molecular Genetics</a></div>
+        </div>
+        <br />
+        <div><a href="http://www.dkfz.de/en/dktk/index.html">German Consortium for Translational Cancer Research (DKTK)</a></div>
+  </div>
+{% endblock %}

@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
 from .forms import UploadFileForm, InstructionsForm
-from .pipeline import handle_uploaded_file, read_txt_pcr, standard_names, processing_data, run_max
+from .pipeline import handle_uploaded_file, read_txt_pcr, standard_names, processing_data, run_r_script
+
+
+def home_view(request):
+    return render(request, 'core_app/home.html')
 
 
 def instructions_view(request):
@@ -21,8 +25,24 @@ def analysis_view(request):
             read_txt_pcr()
             standard_names()
             processing_data()
-            run_max()
-            return render(request, 'core_app/success.html')
+            run_r_script()
+            return redirect('core_app:success')
     else:
         form = UploadFileForm()
     return render(request, 'core_app/upload_file.html', {'form': form})
+
+
+def terms_view(request):
+    return render(request, 'core_app/terms.html')
+
+
+def privacy_view(request):
+    return render(request, 'core_app/privacy.html')
+
+
+def legal_view(request):
+    return render(request, 'core_app/legal.html')
+
+
+def success_view(request):
+    return render(request, 'core_app/success.html')
