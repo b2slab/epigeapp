@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import UploadFileForm, InstructionsForm
+from .forms import UploadFileForm, InstructionsForm, SampleModelForm
 from .pipeline import handle_uploaded_file, read_txt_pcr, standard_names, processing_data, run_r_script
 
 
@@ -19,16 +19,19 @@ def instructions_view(request):
 
 def analysis_view(request):
     if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
+        form = SampleModelForm(request.POST, request.FILES)
+        print(form.is_valid())
+        print(form.errors)
         if form.is_valid():
-            handle_uploaded_file(request.FILES['file'])
-            read_txt_pcr()
-            standard_names()
-            processing_data()
-            run_r_script()
+            form.save()
+            #handle_uploaded_file(request.FILES['file'])
+            #read_txt_pcr()
+            #standard_names()
+            #processing_data()
+            #run_r_script()
             return redirect('core_app:success')
     else:
-        form = UploadFileForm()
+        form = SampleModelForm()
     return render(request, 'core_app/upload_file.html', {'form': form})
 
 
