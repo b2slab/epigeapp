@@ -3,8 +3,8 @@ import uuid
 
 
 def sample_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
-    return 'data/sample_{0}/{1}'.format(instance.id, filename)
+    # file will be uploaded to MEDIA_ROOT/<id>/<filename>
+    return 'data/{0}/{1}'.format(instance.id, filename)
 
 
 class Sample(models.Model):
@@ -19,7 +19,7 @@ class Sample(models.Model):
     sample_identifier = models.CharField(max_length=25)
     diagnosis = models.CharField(max_length=25)
     created = models.DateTimeField(auto_now_add=True)
-    file = models.FileField(upload_to='data/%Y/%m/%d/')
+    file = models.FileField(upload_to=sample_directory_path)
     status = models.CharField(max_length=20,
                               choices=STATUS_CHOICES,
                               default='outstanding')
@@ -28,4 +28,4 @@ class Sample(models.Model):
         ordering = ('-created',)
 
     def __str__(self):
-        return self.sample_identifier + ' from: ' + self.email
+        return str(self.id)
