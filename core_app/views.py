@@ -1,11 +1,9 @@
 from django.shortcuts import render, redirect
 from .forms import InstructionsForm, SampleModelForm
-from .pipeline import read_txt_pcr, standard_names, processing_data, run_r_script
-from .tasks import add
+from .tasks import pipeline
 
 
 def home_view(request):
-    add.delay(3, 5)
     return render(request, 'core_app/home.html')
 
 
@@ -25,12 +23,7 @@ def analysis_view(request):
         if form.is_valid():
             sample_obj = form.save(commit=False)
             sample_obj.save()
-
-            path_results = read_txt_pcr(path_txt=sample_obj.file.url)
-            standard_names(path_results)
-            processing_data(path_results)
-            run_r_script(path_results)
-
+            pipeline.delay(path_txt=sample_obj.file.url)
             return redirect('core_app:success')
     else:
         form = SampleModelForm()

@@ -200,8 +200,9 @@ def run_r_script(path_folder):
     # Execute command
     cmd = [r_path, script_path, args]
     result = subprocess.check_output(cmd, universal_newlines=True)
+    print(result)
     # Display result
-    return print("The result is:", result)
+    return result
 
 
 
