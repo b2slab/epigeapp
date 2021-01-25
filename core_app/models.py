@@ -3,8 +3,8 @@ import uuid
 
 
 def sample_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/<id>/<filename>
-    return 'data/{0}/{1}'.format(instance.id, filename)
+    # file will be uploaded to MEDIA_ROOT/sample/<id>/data/<filename>
+    return 'samples/{0}/data/{1}'.format(instance.id, filename)
 
 
 class Sample(models.Model):

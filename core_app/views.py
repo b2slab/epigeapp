@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import InstructionsForm, SampleModelForm
-from .pipeline import handle_uploaded_file, read_txt_pcr, standard_names, processing_data, run_r_script
+from .pipeline import read_txt_pcr, standard_names, processing_data, run_r_script
+from django.conf import settings
 
 
 def home_view(request):
@@ -21,12 +22,14 @@ def analysis_view(request):
     if request.method == 'POST':
         form = SampleModelForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            #handle_uploaded_file(request.FILES['file'])
-            #read_txt_pcr()
-            #standard_names()
-            #processing_data()
-            #run_r_script()
+            sample_obj = form.save(commit=False)
+            sample_obj.save()
+
+            path_results = read_txt_pcr(path_txt=sample_obj.file.url)
+            standard_names(path_results)
+            processing_data(path_results)
+            run_r_script(path_results)
+
             return redirect('core_app:success')
     else:
         form = SampleModelForm()

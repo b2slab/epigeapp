@@ -6,12 +6,14 @@ import pandas as pd
 from scipy.optimize import curve_fit
 import numpy as np
 import matplotlib
+from decouple import config
 
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
 
 
 media_root = settings.MEDIA_ROOT
+base_root = str(settings.BASE_DIR)
 cpg_list = ['W1_2554', 'W3_0222', 'S1_1033', 'S3_1292', 'G1_1884', 'G3_0126']
 
 
@@ -31,7 +33,7 @@ class PCR:
         self.rmse_vic = None
 
     def plot_curve(self, path_save):
-        pathlib.Path(path_save + self.case_num).mkdir(parents=True, exist_ok=True)
+        pathlib.Path(path_save).mkdir(parents=True, exist_ok=True)
         name = '_'.join((self.case_num, self.well_pos))
         plt.figure(figsize=(10, 8))
         plt.plot(self.cycles, self.amp_fam, 'r-', label='FAM')
@@ -47,20 +49,15 @@ class PCR:
         plt.xlabel('Cycle')
         plt.title(name)
         plt.grid()
-        plt.savefig(path_save + self.case_num + "/" + name + ".png", dpi=150)
+        plt.savefig(path_save + name + ".png", dpi=150)
         plt.close()
 
 
-def handle_uploaded_file(f):
-    path = media_root + "/data/data.txt"
-    with open(path, 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-    return print('Data have been saved')
+def read_txt_pcr(path_txt):
+    path_to_save = base_root + path_txt.split("data")[0] + 'results/'
+    pathlib.Path(path_to_save).mkdir(parents=True, exist_ok=True)
 
-
-def read_txt_pcr():
-    with open(media_root + "/data/data.txt", 'r') as f:
+    with open(base_root + path_txt, 'r') as f:
         lines = f.readlines()
 
     pattern = re.compile(r"^\[.*?\]$", re.IGNORECASE)
@@ -77,9 +74,9 @@ def read_txt_pcr():
             dict_files[filename] = lines[index[i] + 1:]
 
     for filename in filenames:
-        with open(media_root + "/results/" + filename, 'w') as f:
+        with open(path_to_save + filename, 'w') as f:
             f.writelines(dict_files[filename])
-    return print('Data have been preprocessed')
+    return path_to_save
 
 
 def replace_label(string):
@@ -97,12 +94,12 @@ def replace_label(string):
         return string
 
 
-def standard_names():
-    file = media_root + "/results/Sample_Setup.csv"
-    setup = pd.read_csv(file, sep="\t")
+def standard_names(path_folder):
+    filename = "Sample_Setup.csv"
+    setup = pd.read_csv(path_folder + filename, sep="\t")
     setup['Sample Name'] = [name.split(sep="_")[0] if name is not np.nan else name for name in setup['Sample Name']]
     setup['Sample Name'] = [replace_label(label) for label in setup['Sample Name']]
-    setup.to_csv(file, sep='\t', index=False)
+    setup.to_csv(path_folder + filename, sep='\t', index=False)
     return print('Data have been standardized.')
 
 
@@ -155,11 +152,10 @@ def fit(x, y):
         return None, None, None
 
 
-def processing_data():
-    file = media_root + "/results/Sample_Setup.csv"
-    setup = import_setup(file)
+def processing_data(path_folder):
+    setup = import_setup(path_folder + "Sample_Setup.csv")
     setup2 = setup.query("task == 'UNKNOWN'")
-    data = import_data(media_root + "/results/Amplification_Data.csv")
+    data = import_data(path_folder + "Amplification_Data.csv")
     sample_name = setup2.sample_name.unique()[0]
 
     d = np.empty((12, 8))
@@ -183,24 +179,24 @@ def processing_data():
         d[count] = row
         row_names.append(sample_name + "_" + well)
 
-        pcr.plot_curve(path_save=media_root + "/results/plots/")
+        pcr.plot_curve(path_save=path_folder + "plots/")
 
     dataframe = pd.DataFrame(data=d, index=row_names, columns=['plateau_fam', 'slope_fam', 'intercept_fam', 'rmse_fam',
                                                                'plateau_vic', 'slope_vic', 'intercept_vic', 'rmse_vic'])
 
     dataframe['snp'] = setup2.snp.values
 
-    dataframe.to_csv(media_root + '/results/dataframe.csv')
+    dataframe.to_csv(path_folder + 'dataframe.csv')
 
     return print('Dataframe has been written.')
 
 
-def run_r_script():
+def run_r_script(path_folder):
     # Change accordingly to your Rscript.exe & R script path
-    r_path = "/Library/Frameworks/R.framework/Resources/bin/Rscript"
-    script_path = media_root + "/r_scripts/predict_plsda.R"
+    r_path = config("R_PATH")
+    script_path = media_root + config("SCRIPT_PATH")
     # Used as input arguments to the R code
-    args = "~/epigen_app/media/results/dataframe.csv"
+    args = path_folder + "dataframe.csv"
     # Execute command
     cmd = [r_path, script_path, args]
     result = subprocess.check_output(cmd, universal_newlines=True)
