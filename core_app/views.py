@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from .forms import InstructionsForm, SampleModelForm
 from .pipeline import read_txt_pcr, standard_names, processing_data, run_r_script
-from django.conf import settings
+from .tasks import add
 
 
 def home_view(request):
+    add.delay(3, 5)
     return render(request, 'core_app/home.html')
 
 
