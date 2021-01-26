@@ -21,9 +21,8 @@ def analysis_view(request):
     if request.method == 'POST':
         form = SampleModelForm(request.POST, request.FILES)
         if form.is_valid():
-            sample_obj = form.save(commit=False)
-            sample_obj.save()
-            pipeline.delay(path_txt=sample_obj.file.url)
+            sample = form.save()
+            pipeline.delay(sample_id=sample.id)
             return redirect('core_app:success')
     else:
         form = SampleModelForm()

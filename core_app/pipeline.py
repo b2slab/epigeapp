@@ -53,11 +53,9 @@ class PCR:
         plt.close()
 
 
-def read_txt_pcr(path_txt):
-    path_to_save = base_root + path_txt.split("data")[0] + 'results/'
-    pathlib.Path(path_to_save).mkdir(parents=True, exist_ok=True)
+def read_txt_pcr(path_to_read, path_to_save):
 
-    with open(base_root + path_txt, 'r') as f:
+    with open(base_root + path_to_read, 'r') as f:
         lines = f.readlines()
 
     pattern = re.compile(r"^\[.*?\]$", re.IGNORECASE)
@@ -76,7 +74,6 @@ def read_txt_pcr(path_txt):
     for filename in filenames:
         with open(path_to_save + filename, 'w') as f:
             f.writelines(dict_files[filename])
-    return path_to_save
 
 
 def replace_label(string):
@@ -200,9 +197,14 @@ def run_r_script(path_folder):
     # Execute command
     cmd = [r_path, script_path, args]
     result = subprocess.check_output(cmd, universal_newlines=True)
-    print(result)
     # Display result
+    print(result)
     return result
 
+
+def mkdir_results(path_to_txt):
+    path_to_save = base_root + path_to_txt.split("data")[0] + 'results/'
+    pathlib.Path(path_to_save).mkdir(parents=True, exist_ok=True)
+    return path_to_save
 
 
