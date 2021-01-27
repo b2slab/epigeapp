@@ -1,6 +1,13 @@
 from django.shortcuts import render, redirect
 from .forms import InstructionsForm, SampleModelForm
 from .tasks import pipeline
+from django.contrib.admin.views.decorators import staff_member_required
+from django.shortcuts import get_object_or_404
+from django.conf import settings
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+import weasyprint
+from .models import Sample
 
 
 def home_view(request):
@@ -43,3 +50,16 @@ def legal_view(request):
 
 def success_view(request):
     return render(request, 'core_app/success.html')
+
+
+@staff_member_required
+def admin_report_pdf(request, sample_id):
+    sample = get_object_or_404(Sample, id=sample_id)
+    html = render_to_string('core_app/report/pdf.html',
+                            {'sample': sample})
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'filename=sample_{sample.id}.pdf'
+    weasyprint.HTML(string=html,
+                    base_url=request.build_absolute_uri()).write_pdf(response, stylesheets=[weasyprint.CSS(
+        settings.STATIC_ROOT + 'css/pdf.css')])
+    return response
