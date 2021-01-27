@@ -10,5 +10,7 @@ def pipeline(sample_id):
     read_txt_pcr(path_to_read=sample.file.url, path_to_save=path_results)
     standard_names(path_folder=path_results)
     processing_data(path_folder=path_results)
-    result = run_r_script(path_folder=path_results)
+    subgroup = run_r_script(path_folder=path_results)
+    sample.medulloblastoma_subgroup = subgroup
+    sample.save()
 

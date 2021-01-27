@@ -13,6 +13,14 @@ class Sample(models.Model):
         ('classified', 'Classified'),
         ('error', 'Error'),
     )
+    SUBGROUP_CHOICES = (
+        ('wnt', 'WNT'),
+        ('shh', 'SHH'),
+        ('group 3', 'Group 3'),
+        ('group 3', 'Group 4'),
+        ('non-WNT/non-SHH', 'non-WNT/non-SHH'),
+        ('not classified', 'Not classified'),
+    )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField()
@@ -23,6 +31,9 @@ class Sample(models.Model):
     status = models.CharField(max_length=20,
                               choices=STATUS_CHOICES,
                               default='outstanding')
+    medulloblastoma_subgroup = models.CharField(max_length=20,
+                                                choices=SUBGROUP_CHOICES,
+                                                default='not classified')
 
     class Meta:
         ordering = ('-created',)
