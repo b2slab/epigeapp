@@ -10,6 +10,9 @@ import weasyprint
 from .models import Sample
 
 
+static_dir = str(settings.BASE_DIR) + '/static/'
+
+
 def home_view(request):
     return render(request, 'core_app/home.html')
 
@@ -60,6 +63,6 @@ def admin_report_pdf(request, sample_id):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'filename=sample_{sample.id}.pdf'
     weasyprint.HTML(string=html,
-                    base_url=request.build_absolute_uri()).write_pdf(response, stylesheets=[weasyprint.CSS(
-        settings.STATIC_ROOT + 'css/pdf.css')])
+                    base_url=request.build_absolute_uri()).write_pdf(response,
+                                                                     stylesheets=[weasyprint.CSS(static_dir + 'css/pdf.css')])
     return response
