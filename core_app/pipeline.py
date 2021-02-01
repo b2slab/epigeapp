@@ -7,6 +7,7 @@ from scipy.optimize import curve_fit
 import numpy as np
 import matplotlib
 from decouple import config
+from .models import QualityControl
 
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
@@ -83,7 +84,7 @@ def replace_label(string):
                   'G3_0126.1-Allele 2_U': 'G3_0126-Allele 2_U', 'G3_0126.1-Allele 1_M': 'G3_0126-Allele 1_M',
                   'S3_1292.1': 'S3_1292', 'G1_1884.1': 'G1_1884', 'G3_0126.1': 'G3_0126',
                   'Allele 2_Unmeth': 'Allele 2_U', 'Allele 1_Meth': 'Allele 1_M',
-                  'B04-2075':'B04-3075', 'B10-1192B':'B10-1192', 'B04':'B04-3075'
+                  'B04-2075': 'B04-3075', 'B10-1192B': 'B10-1192', 'B04': 'B04-3075'
                   }
     if string in list(dict_label.keys()):
         return dict_label[string]
@@ -198,8 +199,7 @@ def run_r_script(path_folder):
     cmd = [r_path, script_path, args]
     result = subprocess.check_output(cmd, universal_newlines=True)
     # Display result
-    print(result)
-    return result
+    return print(result)
 
 
 def mkdir_results(path_to_txt):
@@ -207,4 +207,13 @@ def mkdir_results(path_to_txt):
     pathlib.Path(path_to_save).mkdir(parents=True, exist_ok=True)
     return path_to_save
 
+
+def create_qc_table(path_folder, sample):
+    data = pd.read_csv(path_folder + 'lda_results.csv')
+    QualityControl.objects.create(sample=sample,
+                                  probability_WNT=data.iloc[0]['WNT'],
+                                  probability_SHH=data.iloc[0]['SHH'],
+                                  probability_G3_G4=data.iloc[0]['non-WNT/non-SHH'])
+    sample.medulloblastoma_subgroup = data.iloc[0]['class']
+    sample.save()
 

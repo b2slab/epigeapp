@@ -1,5 +1,5 @@
 from celery import shared_task
-from .pipeline import read_txt_pcr, standard_names, processing_data, run_r_script, mkdir_results
+from .pipeline import read_txt_pcr, standard_names, processing_data, run_r_script, mkdir_results, create_qc_table
 from .models import Sample
 
 
@@ -10,7 +10,8 @@ def pipeline(sample_id):
     read_txt_pcr(path_to_read=sample.file.url, path_to_save=path_results)
     standard_names(path_folder=path_results)
     processing_data(path_folder=path_results)
-    subgroup = run_r_script(path_folder=path_results)
-    sample.medulloblastoma_subgroup = subgroup
+    run_r_script(path_folder=path_results)
+    create_qc_table(path_folder=path_results, sample=sample)
+    sample.status = 'classified'
     sample.save()
 

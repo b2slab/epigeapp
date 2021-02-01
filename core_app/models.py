@@ -1,5 +1,6 @@
 from django.db import models
 import uuid
+import os
 
 
 def sample_directory_path(instance, filename):
@@ -40,3 +41,33 @@ class Sample(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+    @property
+    def filename(self):
+        return os.path.basename(self.file.name)
+
+    @property
+    def filesize(self):
+        x = self.file.size
+        y = 512000
+        if x < y:
+            value = round(x / 1000, 2)
+            ext = ' kb'
+        elif x < y * 1000:
+            value = round(x / 1000000, 2)
+            ext = ' Mb'
+        else:
+            value = round(x / 1000000000, 2)
+            ext = ' Gb'
+        return str(value) + ext
+
+
+class QualityControl(models.Model):
+    sample = models.OneToOneField(Sample, on_delete=models.CASCADE)
+    probability_WNT = models.FloatField(null=True)
+    probability_SHH = models.FloatField(null=True)
+    probability_G3_G4 = models.FloatField(null=True)
+
+    def __str__(self):
+        return str(self.sample.id)
+

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Sample
+from .models import Sample, QualityControl
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
@@ -14,4 +14,9 @@ report_pdf.short_description = 'Report'
 
 @admin.register(Sample)
 class SampleAdmin(admin.ModelAdmin):
-    list_display = ('id', 'email', 'sample_identifier', 'diagnosis', 'created', 'status', report_pdf)
+    list_display = ('id', 'created', 'status', 'email', report_pdf)
+    list_filter = ('status', 'created')
+    search_fields = ['email']
+
+
+admin.site.register(QualityControl)
