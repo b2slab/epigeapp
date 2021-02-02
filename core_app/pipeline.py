@@ -216,8 +216,8 @@ def create_qc_table(path_folder, sample):
     sample.save()
 
 
-def calibration_info(path_to_read, sample, flag):
-    with open(base_root + path_to_read, 'r') as f:
+def calibration_info(path_to_txt, path_to_results, sample):
+    with open(base_root + path_to_txt, 'r') as f:
         lines = f.readlines()
 
     ROX_valid = VIC_valid = FAM_valid = True
@@ -257,6 +257,8 @@ def calibration_info(path_to_read, sample, flag):
 
     VIC_date = lines[index[0]].split("=")[1].strip()
 
+    flag, message = amplification_test(path_to_results)
+
     Calibration.objects.create(sample=sample,
                                ROX_valid=ROX_valid,
                                FAM_valid=FAM_valid,
@@ -264,17 +266,25 @@ def calibration_info(path_to_read, sample, flag):
                                ROX_date=ROX_date,
                                FAM_date=FAM_date,
                                VIC_date=VIC_date,
-                               detected_amplification=flag)
+                               amplification_test=flag,
+                               amplification_information=message)
 
 
-def detected_amplification(path_folder):
+def amplification_test(path_folder):
     flag = False
+    message = None
     filename = "Results.csv"
+
     df = pd.read_csv(path_folder + filename, sep="\t")
     df_ntc = df.query("Task == 'NTC'")
     allele1_ct = list(set(df_ntc["Allele1 Ct"].values))
     allele2_ct = list(set(df_ntc["Allele2 Ct"].values))
-    if len(allele1_ct) > 1 or len(allele2_ct) > 1:
+    if len(allele1_ct) == 1 and len(allele2_ct) == 1:
         flag = True
-    return flag
+
+    if not flag:
+        df_ntc = df_ntc[['Well Position', 'SNP Assay Name', 'Allele1 Ct', 'Allele2 Ct']]
+        message = df_ntc.to_html(index=False)
+
+    return flag, message
 

@@ -7,7 +7,7 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 import weasyprint
-from .models import Sample, QualityControl
+from .models import Sample, QualityControl, Calibration
 
 
 static_dir = str(settings.BASE_DIR) + '/static/'
@@ -59,9 +59,11 @@ def success_view(request):
 def admin_report_pdf(request, sample_id):
     sample = get_object_or_404(Sample, id=sample_id)
     quality_control = get_object_or_404(QualityControl, sample=sample)
+    calibration = get_object_or_404(Calibration, sample=sample)
     html = render_to_string('core_app/report/pdf.html',
                             {'sample': sample,
-                             'quality_control': quality_control})
+                             'quality_control': quality_control,
+                             'calibration': calibration})
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'filename=sample_{sample.id}.pdf'
     weasyprint.HTML(string=html,

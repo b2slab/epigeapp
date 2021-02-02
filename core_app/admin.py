@@ -24,4 +24,4 @@ admin.site.register(QualityControl)
 
 @admin.register(Calibration)
 class CalibrationAdmin(admin.ModelAdmin):
-    list_display = ('sample', 'ROX_valid', 'FAM_valid', 'VIC_valid', 'detected_amplification')
+    list_display = ('sample', 'ROX_valid', 'FAM_valid', 'VIC_valid', 'amplification_test')

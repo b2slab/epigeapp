@@ -10,7 +10,6 @@
     <p>Size file: {{ sample.filesize}}</p>
     <p>Email: {{ sample.email }}</p>
     <p>Date: {{ sample.created|date:"M d, Y, H:i:s" }}</p>
-    <br>
     <h3>EpiGe MB Class Prediction Results (v1b1)</h3>
     <table>
         <thead>
@@ -58,7 +57,7 @@
     <img class="image-result" src="{% static 'img/ejemplo_imagen.png' %}" alt="logo_sjd">
     <p>SVM RESULT: Sample compatible with MB</p>
     <p>(The MBs used for training are deposited in the Gene Expression Omnibus under accession number <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE54880" target="_blank" rel="noopener noreferrer">GSE54880</a> - doi: <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3661908/" target="_blank" rel="noopener noreferrer">10.1007/s00401-013-1126-5</a>)</p>
-    <h3>Quality Control</h3>
+    <h3>Quality Control Summary</h3>
     <table>
         <thead>
         <tr>
@@ -106,6 +105,37 @@
             </tr>
         </tbody>
     </table>
+    <!-- <div class="pagebreak"> </div> -->
+    <h2>Technical report</h2>
+    <h3>Calibration information</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>ROX is expired</th>
+            <th>ROX performed</th>
+            <th>FAM is expired</th>
+            <th>FAM performed</th>
+            <th>VIC is expired</th>
+            <th>VIC performed</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{% if calibration.ROX_valid %}No{% else %}Yes{% endif %}</td>
+                <td>{{ calibration.ROX_date }}</td>
+                <td>{% if calibration.FAM_valid %}No{% else %}Yes{% endif %}</td>
+                <td>{{ calibration.FAM_date }}</td>
+                <td>{% if calibration.VIC_valid %}No{% else %}Yes{% endif %}</td>
+                <td>{{ calibration.VIC_date }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <h3>NTC amplification</h3>
+    {% if not calibration.amplification_test %}
+        {{ calibration.amplification_information | safe }}
+    {% else %}
+        No amplification detected.
+    {% endif %}
     <h3>Run information</h3>
     <table>
         <thead>
