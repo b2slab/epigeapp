@@ -63,10 +63,24 @@ class Sample(models.Model):
 
 
 class QualityControl(models.Model):
-    sample = models.OneToOneField(Sample, on_delete=models.CASCADE)
+    sample = models.OneToOneField(Sample, on_delete=models.CASCADE, editable=False)
     probability_WNT = models.FloatField(null=True)
     probability_SHH = models.FloatField(null=True)
     probability_G3_G4 = models.FloatField(null=True)
+
+    def __str__(self):
+        return str(self.sample.id)
+
+
+class Calibration(models.Model):
+    sample = models.OneToOneField(Sample, on_delete=models.CASCADE, editable=False)
+    ROX_valid = models.BooleanField()
+    FAM_valid = models.BooleanField()
+    VIC_valid = models.BooleanField()
+    ROX_date = models.CharField(max_length=25)
+    FAM_date = models.CharField(max_length=25)
+    VIC_date = models.CharField(max_length=25)
+    detected_amplification = models.BooleanField()
 
     def __str__(self):
         return str(self.sample.id)

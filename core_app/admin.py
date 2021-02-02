@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Sample, QualityControl
+from .models import Sample, QualityControl, Calibration
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
@@ -20,3 +20,8 @@ class SampleAdmin(admin.ModelAdmin):
 
 
 admin.site.register(QualityControl)
+
+
+@admin.register(Calibration)
+class CalibrationAdmin(admin.ModelAdmin):
+    list_display = ('sample', 'ROX_valid', 'FAM_valid', 'VIC_valid', 'detected_amplification')

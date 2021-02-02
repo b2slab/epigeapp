@@ -1,5 +1,6 @@
 from celery import shared_task
-from .pipeline import read_txt_pcr, standard_names, processing_data, run_r_script, mkdir_results, create_qc_table
+from .pipeline import read_txt_pcr, standard_names, processing_data, run_r_script, mkdir_results, create_qc_table, \
+    calibration_info, detected_amplification
 from .models import Sample
 
 
@@ -14,4 +15,6 @@ def pipeline(sample_id):
     create_qc_table(path_folder=path_results, sample=sample)
     sample.status = 'classified'
     sample.save()
+    flag = detected_amplification(path_folder=path_results)
+    calibration_info(path_to_read=sample.file.url, sample=sample, flag=flag)
 

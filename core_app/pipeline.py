@@ -7,11 +7,10 @@ from scipy.optimize import curve_fit
 import numpy as np
 import matplotlib
 from decouple import config
-from .models import QualityControl
+from .models import QualityControl, Calibration
 
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
-
 
 media_root = settings.MEDIA_ROOT
 base_root = str(settings.BASE_DIR)
@@ -55,7 +54,6 @@ class PCR:
 
 
 def read_txt_pcr(path_to_read, path_to_save):
-
     with open(base_root + path_to_read, 'r') as f:
         lines = f.readlines()
 
@@ -129,7 +127,7 @@ def import_data(csv_path):
 
 
 def sigmoid(x, a, b, c):
-    return a * (np.exp(b*x + c) / (1 + np.exp(b*x + c)))
+    return a * (np.exp(b * x + c) / (1 + np.exp(b * x + c)))
 
 
 def rmse(predictions, targets):
@@ -169,7 +167,7 @@ def processing_data(path_folder):
         pcr = PCR(case_num=sample_name, well_pos=well, cycles=cycles, amp_fam=fam, amp_vic=vic)
 
         pcr.adj_fam, pcr.params_fam, pcr.rmse_fam = fit(x=pcr.cycles, y=pcr.amp_fam)
-        row = [*pcr.params_fam,  pcr.rmse_fam]
+        row = [*pcr.params_fam, pcr.rmse_fam]
 
         pcr.adj_vic, pcr.params_vic, pcr.rmse_vic = fit(x=pcr.cycles, y=pcr.amp_vic)
         row = row + [*pcr.params_vic, pcr.rmse_vic]
@@ -211,9 +209,72 @@ def mkdir_results(path_to_txt):
 def create_qc_table(path_folder, sample):
     data = pd.read_csv(path_folder + 'lda_results.csv')
     QualityControl.objects.create(sample=sample,
-                                  probability_WNT=data.iloc[0]['WNT'],
-                                  probability_SHH=data.iloc[0]['SHH'],
-                                  probability_G3_G4=data.iloc[0]['non-WNT/non-SHH'])
+                                  probability_WNT=round(data.iloc[0]['WNT'], 4),
+                                  probability_SHH=round(data.iloc[0]['SHH'], 4),
+                                  probability_G3_G4=round(data.iloc[0]['non-WNT/non-SHH'],4))
     sample.medulloblastoma_subgroup = data.iloc[0]['class']
     sample.save()
+
+
+def calibration_info(path_to_read, sample, flag):
+    with open(base_root + path_to_read, 'r') as f:
+        lines = f.readlines()
+
+    ROX_valid = VIC_valid = FAM_valid = True
+    # FAM DYE Calibration
+    pattern = re.compile(r'\bCalibration Pure Dye FAM is expired\b')
+    index = [i for i, line in enumerate(lines) if pattern.search(line) is not None]
+
+    if lines[index[0]].split("=")[1].strip() == "No":
+        FAM_valid = True
+
+    pattern = re.compile(r'\bCalibration Pure Dye FAM performed\b')
+    index = [i for i, line in enumerate(lines) if pattern.search(line) is not None]
+
+    FAM_date = lines[index[0]].split("=")[1].strip()
+
+    # ROX DYE Calibration
+    pattern = re.compile(r'\bCalibration Pure Dye ROX is expired\b')
+    index = [i for i, line in enumerate(lines) if pattern.search(line) is not None]
+
+    if lines[index[0]].split("=")[1].strip() == "No":
+        ROX_valid = True
+
+    pattern = re.compile(r'\bCalibration Pure Dye ROX performed\b')
+    index = [i for i, line in enumerate(lines) if pattern.search(line) is not None]
+
+    ROX_date = lines[index[0]].split("=")[1].strip()
+
+    # VIC DYE Calibration
+    pattern = re.compile(r'\bCalibration Pure Dye VIC is expired\b')
+    index = [i for i, line in enumerate(lines) if pattern.search(line) is not None]
+
+    if lines[index[0]].split("=")[1].strip() == "No":
+        VIC_valid = True
+
+    pattern = re.compile(r'\bCalibration Pure Dye VIC performed\b')
+    index = [i for i, line in enumerate(lines) if pattern.search(line) is not None]
+
+    VIC_date = lines[index[0]].split("=")[1].strip()
+
+    Calibration.objects.create(sample=sample,
+                               ROX_valid=ROX_valid,
+                               FAM_valid=FAM_valid,
+                               VIC_valid=VIC_valid,
+                               ROX_date=ROX_date,
+                               FAM_date=FAM_date,
+                               VIC_date=VIC_date,
+                               detected_amplification=flag)
+
+
+def detected_amplification(path_folder):
+    flag = False
+    filename = "Results.csv"
+    df = pd.read_csv(path_folder + filename, sep="\t")
+    df_ntc = df.query("Task == 'NTC'")
+    allele1_ct = list(set(df_ntc["Allele1 Ct"].values))
+    allele2_ct = list(set(df_ntc["Allele2 Ct"].values))
+    if len(allele1_ct) > 1 or len(allele2_ct) > 1:
+        flag = True
+    return flag
 
