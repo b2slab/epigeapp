@@ -8,9 +8,12 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 import weasyprint
 from .models import Sample, QualityControl, Calibration
+import pandas as pd
+import glob
 
 
 static_dir = str(settings.BASE_DIR) + '/static/'
+base_root = str(settings.BASE_DIR)
 
 
 def home_view(request):
@@ -60,13 +63,26 @@ def admin_report_pdf(request, sample_id):
     sample = get_object_or_404(Sample, id=sample_id)
     quality_control = get_object_or_404(QualityControl, sample=sample)
     calibration = get_object_or_404(Calibration, sample=sample)
+
+    png_list = glob.glob(static_dir + "samples/" + str(sample_id) + '/*.png', recursive=True)
+    png_list = [x.split("epigen_app")[1] for x in png_list]
+    print(png_list)
+
+    df = pd.read_csv(base_root + sample.file.url.split("data")[0] + "results/CMS.csv", index_col=False)
+
     html = render_to_string('core_app/report/pdf.html',
                             {'sample': sample,
                              'quality_control': quality_control,
-                             'calibration': calibration})
+                             'calibration': calibration,
+                             'path_to_image': "/static/samples/af4359de-0002-4e1c-b7b8-e0f9f8cc63a5/CMS_panel.png",
+                             'df': df,
+                             'lista1': png_list})
+
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'filename=sample_{sample.id}.pdf'
     weasyprint.HTML(string=html,
                     base_url=request.build_absolute_uri()).write_pdf(response,
                                                                      stylesheets=[weasyprint.CSS(static_dir + 'css/pdf.css')])
     return response
+
+

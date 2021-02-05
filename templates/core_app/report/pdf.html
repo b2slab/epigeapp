@@ -51,7 +51,8 @@
     <h3>Disclaimer</h3>
     <p class="block-text">Classification using methylation profiling is a research tool under development, it is not verified and has not been clinically validated. Implementation of the results in a clinical setting is in the sole responsibility of the treating physician.<br> Intended for non-commercial use only.</p>
     <h3>Cytosine Methylation Status (CMS) Predictor</h3>
-    <img class="image-result" src="{% static 'img/ejemplo_imagen.png' %}"  alt="logo_sjd">
+    <img class="image-result" src="{{ path_to_image }}"  alt="logo_sjd">
+    {{ df.to_html | safe}}
     <br>
     <h3>Methylation SVM</h3>
     <img class="image-result" src="{% static 'img/ejemplo_imagen.png' %}" alt="logo_sjd">
@@ -167,5 +168,10 @@
             </tr>
         </tbody>
     </table>
+    <!--
+    {% for x in lista1 %}
+        <img class="image-result" src="{{ x }}"  alt="logo_sjd">
+    {% endfor %}
+    -->
 </body>
 </html>

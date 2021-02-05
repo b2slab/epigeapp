@@ -8,12 +8,16 @@ import numpy as np
 import matplotlib
 from decouple import config
 from .models import QualityControl, Calibration
+import glob
+import shutil
 
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
 
 media_root = settings.MEDIA_ROOT
 base_root = str(settings.BASE_DIR)
+static_dir = str(settings.BASE_DIR) + '/static/'
+
 cpg_list = ['W1_2554', 'W3_0222', 'S1_1033', 'S3_1292', 'G1_1884', 'G3_0126']
 
 
@@ -99,6 +103,30 @@ def standard_names(path_folder):
     return print('Data have been standardized.')
 
 
+def standard_data(path_folder):
+    amp_path = path_folder + 'Amplification_Data.csv'
+
+    setup_path = path_folder + 'Sample_Setup.csv'
+
+    data = pd.read_csv(amp_path, sep='\t')
+
+    data['Target Name'] = [replace_label(label) for label in data['Target Name']]
+
+    data.to_csv(amp_path, sep='\t', index=False)
+
+    setup = pd.read_csv(setup_path, sep='\t')
+
+    setup['SNP Assay Name'] = [replace_label(label) for label in setup['SNP Assay Name']]
+
+    setup['Allele1 Name'] = [replace_label(label) for label in setup['Allele1 Name']]
+
+    setup['Allele2 Name'] = [replace_label(label) for label in setup['Allele2 Name']]
+
+    setup.to_csv(setup_path, sep='\t', index=False)
+
+    return print('The Setup and Amplification data csv files have been standardized!')
+
+
 def import_setup(csv_path):
     setup = pd.read_csv(csv_path, sep="\t")
     setup.rename(columns={'Well': 'well', 'Well Position': 'well_pos', 'Sample Name': 'sample_name',
@@ -158,7 +186,12 @@ def processing_data(path_folder):
     row_names = []
 
     for count, well in enumerate(setup2.well_pos):
-        well_data = data[data.well_pos == well]
+        try:
+            well_data = data[data.well_pos == well]
+        except AttributeError:
+            setup_raw = pd.read_csv(path_folder + "Sample_Setup.csv", sep="\t")
+            ind = int(setup_raw[setup_raw['Well Position'] == well]['Well'].values)
+            well_data = data[data.well == ind]
 
         cycles = well_data.query("allele == 'Allele 1_M'")['cycle'].values
         fam = well_data.query("allele == 'Allele 1_M'")['delta_rn'].values
@@ -190,9 +223,9 @@ def processing_data(path_folder):
 def run_r_script(path_folder):
     # Change accordingly to your Rscript.exe & R script path
     r_path = config("R_PATH")
-    script_path = media_root + config("SCRIPT_PATH")
+    script_path = base_root + config("SCRIPT_PATH")
     # Used as input arguments to the R code
-    args = path_folder + "dataframe.csv"
+    args = path_folder
     # Execute command
     cmd = [r_path, script_path, args]
     result = subprocess.check_output(cmd, universal_newlines=True)
@@ -206,8 +239,14 @@ def mkdir_results(path_to_txt):
     return path_to_save
 
 
+def mkdir_static(sample_id):
+    path = static_dir + "samples/" + str(sample_id)
+    pathlib.Path(path).mkdir(parents=True, exist_ok=True)
+    return print("Static folder created!")
+
+
 def create_qc_table(path_folder, sample):
-    data = pd.read_csv(path_folder + 'lda_results.csv')
+    data = pd.read_csv(path_folder + 'LDA.csv')
     QualityControl.objects.create(sample=sample,
                                   probability_WNT=round(data.iloc[0]['WNT'], 4),
                                   probability_SHH=round(data.iloc[0]['SHH'], 4),
@@ -287,4 +326,19 @@ def amplification_test(path_folder):
         message = df_ntc.to_html(index=False)
 
     return flag, message
+
+
+def media_to_static(path_folder):
+    path_plots = path_folder + "plots/"
+    png_list = glob.glob(path_plots + '*.png', recursive=True)
+    sample_id = path_folder.split("/")[-3]
+    mkdir_static(sample_id=sample_id)
+    path_static_sample = static_dir + "samples/" + str(sample_id) + "/"
+    for image in png_list:
+        newPath = shutil.copy(image, path_static_sample)
+        print(newPath)
+
+
+
+
 
