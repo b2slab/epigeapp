@@ -7,7 +7,7 @@ from scipy.optimize import curve_fit
 import numpy as np
 import matplotlib
 from decouple import config
-from .models import QualityControl, Calibration
+from .models import Classification, Calibration
 import glob
 import shutil
 
@@ -245,17 +245,20 @@ def mkdir_static(sample_id):
     return print("Static folder created!")
 
 
-def create_qc_table(path_folder, sample):
-    data = pd.read_csv(path_folder + 'LDA.csv')
-    QualityControl.objects.create(sample=sample,
-                                  probability_WNT=round(data.iloc[0]['WNT'], 4),
-                                  probability_SHH=round(data.iloc[0]['SHH'], 4),
-                                  probability_G3_G4=round(data.iloc[0]['non-WNT/non-SHH'],4))
-    sample.medulloblastoma_subgroup = data.iloc[0]['class']
-    sample.save()
+def get_classification(path_folder, sample):
+    lda_data = pd.read_csv(path_folder + 'LDA.csv')
+
+    CMS_data = pd.read_csv(path_folder + "CMS.csv")
+
+    Classification.objects.create(sample=sample,
+                                  subgroup=lda_data.iloc[0]['class'],
+                                  WNT_probability=round(lda_data.iloc[0]['WNT'], 4),
+                                  SHH_probability=round(lda_data.iloc[0]['SHH'], 4),
+                                  G3_G4_probability=round(lda_data.iloc[0]['non-WNT/non-SHH'], 4),
+                                  CMS_table=CMS_data.to_html(index=False))
 
 
-def calibration_info(path_to_txt, path_to_results, sample):
+def get_calibration(path_to_txt, path_to_results, sample):
     with open(base_root + path_to_txt, 'r') as f:
         lines = f.readlines()
 

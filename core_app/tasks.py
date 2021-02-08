@@ -1,6 +1,6 @@
 from celery import shared_task
-from .pipeline import read_txt_pcr, standard_names, processing_data, run_r_script, mkdir_results, create_qc_table, \
-    calibration_info, standard_data, media_to_static
+from .pipeline import read_txt_pcr, standard_names, processing_data, run_r_script, mkdir_results, get_classification, \
+    get_calibration, standard_data, media_to_static
 from .models import Sample
 
 
@@ -13,9 +13,8 @@ def pipeline(sample_id):
     standard_names(path_folder=path_results)
     processing_data(path_folder=path_results)
     run_r_script(path_folder=path_results)
-    create_qc_table(path_folder=path_results, sample=sample)
+    get_classification(path_folder=path_results, sample=sample)
+    get_calibration(path_to_txt=sample.file.url, path_to_results=path_results, sample=sample)
+    media_to_static(path_folder=path_results)
     sample.status = 'classified'
     sample.save()
-    calibration_info(path_to_txt=sample.file.url, path_to_results=path_results, sample=sample)
-    media_to_static(path_folder=path_results)
-

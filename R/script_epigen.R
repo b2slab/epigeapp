@@ -32,17 +32,17 @@ dataframe$pred <- dataframe$pred %>% as.character(.) %>% as.numeric(.)
 
 probabilities <- predict(pls_model, dataframe, type = "prob")
 
-data4table <- data.frame(sample = dataframe$X1,
-                         snp = dataframe$snp,
-                         methylation = dataframe$pred,
-                         unmeth_prob = probabilities$`0`,
-                         meth_prob = probabilities$`1`)
+data4table <- data.frame(Sample = dataframe$X1,
+                         SNP = dataframe$snp,
+                         Status = dataframe$pred,
+                         Unmeth_prob = probabilities$`0`,
+                         Meth_prob = probabilities$`1`)
 
-data4table$methylation <- ifelse(data4table$methylation==1, "M", "U")
-data4table$unmeth_prob <- round(data4table$unmeth_prob, digits = 4)
-data4table$meth_prob <- round(data4table$meth_prob, digits = 4)
+data4table$Status <- ifelse(data4table$Status==1, "Methylated", "Unmethylated")
+data4table$Unmeth_prob <- round(data4table$Unmeth_prob, digits = 4)
+data4table$Meth_prob <- round(data4table$Meth_prob, digits = 4)
 
-data4table <- data4table %>% tidyr::separate(sample, c("sample", "well"), sep="_")
+data4table <- data4table %>% tidyr::separate(Sample, c("Sample", "Well"), sep="_")
 
 write_csv(data4table, paste0(path, "CMS.csv"))
 
@@ -76,8 +76,8 @@ df_pca_train$methylation <- label_meth
 df_pca_train$snp <- ""
 
 proj <- as.data.frame(proj)
-proj$methylation <- data4table$methylation
-proj$snp <- data4table$snp
+proj$methylation <- data4table$Status
+proj$snp <- data4table$SNP
 
 dat1 <- rbind(df_pca_train, proj[1,])
 dat2 <- rbind(df_pca_train, proj[2,])

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Sample, QualityControl, Calibration
+from .models import Sample, Classification, Calibration
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
@@ -19,7 +19,9 @@ class SampleAdmin(admin.ModelAdmin):
     search_fields = ['email']
 
 
-admin.site.register(QualityControl)
+@admin.register(Classification)
+class ClassificationAdmin(admin.ModelAdmin):
+    list_display = ('sample', 'subgroup', 'WNT_probability', 'SHH_probability', 'G3_G4_probability')
 
 
 @admin.register(Calibration)

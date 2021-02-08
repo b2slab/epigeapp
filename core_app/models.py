@@ -14,14 +14,6 @@ class Sample(models.Model):
         ('classified', 'Classified'),
         ('error', 'Error'),
     )
-    SUBGROUP_CHOICES = (
-        ('wnt', 'WNT'),
-        ('shh', 'SHH'),
-        ('group 3', 'Group 3'),
-        ('group 3', 'Group 4'),
-        ('non-WNT/non-SHH', 'non-WNT/non-SHH'),
-        ('not classified', 'Not classified'),
-    )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField()
@@ -32,9 +24,6 @@ class Sample(models.Model):
     status = models.CharField(max_length=20,
                               choices=STATUS_CHOICES,
                               default='outstanding')
-    medulloblastoma_subgroup = models.CharField(max_length=20,
-                                                choices=SUBGROUP_CHOICES,
-                                                default='not classified')
 
     class Meta:
         ordering = ('-created',)
@@ -62,11 +51,22 @@ class Sample(models.Model):
         return str(value) + ext
 
 
-class QualityControl(models.Model):
+class Classification(models.Model):
+    SUBGROUP_CHOICES = (
+        ('WNT', 'WNT'),
+        ('SHH', 'SHH'),
+        ('non-WNT/non-SHH', 'non-WNT/non-SHH'),
+        ('Not classified', 'Not classified'),
+    )
+
     sample = models.OneToOneField(Sample, on_delete=models.CASCADE, editable=False)
-    probability_WNT = models.FloatField(null=True)
-    probability_SHH = models.FloatField(null=True)
-    probability_G3_G4 = models.FloatField(null=True)
+    subgroup = models.CharField(max_length=20,
+                                choices=SUBGROUP_CHOICES,
+                                default='Not classified')
+    WNT_probability = models.FloatField(null=True)
+    SHH_probability = models.FloatField(null=True)
+    G3_G4_probability = models.FloatField(null=True)
+    CMS_table = models.TextField(null=True)
 
     def __str__(self):
         return str(self.sample.id)
