@@ -260,6 +260,7 @@ def calibration_info(path_to_txt, path_to_results, sample):
         lines = f.readlines()
 
     ROX_valid = VIC_valid = FAM_valid = True
+
     # FAM DYE Calibration
     pattern = re.compile(r'\bCalibration Pure Dye FAM is expired\b')
     index = [i for i, line in enumerate(lines) if pattern.search(line) is not None]
@@ -296,6 +297,12 @@ def calibration_info(path_to_txt, path_to_results, sample):
 
     VIC_date = lines[index[0]].split("=")[1].strip()
 
+    # Instrument Type:
+    pattern = re.compile(r'\bInstrument Type\b')
+    index = [i for i, line in enumerate(lines) if pattern.search(line) is not None]
+
+    instrument_type = lines[index[0]].split("=")[1].strip()
+
     flag, message = amplification_test(path_to_results)
 
     Calibration.objects.create(sample=sample,
@@ -306,7 +313,8 @@ def calibration_info(path_to_txt, path_to_results, sample):
                                FAM_date=FAM_date,
                                VIC_date=VIC_date,
                                amplification_test=flag,
-                               amplification_information=message)
+                               amplification_table=message,
+                               instrument_type=instrument_type)
 
 
 def amplification_test(path_folder):

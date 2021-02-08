@@ -8,6 +8,7 @@
     <p>Sample ID: {{ sample.sample_identifier }}</p>
     <p>Uploaded file: {{ sample.filename}}</p>
     <p>Size file: {{ sample.filesize}}</p>
+    <p>Instrument type: {{ calibration.instrument_type}}</p>
     <p>Email: {{ sample.email }}</p>
     <p>Date: {{ sample.created|date:"M d, Y, H:i:s" }}</p>
     <h3>EpiGe MB Class Prediction Results (v1b1)</h3>
@@ -133,7 +134,7 @@
     </table>
     <h3>NTC amplification</h3>
     {% if not calibration.amplification_test %}
-        {{ calibration.amplification_information | safe }}
+        {{ calibration.amplification_table | safe }}
     {% else %}
         No amplification detected.
     {% endif %}

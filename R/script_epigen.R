@@ -53,7 +53,7 @@ df <- data.frame("cg18849583" = mean(dataframe[dataframe$snp=="G1_1884","pred"])
                  "cg25542041" = mean(dataframe[dataframe$snp=="W1_2554","pred"]),
                  "cg02227036" = mean(dataframe[dataframe$snp=="W3_0222","pred"]))
 
-linear_model <- readRDS("~/epigen_app/media/r_scripts/EpiWNT-SHH.rds")
+linear_model <- readRDS("~/epigen_app/R/EpiWNT-SHH.rds")
 
 ypred <- predict(linear_model, df)
 

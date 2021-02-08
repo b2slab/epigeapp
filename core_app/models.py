@@ -81,8 +81,8 @@ class Calibration(models.Model):
     FAM_date = models.CharField(max_length=25)
     VIC_date = models.CharField(max_length=25)
     amplification_test = models.BooleanField()
-    amplification_information = models.TextField(null=True)
+    amplification_table = models.TextField(null=True)
+    instrument_type = models.CharField(max_length=75)
 
     def __str__(self):
         return str(self.sample.id)
-
