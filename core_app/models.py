@@ -1,10 +1,13 @@
 from django.db import models
 import uuid
 import os
+from django.conf import settings
+import pandas as pd
+
+media_root = settings.MEDIA_ROOT
 
 
 def sample_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/sample/<id>/data/<filename>
     return 'samples/{0}/data/{1}'.format(instance.id, filename)
 
 
@@ -59,17 +62,28 @@ class Classification(models.Model):
         ('Not classified', 'Not classified'),
     )
 
-    sample = models.OneToOneField(Sample, on_delete=models.CASCADE, editable=False)
+    sample = models.OneToOneField(Sample,
+                                  on_delete=models.CASCADE,
+                                  editable=False)
     subgroup = models.CharField(max_length=20,
                                 choices=SUBGROUP_CHOICES,
                                 default='Not classified')
     WNT_probability = models.FloatField(null=True)
     SHH_probability = models.FloatField(null=True)
     G3_G4_probability = models.FloatField(null=True)
-    CMS_table = models.TextField(null=True)
 
     def __str__(self):
         return str(self.sample.id)
+
+    @property
+    def CMS_image(self):
+        return '/static/samples/{0}/CMS_panel.png'.format(self.sample)
+
+    @property
+    def CMS_table(self):
+        path_cms = '{0}/samples/{1}/results/CMS.csv'.format(media_root, self.sample)
+        data = pd.read_csv(path_cms)
+        return data.to_html(index=False)
 
 
 class Calibration(models.Model):
@@ -81,8 +95,15 @@ class Calibration(models.Model):
     FAM_date = models.CharField(max_length=25)
     VIC_date = models.CharField(max_length=25)
     amplification_test = models.BooleanField()
-    amplification_table = models.TextField(null=True)
     instrument_type = models.CharField(max_length=75)
 
     def __str__(self):
         return str(self.sample.id)
+
+    @property
+    def amplification_table(self):
+        path_results = '{0}/samples/{1}/results/Results.csv'.format(media_root, self.sample)
+        df = pd.read_csv(path_results, sep="\t")
+        df_ntc = df.query("Task == 'NTC'")
+        df_ntc = df_ntc[['Well Position', 'SNP Assay Name', 'Allele1 Ct', 'Allele2 Ct']]
+        return df_ntc.to_html(index=False)

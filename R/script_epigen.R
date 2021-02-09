@@ -16,11 +16,12 @@ theme <- theme(panel.background = element_blank(),
                axis.text.y=element_blank())
 
 
-# Fetch command line arguments
+### Fetch command line arguments NO MODIFICAR
 myArgs <- commandArgs(trailingOnly = TRUE)
 
-# Do some conversion/calculation here
 path = as.character(myArgs)
+
+#### ANALISIS
 
 dataframe <- read_csv(paste0(path,"dataframe.csv"), col_types = cols()) %>% as.data.frame(.)
 
@@ -76,8 +77,8 @@ df_pca_train$methylation <- label_meth
 df_pca_train$snp <- ""
 
 proj <- as.data.frame(proj)
-proj$methylation <- data4table$Status
-proj$snp <- data4table$SNP
+proj$methylation <- ifelse(dataframe$pred == 1, "M","U")
+proj$snp <- dataframe$snp
 
 dat1 <- rbind(df_pca_train, proj[1,])
 dat2 <- rbind(df_pca_train, proj[2,])
@@ -184,3 +185,14 @@ ggpubr::ggarrange(p1, p7, p2, p8, p3, p9, p4, p10, p5, p11, p6, p12, ncol = 4, n
 ggsave("CMS_panel.png", path = paste0(path,"plots/"), dpi = 300, width = 20, height = 15)
 
 cat("R script completed!")
+
+options(device="pdf")
+layout(1:4)
+dev.off()
+
+options(device="png")
+par()
+dev.off()
+
+
+

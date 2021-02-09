@@ -70,7 +70,6 @@ def admin_report_pdf(request, sample_id):
                             {'sample': sample,
                              'classification': classification,
                              'calibration': calibration,
-                             'path_to_image': "/static/samples/af4359de-0002-4e1c-b7b8-e0f9f8cc63a5/CMS_panel.png",
                              'lista1': png_list})
 
     response = HttpResponse(content_type='application/pdf')

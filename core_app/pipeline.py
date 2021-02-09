@@ -248,14 +248,11 @@ def mkdir_static(sample_id):
 def get_classification(path_folder, sample):
     lda_data = pd.read_csv(path_folder + 'LDA.csv')
 
-    CMS_data = pd.read_csv(path_folder + "CMS.csv")
-
     Classification.objects.create(sample=sample,
                                   subgroup=lda_data.iloc[0]['class'],
                                   WNT_probability=round(lda_data.iloc[0]['WNT'], 4),
                                   SHH_probability=round(lda_data.iloc[0]['SHH'], 4),
-                                  G3_G4_probability=round(lda_data.iloc[0]['non-WNT/non-SHH'], 4),
-                                  CMS_table=CMS_data.to_html(index=False))
+                                  G3_G4_probability=round(lda_data.iloc[0]['non-WNT/non-SHH'], 4))
 
 
 def get_calibration(path_to_txt, path_to_results, sample):
@@ -306,8 +303,6 @@ def get_calibration(path_to_txt, path_to_results, sample):
 
     instrument_type = lines[index[0]].split("=")[1].strip()
 
-    flag, message = amplification_test(path_to_results)
-
     Calibration.objects.create(sample=sample,
                                ROX_valid=ROX_valid,
                                FAM_valid=FAM_valid,
@@ -315,14 +310,12 @@ def get_calibration(path_to_txt, path_to_results, sample):
                                ROX_date=ROX_date,
                                FAM_date=FAM_date,
                                VIC_date=VIC_date,
-                               amplification_test=flag,
-                               amplification_table=message,
+                               amplification_test=amplification_test(path_to_results),
                                instrument_type=instrument_type)
 
 
 def amplification_test(path_folder):
     flag = False
-    message = None
     filename = "Results.csv"
 
     df = pd.read_csv(path_folder + filename, sep="\t")
@@ -332,11 +325,7 @@ def amplification_test(path_folder):
     if len(allele1_ct) == 1 and len(allele2_ct) == 1:
         flag = True
 
-    if not flag:
-        df_ntc = df_ntc[['Well Position', 'SNP Assay Name', 'Allele1 Ct', 'Allele2 Ct']]
-        message = df_ntc.to_html(index=False)
-
-    return flag, message
+    return flag
 
 
 def media_to_static(path_folder):

@@ -8,7 +8,7 @@
     <p>Sample ID: {{ sample.sample_identifier }}</p>
     <p>Uploaded file: {{ sample.filename}}</p>
     <p>Size file: {{ sample.filesize}}</p>
-    <p>Instrument type: {{ classification.instrument_type}}</p>
+    <p>Instrument type: {{ calibration.instrument_type}}</p>
     <p>Email: {{ sample.email }}</p>
     <p>Date: {{ sample.created|date:"M d, Y, H:i:s" }}</p>
     <h3>EpiGe MB Class Prediction Results (v1b1)</h3>
@@ -52,7 +52,7 @@
     <h3>Disclaimer</h3>
     <p class="block-text">Classification using methylation profiling is a research tool under development, it is not verified and has not been clinically validated. Implementation of the results in a clinical setting is in the sole responsibility of the treating physician.<br> Intended for non-commercial use only.</p>
     <h3>Cytosine Methylation Status (CMS) Predictor</h3>
-    <img class="image-result" src="{{ path_to_image }}"  alt="logo_sjd">
+    <img class="image-result" src="{{ classification.CMS_image }}"  alt="logo_sjd">
     {{ classification.CMS_table | safe }}
     <br>
     <h3>Methylation SVM</h3>
