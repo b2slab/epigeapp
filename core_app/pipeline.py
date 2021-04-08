@@ -226,6 +226,12 @@ def processing_data(path_folder):
     return print('Dataframe has been written.')
 
 
+def check_dataframe(path_folder):
+    df = pd.read_csv(path_folder + 'dataframe.csv')
+    flag = df.isnull().values.any()
+    return flag
+
+
 def run_r_script(path_folder):
     # Change accordingly to your Rscript.exe & R script path
     r_path = config("R_PATH")
