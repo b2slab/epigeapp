@@ -186,13 +186,4 @@ ggsave("CMS_panel.png", path = paste0(path,"plots/"), dpi = 300, width = 20, hei
 
 cat("R script completed!")
 
-options(device="pdf")
-layout(1:4)
-dev.off()
-
-options(device="png")
-par()
-dev.off()
-
-
 

@@ -200,10 +200,16 @@ def processing_data(path_folder):
         pcr = PCR(case_num=sample_name, well_pos=well, cycles=cycles, amp_fam=fam, amp_vic=vic)
 
         pcr.adj_fam, pcr.params_fam, pcr.rmse_fam = fit(x=pcr.cycles, y=pcr.amp_fam)
-        row = [*pcr.params_fam, pcr.rmse_fam]
+        if pcr.adj_fam is not None:
+            row = [*pcr.params_fam, pcr.rmse_fam]
+        else:
+            row = [None, None, None, None]
 
         pcr.adj_vic, pcr.params_vic, pcr.rmse_vic = fit(x=pcr.cycles, y=pcr.amp_vic)
-        row = row + [*pcr.params_vic, pcr.rmse_vic]
+        if pcr.adj_vic is not None:
+            row = row + [*pcr.params_vic, pcr.rmse_vic]
+        else:
+            row = row + [None, None, None, None]
 
         d[count] = row
         row_names.append(sample_name + "_" + well)
