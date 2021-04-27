@@ -21,7 +21,7 @@ class SampleAdmin(admin.ModelAdmin):
 
 @admin.register(Classification)
 class ClassificationAdmin(admin.ModelAdmin):
-    list_display = ('sample', 'subgroup', 'WNT_probability', 'SHH_probability', 'G3_G4_probability')
+    list_display = ('sample', 'subgroup1', 'score1', 'distLab1', 'subgroup2', 'score2', 'distLab2')
 
 
 @admin.register(Calibration)

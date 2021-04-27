@@ -258,13 +258,15 @@ def mkdir_static(sample_id):
 
 
 def get_classification(path_folder, sample):
-    lda_data = pd.read_csv(path_folder + 'LDA.csv')
+    lda_data = pd.read_csv(path_folder + 'dataframe_results_lda.csv')
 
     Classification.objects.create(sample=sample,
-                                  subgroup=lda_data.iloc[0]['class'],
-                                  WNT_probability=round(lda_data.iloc[0]['WNT'], 4),
-                                  SHH_probability=round(lda_data.iloc[0]['SHH'], 4),
-                                  G3_G4_probability=round(lda_data.iloc[0]['non-WNT/non-SHH'], 4))
+                                  subgroup1=lda_data.iloc[0]['predicted1'],
+                                  subgroup2=lda_data.iloc[0]['predicted2'],
+                                  score1=round(lda_data.iloc[0]['score1'], 4),
+                                  score2=round(lda_data.iloc[0]['score2'], 4),
+                                  distLab1=lda_data.iloc[0]['distLab1'],
+                                  distLab2=lda_data.iloc[0]['distLab2'])
 
 
 def get_calibration(path_to_txt, path_to_results, sample):

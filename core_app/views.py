@@ -59,18 +59,21 @@ def success_view(request):
 
 @staff_member_required
 def admin_report_pdf(request, sample_id):
+    score = None
+    subgroup = None
     sample = get_object_or_404(Sample, id=sample_id)
     classification = get_object_or_404(Classification, sample=sample)
     calibration = get_object_or_404(Calibration, sample=sample)
-
-    png_list = glob.glob(static_dir + "samples/" + str(sample_id) + '/*.png', recursive=True)
-    png_list = [x.split("epigen_app")[1] for x in png_list]
+    if classification.subgroup1 == classification.subgroup2:
+        score = (classification.score1 + classification.score2) / 2
+        subgroup = classification.subgroup1
 
     html = render_to_string('core_app/report/pdf.html',
                             {'sample': sample,
                              'classification': classification,
                              'calibration': calibration,
-                             'lista1': png_list})
+                             'score': score,
+                             'subgroup': subgroup})
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'filename=sample_{sample.id}.pdf'
@@ -78,5 +81,21 @@ def admin_report_pdf(request, sample_id):
                     base_url=request.build_absolute_uri()).write_pdf(response,
                                                                      stylesheets=[weasyprint.CSS(static_dir + 'css/pdf.css')])
     return response
+
+
+class Report:
+    def __init__(self, identifier, filename, filesize, instrument_type, email, created):
+        self.identifier = identifier
+        self.filename = filename
+        self.filesize = filesize
+        self.instrument_type = instrument_type
+        self.email = email
+        self.created = created
+        self.subgroup = None
+        self.score = None
+
+
+
+
 
 

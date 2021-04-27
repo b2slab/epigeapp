@@ -62,15 +62,13 @@ class Classification(models.Model):
         ('Not classified', 'Not classified'),
     )
 
-    sample = models.OneToOneField(Sample,
-                                  on_delete=models.CASCADE,
-                                  editable=False)
-    subgroup = models.CharField(max_length=20,
-                                choices=SUBGROUP_CHOICES,
-                                default='Not classified')
-    WNT_probability = models.FloatField(null=True)
-    SHH_probability = models.FloatField(null=True)
-    G3_G4_probability = models.FloatField(null=True)
+    sample = models.OneToOneField(Sample, on_delete=models.CASCADE, editable=False)
+    subgroup1 = models.CharField(max_length=20, choices=SUBGROUP_CHOICES, default='Not classified')
+    subgroup2 = models.CharField(max_length=20, choices=SUBGROUP_CHOICES, default='Not classified')
+    score1 = models.FloatField()
+    score2 = models.FloatField()
+    distLab1 = models.CharField(max_length=20, choices=SUBGROUP_CHOICES, default='Not classified')
+    distLab2 = models.CharField(max_length=20, choices=SUBGROUP_CHOICES, default='Not classified')
 
     def __str__(self):
         return str(self.sample.id)
@@ -81,7 +79,7 @@ class Classification(models.Model):
 
     @property
     def CMS_table(self):
-        path_cms = '{0}/samples/{1}/results/CMS.csv'.format(media_root, self.sample)
+        path_cms = '{0}/samples/{1}/results/dataframe_results_cms.csv'.format(media_root, self.sample)
         data = pd.read_csv(path_cms)
         return data.to_html(index=False)
 
