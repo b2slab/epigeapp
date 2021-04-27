@@ -25,14 +25,15 @@
             <tr class="row{% cycle "1" "2" %}">
                 <td>{{ report.subgroup }}</td>
                 <td>{{ report.score }}</td>
-                <td>Algorithm Score <img class="points" src="{% static 'img/green_point.png' %}" alt="green_point"></td>
-            </tr>
-            <tr>
-                <td>Legend:</td>
-                <td colspan="3">Match (score >= 0.9)</td>
+                {% if report.score > 0.9 %}
+                    <td><img class="points" src="{% static 'img/green_point.png' %}" alt="green_point"></td>
+                {% else %}
+                    <td><img class="points" src="{% static 'img/Red_point.png' %}" alt="red_point"></td>
+                {% endif %}
             </tr>
             </tbody>
         </table>
+        <p>Legend: <img class="points" src="{% static 'img/green_point.png' %}" alt="green_point">Match (score >= 0.9)<img class="points" src="{% static 'img/Red_point.png' %}" alt="green_point">Not match (score < 0.9)</p>
         <h3>Subgroup Description</h3>
         <p><b>{{ report.subgroup }}</b></p>
         <p class="block-text">
