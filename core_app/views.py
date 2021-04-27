@@ -59,21 +59,28 @@ def success_view(request):
 
 @staff_member_required
 def admin_report_pdf(request, sample_id):
-    score = None
-    subgroup = None
     sample = get_object_or_404(Sample, id=sample_id)
     classification = get_object_or_404(Classification, sample=sample)
     calibration = get_object_or_404(Calibration, sample=sample)
+    report = Report(identifier=sample.sample_identifier, filename=sample.filename, filesize=sample.filesize,
+                    instrument_type=calibration.instrument_type, email=sample.email, created=sample.created)
+    report.ROX_valid = calibration.ROX_valid
+    report.ROX_date = calibration.ROX_date
+    report.FAM_valid = calibration.FAM_valid
+    report.FAM_date = calibration.FAM_date
+    report.VIC_valid = calibration.VIC_valid
+    report.VIC_date = calibration.VIC_date
+    report.amplification_test = calibration.amplification_test
+
     if classification.subgroup1 == classification.subgroup2:
-        score = (classification.score1 + classification.score2) / 2
-        subgroup = classification.subgroup1
+        report.score = (classification.score1 + classification.score2) / 2
+        report.subgroup = classification.subgroup1
 
     html = render_to_string('core_app/report/pdf.html',
-                            {'sample': sample,
-                             'classification': classification,
+                            {'classification': classification,
                              'calibration': calibration,
-                             'score': score,
-                             'subgroup': subgroup})
+                             'report': report
+                             })
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'filename=sample_{sample.id}.pdf'
@@ -93,6 +100,13 @@ class Report:
         self.created = created
         self.subgroup = None
         self.score = None
+        self.ROX_valid = None
+        self.ROX_date = None
+        self.VIC_valid = None
+        self.VIC_date = None
+        self.FAM_valid = None
+        self.FAM_date = None
+        self.amplification_test = None
 
 
 
