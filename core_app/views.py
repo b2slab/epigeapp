@@ -72,9 +72,9 @@ def admin_report_pdf(request, sample_id):
     report.VIC_date = calibration.VIC_date
     report.amplification_test = calibration.amplification_test
 
-    if classification.subgroup1 == classification.subgroup2:
+    if classification.distLab1 == classification.distLab2:
         report.score = (classification.score1 + classification.score2) / 2
-        report.subgroup = classification.subgroup1
+        report.subgroup = classification.distLab1
 
     html = render_to_string('core_app/report/pdf.html',
                             {'classification': classification,
