@@ -29,8 +29,8 @@ class Sample(models.Model):
     diagnosis = models.CharField(max_length=25)
     created = models.DateTimeField(auto_now_add=True)
     file = models.FileField(upload_to=sample_directory_path)
-    status = models.PositiveSmallIntegerField(choices=STATUS, default=PENDING)
 
+    status = models.PositiveSmallIntegerField(choices=STATUS, default=PENDING)
     txt_complete = models.BooleanField(default=False)
     dataframe_complete = models.BooleanField(default=False)
 

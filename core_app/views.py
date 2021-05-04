@@ -64,23 +64,34 @@ def admin_report_pdf(request, sample_id):
     calibration = get_object_or_404(Calibration, sample=sample)
     report = Report(identifier=sample.sample_identifier, filename=sample.filename, filesize=sample.filesize,
                     instrument_type=calibration.instrument_type, email=sample.email, created=sample.created)
-    report.ROX_valid = calibration.ROX_valid
-    report.ROX_date = calibration.ROX_date
-    report.FAM_valid = calibration.FAM_valid
-    report.FAM_date = calibration.FAM_date
-    report.VIC_valid = calibration.VIC_valid
-    report.VIC_date = calibration.VIC_date
-    report.amplification_test = calibration.amplification_test
 
-    if classification.distLab1 == classification.distLab2:
-        report.score = (classification.score1 + classification.score2) / 2
-        report.subgroup = classification.distLab1
+    if not sample.txt_complete:
+        html = render_to_string('core_app/report/pdf_error1.html',
+                                {'classification': classification,
+                                 'calibration': calibration,
+                                 'report': report
+                                 })
+    elif not sample.dataframe_complete:
+        pass
+    else:
+        report.ROX_valid = calibration.ROX_valid
+        report.ROX_date = calibration.ROX_date
+        report.FAM_valid = calibration.FAM_valid
+        report.FAM_date = calibration.FAM_date
+        report.VIC_valid = calibration.VIC_valid
+        report.VIC_date = calibration.VIC_date
+        report.amplification_test = calibration.amplification_test
 
-    html = render_to_string('core_app/report/pdf.html',
-                            {'classification': classification,
-                             'calibration': calibration,
-                             'report': report
-                             })
+        if classification.distLab1 == classification.distLab2:
+            report.score = (classification.score1 + classification.score2) / 2
+            report.subgroup = classification.distLab1
+
+        html = render_to_string('core_app/report/pdf.html',
+                                {'classification': classification,
+                                 'calibration': calibration,
+                                 'report': report
+                                 })
+
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'filename=sample_{sample.id}.pdf'
