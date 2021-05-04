@@ -10,6 +10,7 @@ from decouple import config
 from .models import Classification, Calibration
 import glob
 import shutil
+import os.path
 
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
@@ -351,6 +352,18 @@ def media_to_static(path_folder):
     for image in png_list:
         newPath = shutil.copy(image, path_static_sample)
         print(newPath)
+
+
+def check_all_data(path_folder):
+    files = ["Amplification_Data.csv", "Multicomponent_Data.csv", "Raw_Data.csv", "Reagent_Information.csv",
+             "Results.csv", "Sample_Setup.csv"]
+    flag = True
+    for file in files:
+        if not os.path.isfile(path_folder + file):
+            flag = False
+            break
+    return flag
+
 
 
 

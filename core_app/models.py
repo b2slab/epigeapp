@@ -12,10 +12,15 @@ def sample_directory_path(instance, filename):
 
 
 class Sample(models.Model):
-    STATUS_CHOICES = (
-        ('outstanding', 'Outstanding'),
-        ('classified', 'Classified'),
-        ('error', 'Error'),
+    PENDING = 1
+    CLASSIFIED = 2
+    ERROR1 = 3
+    ERROR2 = 4
+    STATUS = (
+        (PENDING, 'Pending'),
+        (CLASSIFIED, 'Classified'),
+        (ERROR1, 'Txt file is incomplete'),
+        (ERROR2, 'Dataframe is incomplete'),
     )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -24,9 +29,10 @@ class Sample(models.Model):
     diagnosis = models.CharField(max_length=25)
     created = models.DateTimeField(auto_now_add=True)
     file = models.FileField(upload_to=sample_directory_path)
-    status = models.CharField(max_length=20,
-                              choices=STATUS_CHOICES,
-                              default='outstanding')
+    status = models.PositiveSmallIntegerField(choices=STATUS, default=PENDING)
+
+    txt_complete = models.BooleanField(default=False)
+    dataframe_complete = models.BooleanField(default=False)
 
     class Meta:
         ordering = ('-created',)
