@@ -11,7 +11,13 @@
     <p>Instrument type: {{ report.instrument_type}}</p>
     <p>Email: {{ report.email }}</p>
     <p>Date: {{ report.created|date:"M d, Y, H:i:s" }}</p>
+
     <h3>EpiGe Medulloblastoma Subgroup Class Prediction Results (v1.1)</h3>
+    <p><b>Reference pattern data</b></p>
+    <div class="image-container">
+        <img class="patterns" src="{% static 'img/tablaRef.png' %}" alt="patterns">
+    </div>
+    <h3>Classification</h3>
     {% if report.subgroup is not None %}
         <table>
             <thead>
@@ -34,6 +40,10 @@
             </tbody>
         </table>
         <p>Legend: <img class="points" src="{% static 'img/green_point.png' %}" alt="green_point">Match (score >= 0.9)<img class="points" src="{% static 'img/Red_point.png' %}" alt="green_point">Not match (score < 0.9)</p>
+        <p><b>Patterns of the input data</b></p>
+        <div class="image-container">
+            <img class="replicas" src="{{ classification.replicas_image }}" alt="patterns">
+        </div>
         <h3>Subgroup Description</h3>
         <p><b>{{ report.subgroup }}</b></p>
         <p class="block-text">

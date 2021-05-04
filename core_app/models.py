@@ -78,6 +78,10 @@ class Classification(models.Model):
         return '/static/samples/{0}/CMS_panel.png'.format(self.sample)
 
     @property
+    def replicas_image(self):
+        return '/static/samples/{0}/replicas.png'.format(self.sample)
+
+    @property
     def CMS_table(self):
         path_cms = '{0}/samples/{1}/results/dataframe_results_cms.csv'.format(media_root, self.sample)
         data = pd.read_csv(path_cms)

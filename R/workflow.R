@@ -2,6 +2,9 @@
 library(readr)
 library(magrittr)
 library(ggplot2)
+library(htmltools)
+library(webshot)
+library(formattable)
 options(warn=-1)
 
 #### Load data ####
@@ -171,6 +174,38 @@ plotCMSpanel <- function(object, dataframe, label_meth, path2save){
 
 }
 
+tablePlot <- function(dataframe){
+  Sample_ID <- c("Rep1","Rep2")
+  dataframe <- cbind(Sample_ID, dataframe)
+  customRed = "firebrick2"
+  customGreen = "springgreen3"
+
+  tab <- formattable(dataframe, align =c("c","c","c","c","c", "c", "c"),
+                                  list(
+                                    `Sample_ID` = formatter("span", style = ~ style(color = "grey",font.weight = "bold")),
+                                    `cg18849583`= color_tile(customGreen, customRed),
+                                    `cg01268345`= color_tile(customGreen, customRed),
+                                    `cg10333416`= color_tile(customGreen, customRed),
+                                    `cg12925355`= color_tile(customGreen, customRed),
+                                    `cg25542041`= color_tile(customGreen, customRed),
+                                    `cg02227036`= color_tile(customGreen, customRed)
+                                  )
+  )
+
+  tab
+}
+
+export_formattable <- function(f, file, width = "100%", height = NULL, background = "white", delay = 0.2) {
+  w <- as.htmlwidget(f, width = width, height = height)
+  path <- html_print(w, background = background, viewer = NULL)
+  url <- paste0("file:///", gsub("\\\\", "/", normalizePath(path)))
+  print(url)
+  webshot(url,
+          file = file,
+          selector = ".formattable_widget",
+          delay = delay)
+}
+
 #### Theme for ggplot ####
 theme <- theme(panel.background = element_blank(),
                panel.border=element_rect(fill=NA),
@@ -221,6 +256,10 @@ df <- data.frame("cg18849583" = dataframe[dataframe$snp=="G1_1884","pred"],
                  "cg02227036" = dataframe[dataframe$snp=="W3_0222","pred"])
 
 df <- dplyr::mutate(df, pattern = paste0(cg18849583, cg01268345, cg10333416, cg12925355, cg25542041, cg02227036))
+
+tab <- tablePlot(dataframe = df[,-7])
+
+export_formattable(f = tab, file = paste0(path, "plots/replicas.png"))
 
 if (checkReplicate(df)){
   
