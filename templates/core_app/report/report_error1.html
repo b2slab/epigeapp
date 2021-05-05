@@ -12,21 +12,13 @@
     <p>Email: {{ report.email }}</p>
     <p>Date: {{ report.created|date:"M d, Y, H:i:s" }}</p>
 
-    <h3>EpiGe Medulloblastoma Subgroup Class Prediction Results (v1.1)</h3>
-    <p><b>Reference pattern data</b></p>
+    <h3>EpiGe Medulloblastoma Subgroup Class Prediction (v1.1)</h3>
+    <h3>Reference pattern data</h3>
     <div class="image-container">
         <img class="patterns" src="{% static 'img/tablaRef.png' %}" alt="patterns">
     </div>
     <h3>Results</h3>
-    <p>The uploaded file is not complete. Make sure that the file contains the following sections:</p>
-    <ul>
-        <li>Amplification Data</li>
-        <li>Multicomponent Data</li>
-        <li>Raw Data</li>
-        <li>Reagent Information</li>
-        <li>Results</li>
-        <li>Sample Setup</li>
-    </ul>
+    <p>The uploaded file is not complete.</p>
     <h3>Quality Control Summary</h3>
     <table>
         <thead>
@@ -39,19 +31,32 @@
         <tbody>
             <tr>
                 <td>TXT complete</td>
-                <td>No</td>
-                <td>Make sure that the file contains all the sections</td>
+                <td>The uploaded file is not complete.</td>
+                <td>Make sure that the file contains the following sections:
+                    <ul>
+                        <li>Amplification Data</li>
+                        <li>Multicomponent Data</li>
+                        <li>Raw Data</li>
+                        <li>Reagent Information</li>
+                        <li>Results</li>
+                        <li>Sample Setup</li>
+                    </ul>
+                </td>
             </tr>
             <tr>
                 <td>All CpG</td>
                 <td colspan="2"></td>
             </tr>
             <tr>
-                <td>Calibrators</td>
+                <td>CpG amplification</td>
                 <td colspan="2"></td>
             </tr>
             <tr>
-                <td>NTC</td>
+                <td>Dye calibration</td>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td>No template controls</td>
                 <td colspan="2"></td>
             </tr>
             <tr>
@@ -66,9 +71,9 @@
     </table>
     <div class="pagebreak"> </div>
     <h2>Technical report</h2>
-    <h3>Calibration information</h3>
+    <h3>Dye calibration</h3>
     <p>Not available.</p>
-    <h3>NTC amplification</h3>
+    <h3>No template control amplification</h3>
     <p>Not available.</p>
     <h3>Run information</h3>
     <table>

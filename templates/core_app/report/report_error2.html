@@ -1,0 +1,133 @@
+{% load static %}
+<html>
+<body>
+    <div class="container-logo">
+            <img class="logos" src="{% static 'img/logos_report.png' %}" alt="logos">
+    </div>
+    <h2>EpiGe Medulloblastoma Subgroup Prediction Report</h2>
+    <p>Sample ID: {{ report.identifier }}</p>
+    <p>Uploaded file: {{ report.filename}}</p>
+    <p>Size file: {{ report.filesize}}</p>
+    <p>Instrument type: {{ report.instrument_type}}</p>
+    <p>Email: {{ report.email }}</p>
+    <p>Date: {{ report.created|date:"M d, Y, H:i:s" }}</p>
+
+    <h3>EpiGe Medulloblastoma Subgroup Class Prediction (v1.1)</h3>
+    <h3>Reference pattern data</h3>
+    <div class="image-container">
+        <img class="patterns" src="{% static 'img/tablaRef.png' %}" alt="patterns">
+    </div>
+    <h3>Results</h3>
+    <p>Some CpGs are missing. Make sure that all six cytosines are in the file.
+        Please check the cytosine indicated in the table below.</p>
+    <h3>Quality Control Summary</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>CheckPoint</th>
+            <th>Result</th>
+            <th>Possible Solution</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>TXT complete</td>
+                <td colspan="2">Yes</td>
+            </tr>
+            <tr>
+                <td>All CpG</td>
+                <td>Some CpGs are missing.</td>
+                <td>We have not found the following cytosine: {{ report.missing_cpg }}</td>
+            </tr>
+            <tr>
+                <td>CpG amplification</td>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td>Dye calibration</td>
+                {% if calibration.ROX_valid and calibration.VIC_valid and calibration.FAM_valid %}
+                    <td colspan="2">All dyes are calibrated.</td>
+                {% else %}
+                    <td>Some of the dyes have expired calibration.</td>
+                    <td>See the technical report for more information.</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <td>No template controls</td>
+                {% if not calibration.amplification_test %}
+                    <td>Amplification has been detected in some no template controls.</td>
+                    <td>See the technical report for more information.</td>
+                {% else %}
+                    <td colspan="2">No amplification was detected in any no template control.</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <td>SD<0.25</td>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td>LDA</td>
+                <td colspan="2"></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="pagebreak"> </div>
+    <h2>Technical report</h2>
+    <h3>Dye calibration</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>ROX is expired</th>
+            <th>ROX performed</th>
+            <th>FAM is expired</th>
+            <th>FAM performed</th>
+            <th>VIC is expired</th>
+            <th>VIC performed</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{% if calibration.ROX_valid %}No{% else %}Yes{% endif %}</td>
+                <td>{{ calibration.ROX_date }}</td>
+                <td>{% if calibration.FAM_valid %}No{% else %}Yes{% endif %}</td>
+                <td>{{ calibration.FAM_date }}</td>
+                <td>{% if calibration.VIC_valid %}No{% else %}Yes{% endif %}</td>
+                <td>{{ calibration.VIC_date }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <h3>No template control amplification</h3>
+    {% if not calibration.amplification_test %}
+        {{ calibration.amplification_table | safe }}
+    {% else %}
+        No amplification detected.
+    {% endif %}
+    <h3>Run information</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Task</th>
+            <th>Version</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>EpiGe_qc</td>
+                <td>1.0</td>
+            </tr>
+            <tr>
+                <td>EpiGe_CMS</td>
+                <td>1.0</td>
+            </tr>
+            <tr>
+                <td>EpiGe_LDA</td>
+                <td>1.0</td>
+            </tr>
+            <tr>
+                <td>EpiGe_report</td>
+                <td>1.0</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -12,15 +12,17 @@ def sample_directory_path(instance, filename):
 
 
 class Sample(models.Model):
-    PENDING = 1
-    CLASSIFIED = 2
-    ERROR1 = 3
-    ERROR2 = 4
+    PENDING = 0
+    CLASSIFIED = 1111
+    ERROR1 = 1
+    ERROR2 = 2
+    ERROR3 = 3
     STATUS = (
         (PENDING, 'Pending'),
         (CLASSIFIED, 'Classified'),
         (ERROR1, 'Txt file is incomplete'),
-        (ERROR2, 'Dataframe is incomplete'),
+        (ERROR2, 'Some CpGs are missing'),
+        (ERROR3, 'Insufficient amplification'),
     )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -32,7 +34,9 @@ class Sample(models.Model):
 
     status = models.PositiveSmallIntegerField(choices=STATUS, default=PENDING)
     txt_complete = models.BooleanField(default=False)
-    dataframe_complete = models.BooleanField(default=False)
+    all_cpg = models.BooleanField(default=False)
+    missing_cpg = models.CharField(max_length=25, default='', null=True, blank=True)
+    amplification_fit = models.BooleanField(default=False)
 
     class Meta:
         ordering = ('-created',)

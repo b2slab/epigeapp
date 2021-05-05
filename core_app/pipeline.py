@@ -227,12 +227,6 @@ def processing_data(path_folder):
     return print('Dataframe has been written.')
 
 
-def check_dataframe(path_folder):
-    df = pd.read_csv(path_folder + 'dataframe.csv')
-    flag = df.isnull().values.any()
-    return flag
-
-
 def run_r_script(path_folder):
     # Change accordingly to your Rscript.exe & R script path
     r_path = config("R_PATH")
@@ -354,7 +348,7 @@ def media_to_static(path_folder):
         print(newPath)
 
 
-def check_all_data(path_folder):
+def check_all_data_files(path_folder):
     files = ["Amplification_Data.csv", "Multicomponent_Data.csv", "Raw_Data.csv", "Reagent_Information.csv",
              "Results.csv", "Sample_Setup.csv"]
     flag = True
@@ -364,6 +358,29 @@ def check_all_data(path_folder):
             break
     return flag
 
+
+def check_all_cpg(path_folder):
+    filename = path_folder + "Results.csv"
+
+    df = pd.read_csv(filename, sep="\t")
+
+    names = ['S1_1033', 'S3_1292', 'W1_2554', 'W3_0222', 'G1_1884', 'G3_0126']
+
+    flag = True
+    message = None
+
+    for name in names:
+        if name not in df["SNP Assay Name"].unique():
+            flag = False
+            message = name
+            break
+
+    return flag, message
+
+
+def check_amplification_fit(path_folder):
+    df = pd.read_csv(path_folder + 'dataframe.csv')
+    return not df.isnull().values.any()
 
 
 
