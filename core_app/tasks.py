@@ -32,6 +32,7 @@ def pipeline(sample_id):
                 sample.status = 1111
                 sample.save()
             else:
+                media_to_static(path_folder=path_results)
                 print("Some of the wells do not have sufficient amplification!")
                 sample.status = 3
                 sample.save()

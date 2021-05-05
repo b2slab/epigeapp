@@ -60,24 +60,31 @@ def success_view(request):
 @staff_member_required
 def admin_report_pdf(request, sample_id):
     sample = get_object_or_404(Sample, id=sample_id)
-    classification = get_object_or_404(Classification, sample=sample)
-    calibration = get_object_or_404(Calibration, sample=sample)
     report = Report(identifier=sample.sample_identifier, filename=sample.filename, filesize=sample.filesize,
-                    instrument_type=calibration.instrument_type, email=sample.email, created=sample.created)
+                    email=sample.email, created=sample.created)
 
     if not sample.txt_complete:
         html = render_to_string('core_app/report/report_error1.html',
                                 {'report': report
                                  })
     elif not sample.all_cpg:
+        calibration = get_object_or_404(Calibration, sample=sample)
+        report.instrument_type = calibration.instrument_type
         report.missing_cpg = sample.missing_cpg
         html = render_to_string('core_app/report/report_error2.html',
                                 {'calibration': calibration,
                                  'report': report
                                  })
-
+    elif not sample.amplification_fit:
+        calibration = get_object_or_404(Calibration, sample=sample)
+        html = render_to_string('core_app/report/report_error3.html',
+                                {'calibration': calibration,
+                                 'report': report
+                                 })
     else:
-
+        calibration = get_object_or_404(Calibration, sample=sample)
+        report.instrument_type = calibration.instrument_type
+        classification = get_object_or_404(Classification, sample=sample)
         if classification.distLab1 == classification.distLab2:
             report.score = (classification.score1 + classification.score2) / 2
             report.subgroup = classification.distLab1
@@ -97,11 +104,11 @@ def admin_report_pdf(request, sample_id):
 
 
 class Report:
-    def __init__(self, identifier, filename, filesize, instrument_type, email, created):
+    def __init__(self, identifier, filename, filesize, email, created):
         self.identifier = identifier
         self.filename = filename
         self.filesize = filesize
-        self.instrument_type = instrument_type
+        self.instrument_type = None
         self.email = email
         self.created = created
         self.subgroup = None

@@ -119,3 +119,16 @@ class Calibration(models.Model):
         df_ntc = df.query("Task == 'NTC'")
         df_ntc = df_ntc[['Well Position', 'SNP Assay Name', 'Allele1 Ct', 'Allele2 Ct']]
         return df_ntc.to_html(index=False)
+
+    @property
+    def amplification_images(self):
+        path = '{0}/samples/{1}/results/'.format(media_root, self.sample)
+        df = pd.read_csv(path + 'dataframe.csv')
+        identifiers = df["Unnamed: 0"][df.isnull().any(axis=1)].values
+        if len(identifiers) == 1:
+            print('/static/samples/{0}/{1}.png'.format(self.sample, identifiers[0]))
+            return '/static/samples/{0}/{1}.png'.format(self.sample, identifiers[0])
+        else:
+            print('/static/samples/{0}/{1}.png'.format(self.sample, identifiers[0]))
+            pass
+
