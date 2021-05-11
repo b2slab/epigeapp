@@ -35,11 +35,17 @@
             </tr>
             <tr>
                 <td>All CpG</td>
-                <td colspan="2">Yes</td>
+                <td colspan="2">All 6 CpG are included</td>
             </tr>
             <tr>
                 <td>CpG amplification</td>
-                <td>There is insufficient amplification in some wells.</td>
+                <td>Not enough amplification in the following wells:
+                    <ul>
+                        {% for well in calibration.amplification_errors %}
+                            <li>{{ well }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
                 <td>See the technical report for more information.</td>
             </tr>
             <tr>
@@ -102,9 +108,12 @@
     {% else %}
         Amplification detected.
     {% endif %}
-    <p>No amplification detected.</p>
     <h3>CpG amplification</h3>
-    <img class="image-result" src="{{ calibration.amplification_images }}"  alt="logo_sjd">
+    {% for image in calibration.amplification_images %}
+        <img class="image-curves" src="{{ image }}"  alt="amplification graphs">
+    {% endfor %}
+    <h3>SD<0.25</h3>
+    {{ calibration.standard_deviation_table | safe }}
     <h3>Run information</h3>
     <table>
         <thead>

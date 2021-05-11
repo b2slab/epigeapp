@@ -21,7 +21,7 @@ def pipeline(sample_id):
             standard_names(path_folder=path_results)
             processing_data(path_folder=path_results)
             flag3 = check_amplification_fit(path_folder=path_results)
-            sample.dataframe_complete = flag3
+            sample.amplification_fit = flag3
             if flag3:
                 run_r_script(path_folder=path_results)
                 if os.path.isfile(path_results + 'dataframe_results_lda.csv'):

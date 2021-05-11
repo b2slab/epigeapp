@@ -3,6 +3,7 @@ import uuid
 import os
 from django.conf import settings
 import pandas as pd
+import numpy as np
 
 media_root = settings.MEDIA_ROOT
 
@@ -121,14 +122,47 @@ class Calibration(models.Model):
         return df_ntc.to_html(index=False)
 
     @property
-    def amplification_images(self):
+    def amplification_errors(self):
         path = '{0}/samples/{1}/results/'.format(media_root, self.sample)
         df = pd.read_csv(path + 'dataframe.csv')
         identifiers = df["Unnamed: 0"][df.isnull().any(axis=1)].values
-        if len(identifiers) == 1:
-            print('/static/samples/{0}/{1}.png'.format(self.sample, identifiers[0]))
-            return '/static/samples/{0}/{1}.png'.format(self.sample, identifiers[0])
-        else:
-            print('/static/samples/{0}/{1}.png'.format(self.sample, identifiers[0]))
-            pass
+        return identifiers
+
+    @property
+    def amplification_images(self):
+        path = '{0}/samples/{1}/results/'.format(media_root, self.sample)
+        df = pd.read_csv(path + 'dataframe.csv')
+        list_id = df["Unnamed: 0"].values
+        for x in list_id:
+            yield '/static/samples/{0}/{1}.png'.format(self.sample, x)
+
+
+    @property
+    def standard_deviation_table(self):
+        names = ['S1_1033', 'S3_1292', 'W1_2554', 'W3_0222', 'G1_1884', 'G3_0126']
+        std1 = []
+        std2 = []
+        snp_name = []
+
+        path_results = '{0}/samples/{1}/results/Results.csv'.format(media_root, self.sample)
+        dummy = pd.read_csv(path_results, sep="\t")
+        dummy = dummy.iloc[dummy.Task.values == "UNKNOWN", ]
+        dummy = dummy.replace({'Allele1 Ct': 'Undetermined', 'Allele2 Ct': 'Undetermined'}, 40)
+
+        allele1 = dummy["Allele1 Ct"].values
+        allele1 = allele1.astype(float)
+
+        allele2 = dummy["Allele2 Ct"].values
+        allele2 = allele2.astype(float)
+        for name in names:
+            snp_name.append(name)
+            v = dummy["SNP Assay Name"].values == name
+            std1.append(round(np.std(allele1[v]), 4))
+            std2.append(round(np.std(allele2[v]), 4))
+
+        results = pd.DataFrame(list(zip(snp_name, std1, std2)),
+                               columns=['SNP Assay Name', 'Allele1 Ct Std', 'Allele2 Ct Std'])
+
+        return results.to_html(index=False)
+
 

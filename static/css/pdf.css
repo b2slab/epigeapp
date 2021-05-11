@@ -91,6 +91,10 @@ h1 {
     width: 600px;
 }
 
+.image-curves {
+    width: 300px;
+}
+
 .points {
     width: 20px;
     padding:4px 12px 0px;

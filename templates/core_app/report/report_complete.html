@@ -12,8 +12,8 @@
     <p>Email: {{ report.email }}</p>
     <p>Date: {{ report.created|date:"M d, Y, H:i:s" }}</p>
 
-    <h3>EpiGe Medulloblastoma Subgroup Class Prediction Results (v1.1)</h3>
-    <p><b>Reference pattern data</b></p>
+    <h3>EpiGe Medulloblastoma Subgroup Class Prediction (v1.1)</h3>
+    <h3>Reference pattern data</h3>
     <div class="image-container">
         <img class="patterns" src="{% static 'img/tablaRef.png' %}" alt="patterns">
     </div>
@@ -40,9 +40,9 @@
             </tbody>
         </table>
         <p>Legend: <img class="points" src="{% static 'img/green_point.png' %}" alt="green_point">Match (score >= 0.9)<img class="points" src="{% static 'img/Red_point.png' %}" alt="green_point">Not match (score < 0.9)</p>
-        <p><b>Patterns of the input data</b></p>
+        <p><b>Your data:</b></p>
         <div class="image-container">
-            <img class="replicas" src="{{ classification.replicas_image }}" alt="patterns">
+            <img class="replicas" src="{{ classification.replicas_image }}" alt="replicas">
         </div>
         <h3>Subgroup Description</h3>
         <p><b>{{ report.subgroup }}</b></p>
@@ -56,7 +56,10 @@
             {% endif %}
         </p>
     {% else %}
-        This sample has not been classified.
+        <div class="image-container">
+            <img class="replicas" src="{{ classification.replicas_image }}" alt="replicas">
+        </div>
+        The classification for both replicates does not match.
     {% endif %}
     <h3>Disclaimer</h3>
     <p class="block-text">Classification using methylation profiling is a research tool under development, it is not verified and has not been clinically validated. Implementation of the results in a clinical setting is in the sole responsibility of the treating physician.<br> Intended for non-commercial use only.</p>
@@ -82,20 +85,34 @@
                 <td colspan="2">All 6 CpG are included</td>
             </tr>
             <tr>
-                <td>Calibrators</td>
-                <td colspan="2">Updated</td>
+                <td>CpG amplification</td>
+                <td colspan="2">All CpGs have sufficient amplification.</td>
             </tr>
             <tr>
-                <td>NTC</td>
-                <td colspan="2">Not Amplified</td>
+                <td>Dye calibration</td>
+                {% if calibration.ROX_valid and calibration.VIC_valid and calibration.FAM_valid %}
+                    <td colspan="2">All dyes are calibrated.</td>
+                {% else %}
+                    <td>Some of the dyes have expired calibration.</td>
+                    <td>See the technical report for more information.</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <td>No template controls</td>
+                {% if not calibration.amplification_test %}
+                    <td>Amplification has been detected in some no template controls.</td>
+                    <td>See the technical report for more information.</td>
+                {% else %}
+                    <td colspan="2">No amplification was detected in any no template control.</td>
+                {% endif %}
             </tr>
             <tr>
                 <td>SD<0.25</td>
-                <td colspan="2">5/6</td>
+                <td colspan="2"></td>
             </tr>
             <tr>
                 <td>LDA</td>
-                <td colspan="2"></td>
+                <td colspan="2">Score: {{ report.score }}</td>
             </tr>
         </tbody>
     </table>
@@ -115,21 +132,28 @@
         </thead>
         <tbody>
             <tr>
-                <td>{% if report.ROX_valid %}No{% else %}Yes{% endif %}</td>
-                <td>{{ report.ROX_date }}</td>
-                <td>{% if report.FAM_valid %}No{% else %}Yes{% endif %}</td>
-                <td>{{ report.FAM_date }}</td>
-                <td>{% if report.VIC_valid %}No{% else %}Yes{% endif %}</td>
-                <td>{{ report.VIC_date }}</td>
+                <td>{% if calibration.ROX_valid %}No{% else %}Yes{% endif %}</td>
+                <td>{{ calibration.ROX_date }}</td>
+                <td>{% if calibration.FAM_valid %}No{% else %}Yes{% endif %}</td>
+                <td>{{ calibration.FAM_date }}</td>
+                <td>{% if calibration.VIC_valid %}No{% else %}Yes{% endif %}</td>
+                <td>{{ calibration.VIC_date }}</td>
             </tr>
         </tbody>
     </table>
-    <h3>NTC amplification</h3>
-    {% if not report.amplification_test %}
-        {{ calibration.amplification_table | safe }}
-    {% else %}
+    <h3>No template control amplification</h3>
+    {{ calibration.amplification_table | safe }}
+    {% if calibration.amplification_test %}
         No amplification detected.
+    {% else %}
+        Amplification detected.
     {% endif %}
+    <h3>CpG amplification</h3>
+    {% for image in calibration.amplification_images %}
+        <img class="image-curves" src="{{ image }}"  alt="amplification graphs">
+    {% endfor %}
+    <h3>SD<0.25</h3>
+    {{ calibration.standard_deviation_table | safe }}
     <h3>Run information</h3>
     <table>
         <thead>
