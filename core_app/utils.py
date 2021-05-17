@@ -7,10 +7,14 @@ from scipy.optimize import curve_fit
 import numpy as np
 import matplotlib
 from decouple import config
-from .models import Classification, Calibration
+from .models import Classification, Calibration, Sample
 import glob
 import shutil
 import os.path
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
+from io import BytesIO
+import weasyprint
 
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
@@ -381,6 +385,65 @@ def check_all_cpg(path_folder):
 def check_amplification_fit(path_folder):
     df = pd.read_csv(path_folder + 'dataframe.csv')
     return not df.isnull().values.any()
+
+
+def send_report(sample_id):
+    sample = Sample.objects.get(id=sample_id)
+    group = None
+    score = None
+
+    # create e-mail
+    subject = 'EpiGeApp Analysis complete'
+    message = f"""
+    Hello, the following analysis is complete:
+
+    Job code: {sample.id}
+    Sample identifier: {sample.sample_identifier}
+    Created at: {sample.created}
+
+    Please, find attached the results for your recent analysis.
+
+    EpiGe Team
+    """
+
+    email = EmailMessage(subject, message, 'iosullanoviles@gmail.com',
+                         [sample.email])
+
+    if not sample.txt_complete:
+        html = render_to_string('core_app/report/report_error1.html',
+                                {'sample': sample})
+    elif not sample.all_cpg:
+        calibration = Calibration.objects.get(sample=sample_id)
+        html = render_to_string('core_app/report/report_error2.html',
+                                {'calibration': calibration,
+                                 'sample': sample})
+    elif not sample.amplification_fit:
+        calibration = Calibration.objects.get(sample=sample_id)
+        html = render_to_string('core_app/report/report_error3.html',
+                                {'calibration': calibration,
+                                 'sample': sample})
+    else:
+        calibration = Calibration.objects.get(sample=sample_id)
+        classification = Classification.objects.get(sample=sample_id)
+        if classification.distLab1 == classification.distLab2:
+            score = (classification.score1 + classification.score2) / 2
+            group = classification.distLab1
+
+        html = render_to_string('core_app/report/report_complete.html',
+                                {'classification': classification,
+                                 'calibration': calibration,
+                                 'sample': sample,
+                                 'score': score,
+                                 'group': group})
+    # generate PDF file
+    out = BytesIO()
+    stylesheets = [weasyprint.CSS(static_dir + 'css/pdf.css')]
+    weasyprint.HTML(string=html, base_url="http://127.0.0.1:8000/").write_pdf(out, stylesheets=stylesheets)
+    # attach PDF file
+    email.attach(f'analysis_{sample.id}.pdf', out.getvalue(), 'application/pdf')
+    # send e-mail
+    email.send()
+    print("Report Sent!")
 
 
 

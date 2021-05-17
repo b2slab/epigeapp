@@ -5,12 +5,12 @@
             <img class="logos" src="{% static 'img/logos_report.png' %}" alt="logos">
     </div>
     <h2>EpiGe Medulloblastoma Subgroup Prediction Report</h2>
-    <p>Sample ID: {{ report.identifier }}</p>
-    <p>Uploaded file: {{ report.filename}}</p>
-    <p>Size file: {{ report.filesize}}</p>
-    <p>Instrument type: {{ report.instrument_type}}</p>
-    <p>Email: {{ report.email }}</p>
-    <p>Date: {{ report.created|date:"M d, Y, H:i:s" }}</p>
+    <p>Sample ID: {{ sample.identifier }}</p>
+    <p>Uploaded file: {{ sample.filename}}</p>
+    <p>Size file: {{ sample.filesize}}</p>
+    <p>Instrument type: {{ calibration.instrument_type}}</p>
+    <p>Email: {{ sample.email }}</p>
+    <p>Date: {{ sample.created|date:"M d, Y, H:i:s" }}</p>
 
     <h3>EpiGe Medulloblastoma Subgroup Class Prediction (v1.1)</h3>
     <h3>Reference pattern data</h3>
@@ -37,7 +37,7 @@
             <tr>
                 <td>All CpG</td>
                 <td>Some CpGs are missing.</td>
-                <td>We have not found the following cytosine: {{ report.missing_cpg }}</td>
+                <td>We have not found the following cytosine: {{ sample.missing_cpg }}</td>
             </tr>
             <tr>
                 <td>CpG amplification</td>

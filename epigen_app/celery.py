@@ -21,3 +21,25 @@ app.autodiscover_tasks()
 def debug_task(self):
     print(f'Request: {self.request!r}')
 
+# Codigo para utilizar celery beat como cronjob
+# app.conf.beat_schedule = {
+#     #Scheduler Name
+#     'pipeline-every-minute': {
+#         # Task Name (Name Specified in Decorator)
+#         'task': 'pipeline_cron',
+#         # Schedule
+#         'schedule': 60.0,
+#     },
+#     'send-report-every-minute': {
+#         # Task Name (Name Specified in Decorator)
+#         'task': 'send_email',
+#         # Schedule
+#         'schedule': 120.0,
+#     },
+#     'send-report-every-minute': {
+#         # Task Name (Name Specified in Decorator)
+#         'task': 'send_report',
+#         # Schedule
+#         'schedule': 30.0,
+#     },
+# }

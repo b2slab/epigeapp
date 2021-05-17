@@ -1,12 +1,17 @@
 from celery import shared_task
-from .pipeline import read_txt_pcr, standard_names, processing_data, run_r_script, mkdir_results, get_classification, \
-    get_calibration, standard_data, media_to_static, check_amplification_fit, check_all_data_files, check_all_cpg
+from .utils import read_txt_pcr, standard_names, processing_data, run_r_script, mkdir_results, get_classification, \
+    get_calibration, standard_data, media_to_static, check_amplification_fit, check_all_data_files, check_all_cpg, \
+    send_report
 from .models import Sample
 import os.path
+from django.core.mail import EmailMessage
 
 
-@shared_task
-def pipeline(sample_id):
+@shared_task(name="analysis_task")
+def analysis_and_report(sample_id):
+    """
+    Task to perform the analysis of a sample and report creation.
+    """
     sample = Sample.objects.get(id=sample_id)
     path_results = mkdir_results(path_to_txt=sample.file.url)
     read_txt_pcr(path_to_read=sample.file.url, path_to_save=path_results)
@@ -46,4 +51,34 @@ def pipeline(sample_id):
         sample.status = 1
         sample.save()
 
+    send_report(sample_id=sample_id)
+
+
+@shared_task(name="send_notification")
+def analysis_notification(sample_id):
+    """
+    Task to send an e-mail notification when an sample is successfully created.
+    """
+    sample = Sample.objects.get(id=sample_id)
+
+    subject = 'EpiGeApp Analysis received'
+    message = f"""
+    Hello, we just received an analysis with this email!
+    
+    You will receive another email with your test result in a few minutes.
+    If you do not receive the email, please write to us at this email address with the job code of the analysis.
+    
+    We show you the job code that has been assigned to you below.
+    
+    Job code: {sample.id}
+    Sample identifier: {sample.sample_identifier}
+    Created at: {sample.created}
+    
+    Thank you for using EpiGe App!
+    
+    EpiGe Team
+    """
+    email = EmailMessage(subject, message, 'iosullanoviles@gmail.com', [sample.email])
+    email.send()
+    print("Notification Sent!")
 

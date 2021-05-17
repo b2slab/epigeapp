@@ -24,3 +24,4 @@ venv.bak/
 
 static/samples/
 Rplots.pdf
+celerybeat-schedule

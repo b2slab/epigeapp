@@ -5,12 +5,12 @@
             <img class="logos" src="{% static 'img/logos_report.png' %}" alt="logos">
     </div>
     <h2>EpiGe Medulloblastoma Subgroup Prediction Report</h2>
-    <p>Sample ID: {{ report.identifier }}</p>
-    <p>Uploaded file: {{ report.filename}}</p>
-    <p>Size file: {{ report.filesize}}</p>
+    <p>Sample ID: {{ sample.identifier }}</p>
+    <p>Uploaded file: {{ sample.filename}}</p>
+    <p>Size file: {{ sample.filesize}}</p>
     <p>Instrument type: Not available.</p>
-    <p>Email: {{ report.email }}</p>
-    <p>Date: {{ report.created|date:"M d, Y, H:i:s" }}</p>
+    <p>Email: {{ sample.email }}</p>
+    <p>Date: {{ sample.created|date:"M d, Y, H:i:s" }}</p>
 
     <h3>EpiGe Medulloblastoma Subgroup Class Prediction (v1.1)</h3>
     <h3>Reference pattern data</h3>

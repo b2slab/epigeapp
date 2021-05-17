@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import InstructionsForm, SampleModelForm
-from .tasks import pipeline
+from .tasks import analysis_and_report, analysis_notification
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import get_object_or_404
 from django.conf import settings
@@ -8,7 +8,6 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 import weasyprint
 from .models import Sample, Classification, Calibration
-import glob
 
 
 static_dir = str(settings.BASE_DIR) + '/static/'
@@ -34,7 +33,8 @@ def analysis_view(request):
         form = SampleModelForm(request.POST, request.FILES)
         if form.is_valid():
             sample = form.save()
-            pipeline.delay(sample_id=sample.id)
+            analysis_notification.delay(sample_id=sample.id)
+            analysis_and_report.delay(sample_id=sample.id)
             return redirect('core_app:success')
     else:
         form = SampleModelForm()
@@ -60,70 +60,39 @@ def success_view(request):
 @staff_member_required
 def admin_report_pdf(request, sample_id):
     sample = get_object_or_404(Sample, id=sample_id)
-    report = Report(identifier=sample.sample_identifier, filename=sample.filename, filesize=sample.filesize,
-                    email=sample.email, created=sample.created)
+    score = None
+    group = None
 
     if not sample.txt_complete:
         html = render_to_string('core_app/report/report_error1.html',
-                                {'report': report
-                                 })
+                                {'sample': sample})
     elif not sample.all_cpg:
         calibration = get_object_or_404(Calibration, sample=sample)
-        report.instrument_type = calibration.instrument_type
-        report.missing_cpg = sample.missing_cpg
         html = render_to_string('core_app/report/report_error2.html',
                                 {'calibration': calibration,
-                                 'report': report
-                                 })
+                                 'sample': sample})
     elif not sample.amplification_fit:
         calibration = get_object_or_404(Calibration, sample=sample)
         html = render_to_string('core_app/report/report_error3.html',
                                 {'calibration': calibration,
-                                 'report': report
-                                 })
+                                 'sample': sample})
     else:
         calibration = get_object_or_404(Calibration, sample=sample)
-        report.instrument_type = calibration.instrument_type
         classification = get_object_or_404(Classification, sample=sample)
         if classification.distLab1 == classification.distLab2:
-            report.score = (classification.score1 + classification.score2) / 2
-            report.subgroup = classification.distLab1
+            score = (classification.score1 + classification.score2) / 2
+            group = classification.distLab1
 
         html = render_to_string('core_app/report/report_complete.html',
                                 {'classification': classification,
                                  'calibration': calibration,
-                                 'report': report
-                                 })
+                                 'sample': sample,
+                                 'score': score,
+                                 'group': group})
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'filename=sample_{sample.id}.pdf'
+    stylesheets = [weasyprint.CSS(static_dir + 'css/pdf.css')]
     weasyprint.HTML(string=html,
-                    base_url=request.build_absolute_uri()).write_pdf(response,
-                                                                     stylesheets=[weasyprint.CSS(static_dir + 'css/pdf.css')])
+                    base_url=request.build_absolute_uri()).write_pdf(response, stylesheets=stylesheets)
     return response
-
-
-class Report:
-    def __init__(self, identifier, filename, filesize, email, created):
-        self.identifier = identifier
-        self.filename = filename
-        self.filesize = filesize
-        self.instrument_type = None
-        self.email = email
-        self.created = created
-        self.subgroup = None
-        self.score = None
-        self.ROX_valid = None
-        self.ROX_date = None
-        self.VIC_valid = None
-        self.VIC_date = None
-        self.FAM_valid = None
-        self.FAM_date = None
-        self.amplification_test = None
-        self.missing_cpg = None
-
-
-
-
-
-

@@ -5,12 +5,12 @@
             <img class="logos" src="{% static 'img/logos_report.png' %}" alt="logos">
     </div>
     <h2>EpiGe Medulloblastoma Subgroup Prediction Report</h2>
-    <p>Sample ID: {{ report.identifier }}</p>
-    <p>Uploaded file: {{ report.filename}}</p>
-    <p>Size file: {{ report.filesize}}</p>
-    <p>Instrument type: {{ report.instrument_type}}</p>
-    <p>Email: {{ report.email }}</p>
-    <p>Date: {{ report.created|date:"M d, Y, H:i:s" }}</p>
+    <p>Sample ID: {{ sample.identifier }}</p>
+    <p>Uploaded file: {{ sample.filename}}</p>
+    <p>Size file: {{ sample.filesize}}</p>
+    <p>Instrument type: {{ calibration.instrument_type}}</p>
+    <p>Email: {{ sample.email }}</p>
+    <p>Date: {{ sample.created|date:"M d, Y, H:i:s" }}</p>
 
     <h3>EpiGe Medulloblastoma Subgroup Class Prediction (v1.1)</h3>
     <h3>Reference pattern data</h3>
@@ -18,7 +18,7 @@
         <img class="patterns" src="{% static 'img/tablaRef.png' %}" alt="patterns">
     </div>
     <h3>Results</h3>
-    {% if report.subgroup is not None %}
+    {% if group is not None %}
         <table>
             <thead>
             <tr>
@@ -29,9 +29,9 @@
             </thead>
             <tbody>
             <tr class="row{% cycle "1" "2" %}">
-                <td>{{ report.subgroup }}</td>
-                <td>{{ report.score }}</td>
-                {% if report.score > 0.9 %}
+                <td>{{ group }}</td>
+                <td>{{ score }}</td>
+                {% if score > 0.9 %}
                     <td><img class="points" src="{% static 'img/green_point.png' %}" alt="green_point"></td>
                 {% else %}
                     <td><img class="points" src="{% static 'img/Red_point.png' %}" alt="red_point"></td>
@@ -45,11 +45,11 @@
             <img class="replicas" src="{{ classification.replicas_image }}" alt="replicas">
         </div>
         <h3>Subgroup Description</h3>
-        <p><b>{{ report.subgroup }}</b></p>
+        <p><b>{{ group }}</b></p>
         <p class="block-text">
-            {% if report.subgroup == "WNT" %}
+            {% if group == "WNT" %}
                 The methylation class "medulloblastoma, WNT" is comprised of tumors diagnosed as Medulloblastoma, genetically defined, WNT-activated. Histologically most cases fall into the classic variant, sometimes into the large cell/anaplastic variant. Tumors are located in the cerebellum, typically in the vermis. Median age is 12 years (range 6 to 27). Monosomy of chromosome 6 (>80%) together with mutation of CTNNB1 is (almost) pathognomonic for this class.
-            {% elif report.subgroup == "SHH" %}
+            {% elif group == "SHH" %}
                 The methylation class "medulloblastoma, subclass SHH” is comprised of tumors diagnosed as Medulloblastoma, genetically defined, SHH-activated. Histologically most cases fall into the desmoplastic variant or extensive nodularity variant, sometimes classic and occasionally large cell/anaplastic groups. Tumors are located in the cerebellum, usually laterally. Median age is is 2 years (range 0-6 years) for infants and 22 years (range 3 to 51) for children and adult. Upstream SHH pathway alterations (i.e. PTCH1 and SMO) or SUFU are relatively common, and in the youngest patients these may also have a germline origin (Gorlin's syndrome). Importantly, this methylation class also includes the majority of TP53-mutated SHH tumors (often Li-Fraumeni associated), which typically occur in children (~8-16 years) and often have large cell/anaplastic morphology, with dramatic copy number alterations (chromothripsis).
             {% else %}
                 The methylation class "medulloblastoma, subclass non-WNT/non-SHH" is comprised of tumors with the diagnosis medulloblastoma, genetically defined, group 3 or group 4. Histologically most cases fall into the classical and large cell/anaplastic groups. Tumors are located in the cerebellum, typically in the vermis. non-WNT/non-SHH medulloblastomas are more common in males than females. MYC amplification, MYCN amplification, aneuploidy, isochromosome 17q and GFI1/1B activation by enhancer hijacking are recurrent features, but a fraction lack an obvious driving genetic change.
@@ -112,7 +112,7 @@
             </tr>
             <tr>
                 <td>LDA</td>
-                <td colspan="2">Score: {{ report.score }}</td>
+                <td colspan="2">Score: {{ score }}</td>
             </tr>
         </tbody>
     </table>
