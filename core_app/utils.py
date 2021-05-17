@@ -373,10 +373,14 @@ def check_all_cpg(path_folder):
     flag = True
     message = None
 
-    for name in names:
-        if name not in df["SNP Assay Name"].unique():
+    ref_re = [re.compile(name) for name in names]
+    output = {i: [r.pattern for r in ref_re if r.match(i)] for i in df["SNP Assay Name"].unique()}
+
+    for value in output.values():
+        snp_match = value[0]
+        if snp_match not in names:
             flag = False
-            message = name
+            message = value
             break
 
     return flag, message
