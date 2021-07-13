@@ -52,7 +52,6 @@ dataframe <- read_delim(paste0(path, "Results.csv"), "\t", escape_double = FALSE
 doi <- dataframe[dataframe$Task == "UNKNOWN",]
 
 rnData <- plyr::ddply(doi, "`SNP Assay Name`", function(dx){
-  print(dx)
   deltaRnAllele1 <- mean(dx$`Allele1 Delta Rn`)
   deltaRnAllele2 <- mean(dx$`Allele2 Delta Rn`)
   dd <- data.frame(deltaRnAllele1 = deltaRnAllele1, deltaRnAllele2 = deltaRnAllele2)
@@ -93,7 +92,7 @@ colnames(results)[2:4] <- paste("probability", colnames(results)[2:4], sep = " "
 ## tabla para el report ##
 data4table2 <- results
 
-write_csv(data4table1, paste0(path, "dataframe_rf.csv"))
+write_csv(data4table2, paste0(path, "dataframe_rf.csv"))
 
 #### Plot sample ####
 df <- mat %>% as.data.frame(.)
