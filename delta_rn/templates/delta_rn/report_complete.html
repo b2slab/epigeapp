@@ -18,51 +18,44 @@
         <img class="patterns" src="{% static 'img/tablaRef.png' %}" alt="patterns">
     </div>
     <h3>Results</h3>
-    {% if classification.subgroup is not None %}
-        <p class="block-text">
-        Sample pattern obtained by the logistic regression:
-        </p>
-        <div class="image-container">
-            <img class="replicas" src="{{ classification.sample_image }}" alt="replicas">
-        </div>
-        <p class="block-text">
-        Molecular subgroup obtained by the randomForest classifier:
-        </p>
-        <table>
-            <thead>
-            <tr>
-                <th>Medulloblastoma predicted subgroup</th>
-                <th>Probability WNT</th>
-                <th>Probability SHH</th>
-                <th>Probability non-WNT/non-SHH</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>{{ classification.subgroup }}</td>
-                <td>{{ classification.probability_wnt }}</td>
-                <td>{{ classification.probability_shh }}</td>
-                <td>{{ classification.probability_gg }}</td>
-            </tr>
-            </tbody>
-        </table>
-        <h3>Subgroup Description</h3>
-        <p><b>{{ classification.subgroup }}</b></p>
-        <p class="block-text">
-            {% if classification.subgroup == "WNT" %}
-                The methylation class "medulloblastoma, WNT" is comprised of tumors diagnosed as Medulloblastoma, genetically defined, WNT-activated. Histologically most cases fall into the classic variant, sometimes into the large cell/anaplastic variant. Tumors are located in the cerebellum, typically in the vermis. Median age is 12 years (range 6 to 27). Monosomy of chromosome 6 (>80%) together with mutation of CTNNB1 is (almost) pathognomonic for this class.
-            {% elif classification.subgroup == "SHH" %}
-                The methylation class "medulloblastoma, subclass SHH” is comprised of tumors diagnosed as Medulloblastoma, genetically defined, SHH-activated. Histologically most cases fall into the desmoplastic variant or extensive nodularity variant, sometimes classic and occasionally large cell/anaplastic groups. Tumors are located in the cerebellum, usually laterally. Median age is is 2 years (range 0-6 years) for infants and 22 years (range 3 to 51) for children and adult. Upstream SHH pathway alterations (i.e. PTCH1 and SMO) or SUFU are relatively common, and in the youngest patients these may also have a germline origin (Gorlin's syndrome). Importantly, this methylation class also includes the majority of TP53-mutated SHH tumors (often Li-Fraumeni associated), which typically occur in children (~8-16 years) and often have large cell/anaplastic morphology, with dramatic copy number alterations (chromothripsis).
-            {% else %}
-                The methylation class "medulloblastoma, subclass non-WNT/non-SHH" is comprised of tumors with the diagnosis medulloblastoma, genetically defined, group 3 or group 4. Histologically most cases fall into the classical and large cell/anaplastic groups. Tumors are located in the cerebellum, typically in the vermis. non-WNT/non-SHH medulloblastomas are more common in males than females. MYC amplification, MYCN amplification, aneuploidy, isochromosome 17q and GFI1/1B activation by enhancer hijacking are recurrent features, but a fraction lack an obvious driving genetic change.
-            {% endif %}
-        </p>
-    {% else %}
-        <div class="image-container">
-            <img class="replicas" src="{{ classification.sample_image }}" alt="replicas">
-        </div>
-        The classification for both replicates does not match.
-    {% endif %}
+    <p class="block-text">
+    Sample pattern obtained by the logistic regression:
+    </p>
+    <div class="image-container">
+        <img class="replicas" src="{{ classification.sample_image }}" alt="replicas">
+    </div>
+    <p class="block-text">
+    Molecular subgroup obtained by the randomForest classifier:
+    </p>
+    <table>
+        <thead>
+        <tr>
+            <th>Medulloblastoma predicted subgroup</th>
+            <th>Probability WNT</th>
+            <th>Probability SHH</th>
+            <th>Probability non-WNT/non-SHH</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ classification.subgroup }}</td>
+            <td>{{ classification.probability_wnt }}</td>
+            <td>{{ classification.probability_shh }}</td>
+            <td>{{ classification.probability_gg }}</td>
+        </tr>
+        </tbody>
+    </table>
+    <h3>Subgroup Description</h3>
+    <p><b>{{ classification.subgroup }}</b></p>
+    <p class="block-text">
+        {% if classification.subgroup == "WNT" %}
+            The methylation class "medulloblastoma, WNT" is comprised of tumors diagnosed as Medulloblastoma, genetically defined, WNT-activated. Histologically most cases fall into the classic variant, sometimes into the large cell/anaplastic variant. Tumors are located in the cerebellum, typically in the vermis. Median age is 12 years (range 6 to 27). Monosomy of chromosome 6 (>80%) together with mutation of CTNNB1 is (almost) pathognomonic for this class.
+        {% elif classification.subgroup == "SHH" %}
+            The methylation class "medulloblastoma, subclass SHH” is comprised of tumors diagnosed as Medulloblastoma, genetically defined, SHH-activated. Histologically most cases fall into the desmoplastic variant or extensive nodularity variant, sometimes classic and occasionally large cell/anaplastic groups. Tumors are located in the cerebellum, usually laterally. Median age is is 2 years (range 0-6 years) for infants and 22 years (range 3 to 51) for children and adult. Upstream SHH pathway alterations (i.e. PTCH1 and SMO) or SUFU are relatively common, and in the youngest patients these may also have a germline origin (Gorlin's syndrome). Importantly, this methylation class also includes the majority of TP53-mutated SHH tumors (often Li-Fraumeni associated), which typically occur in children (~8-16 years) and often have large cell/anaplastic morphology, with dramatic copy number alterations (chromothripsis).
+        {% else %}
+            The methylation class "medulloblastoma, subclass non-WNT/non-SHH" is comprised of tumors with the diagnosis medulloblastoma, genetically defined, group 3 or group 4. Histologically most cases fall into the classical and large cell/anaplastic groups. Tumors are located in the cerebellum, typically in the vermis. non-WNT/non-SHH medulloblastomas are more common in males than females. MYC amplification, MYCN amplification, aneuploidy, isochromosome 17q and GFI1/1B activation by enhancer hijacking are recurrent features, but a fraction lack an obvious driving genetic change.
+        {% endif %}
+    </p>
     <h3>Disclaimer</h3>
     <p class="block-text">Classification using methylation profiling is a research tool under development, it is not verified and has not been clinically validated. Implementation of the results in a clinical setting is in the sole responsibility of the treating physician.<br> Intended for non-commercial use only.</p>
     <h3>Cytosine Methylation Status Predictor</h3>

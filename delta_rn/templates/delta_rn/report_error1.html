@@ -1,0 +1,100 @@
+{% load static %}
+<html>
+<body>
+    <div class="container-logo">
+            <img class="logos" src="{% static 'img/logos_report.png' %}" alt="logos">
+    </div>
+    <h2>EpiGe Medulloblastoma Subgroup Prediction Report</h2>
+    <p>Sample ID: {{ sample.sample_identifier }}</p>
+    <p>Uploaded file: {{ sample.filename}}</p>
+    <p>Size file: {{ sample.filesize}}</p>
+    <p>Instrument type: Not available.</p>
+    <p>Email: {{ sample.email }}</p>
+    <p>Date: {{ sample.created|date:"M d, Y, H:i:s" }}</p>
+
+    <h3>EpiGe Medulloblastoma Subgroup Class Prediction (v1.1)</h3>
+    <h3>Reference pattern data</h3>
+    <div class="image-container">
+        <img class="patterns" src="{% static 'img/tablaRef.png' %}" alt="patterns">
+    </div>
+    <h3>Results</h3>
+    <p>The uploaded file is not complete.</p>
+    <h3>Quality Control Summary</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>CheckPoint</th>
+            <th>Result</th>
+            <th>Possible Solution</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>TXT complete</td>
+                <td>The uploaded file is not complete.</td>
+                <td>Make sure that the file contains the following sections:
+                    <ul>
+                        <li>Amplification Data</li>
+                        <li>Multicomponent Data</li>
+                        <li>Raw Data</li>
+                        <li>Reagent Information</li>
+                        <li>Results</li>
+                        <li>Sample Setup</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>All CpG</td>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td>Dye calibration</td>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td>No template controls</td>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td>SD<0.5</td>
+                <td colspan="2"></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="pagebreak"> </div>
+    <h2>Technical report</h2>
+    <h3>Dye calibration</h3>
+    <p>Not available.</p>
+    <h3>No template control amplification</h3>
+    <p>Not available.</p>
+    <h3>SD<0.5</h3>
+    <p>Not available.</p>
+    <h3>Run information</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Task</th>
+            <th>Version</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>EpiGe_qc</td>
+                <td>1.0</td>
+            </tr>
+            <tr>
+                <td>EpiGe_logisticRegression</td>
+                <td>1.0</td>
+            </tr>
+            <tr>
+                <td>EpiGe_randomForest</td>
+                <td>1.0</td>
+            </tr>
+            <tr>
+                <td>EpiGe_report</td>
+                <td>1.0</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -31,13 +31,22 @@ def analysis_view(request):
 def admin_report_pdf(request, sample_id):
     sample = get_object_or_404(Sample, id=sample_id)
 
-    calibration = get_object_or_404(Calibration, sample=sample)
-    classification = get_object_or_404(Classification, sample=sample)
+    if not sample.txt_complete:
+        html = render_to_string('delta_rn/report_error1.html',
+                                {'sample': sample})
+    elif not sample.all_cpg:
+        calibration = get_object_or_404(Calibration, sample=sample)
+        html = render_to_string('delta_rn/report_error2.html',
+                                {'calibration': calibration,
+                                 'sample': sample})
+    else:
+        calibration = get_object_or_404(Calibration, sample=sample)
+        classification = get_object_or_404(Classification, sample=sample)
 
-    html = render_to_string('delta_rn/report.html',
-                            {'classification': classification,
-                             'calibration': calibration,
-                             'sample': sample})
+        html = render_to_string('delta_rn/report_complete.html',
+                                {'classification': classification,
+                                 'calibration': calibration,
+                                 'sample': sample})
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'filename=sample_{sample.id}.pdf'
