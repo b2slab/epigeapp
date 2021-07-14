@@ -8,6 +8,7 @@ import numpy as np
 import matplotlib
 from decouple import config
 from .models import Classification, Calibration, Sample
+from delta_rn.models import Calibration as Delta_calibration
 import glob
 import shutil
 import os.path
@@ -231,10 +232,12 @@ def processing_data(path_folder):
     return print('Dataframe has been written.')
 
 
-def run_r_script(path_folder):
+def run_r_script(path_folder, delta_rn=False):
     # Change accordingly to your Rscript.exe & R script path
     r_path = config("R_PATH")
     script_path = base_root + config("SCRIPT_PATH")
+    if delta_rn:
+        script_path = base_root + config("SCRIPT_PATH_2")
     # Used as input arguments to the R code
     args = path_folder
     # Execute command
@@ -268,7 +271,7 @@ def get_classification(path_folder, sample):
                                   distLab2=lda_data.iloc[0]['distLab2'])
 
 
-def get_calibration(path_to_txt, path_to_results, sample):
+def get_calibration(path_to_txt, path_to_results, sample, delta_rn=False):
     with open(base_root + path_to_txt, 'r') as f:
         lines = f.readlines()
 
@@ -316,15 +319,26 @@ def get_calibration(path_to_txt, path_to_results, sample):
 
     instrument_type = lines[index[0]].split("=")[1].strip()
 
-    Calibration.objects.create(sample=sample,
-                               ROX_valid=ROX_valid,
-                               FAM_valid=FAM_valid,
-                               VIC_valid=VIC_valid,
-                               ROX_date=ROX_date,
-                               FAM_date=FAM_date,
-                               VIC_date=VIC_date,
-                               amplification_test=amplification_test(path_to_results),
-                               instrument_type=instrument_type)
+    if delta_rn:
+        Delta_calibration.objects.create(sample=sample,
+                                         ROX_valid=ROX_valid,
+                                         FAM_valid=FAM_valid,
+                                         VIC_valid=VIC_valid,
+                                         ROX_date=ROX_date,
+                                         FAM_date=FAM_date,
+                                         VIC_date=VIC_date,
+                                         amplification_test=amplification_test(path_to_results),
+                                         instrument_type=instrument_type)
+    else:
+        Calibration.objects.create(sample=sample,
+                                   ROX_valid=ROX_valid,
+                                   FAM_valid=FAM_valid,
+                                   VIC_valid=VIC_valid,
+                                   ROX_date=ROX_date,
+                                   FAM_date=FAM_date,
+                                   VIC_date=VIC_date,
+                                   amplification_test=amplification_test(path_to_results),
+                                   instrument_type=instrument_type)
 
 
 def amplification_test(path_folder):
