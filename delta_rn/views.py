@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import SampleModelForm
-from core_app.tasks import analysis_notification
-from .tasks import analysis_and_report
+from .tasks import analysis_and_report, analysis_notification
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import get_object_or_404
 from .models import Sample, Classification, Calibration
@@ -19,7 +18,7 @@ def analysis_view(request):
         form = SampleModelForm(request.POST, request.FILES)
         if form.is_valid():
             sample = form.save()
-            # analysis_notification.delay(sample_id=sample.id)
+            analysis_notification.delay(sample_id=sample.id)
             analysis_and_report.delay(sample_id=sample.id)
             return redirect('core_app:success')
     else:
