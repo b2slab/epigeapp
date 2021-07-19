@@ -62,7 +62,7 @@ colnames(rnData)[1] <- "cpg"
 rnData$delta1_avg_log <- log(rnData$deltaRnAllele1)
 rnData$delta2_avg_log <- log(rnData$deltaRnAllele2)
 
-logitModel <- readRDS("~/epigen_app/R/logitModel.RDS")
+logitModel <- readRDS("~/epigen_app/epigen_app/R/logitModel.RDS")
 
 rnData$meth_prob <- predict(logitModel, rnData, type = "response")
 
@@ -81,7 +81,7 @@ cpg_names <- rnData$cpg
 
 colnames(mat) <- c("cg18849583", "cg01268345", "cg10333416", "cg12925355", "cg25542041", "cg02227036")
 
-rf.model <- readRDS("~/epigen_app/R/randomForestModel.RDS")
+rf.model <- readRDS("~/epigen_app/epigen_app/R/randomForestModel.RDS")
 
 results <- data.frame(subgroup = predict(rf.model, mat))
 

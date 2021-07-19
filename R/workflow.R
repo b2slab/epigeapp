@@ -8,13 +8,13 @@ library(formattable)
 options(warn=-1)
 
 #### Load data ####
-load("~/epigen_app/R/badPatterns.Rdata")
-load("~/epigen_app/R/knowsPatterns.Rdata")
+load("~/epigen_app/epigen_app/R/badPatterns.Rdata")
+load("~/epigen_app/epigen_app/R/knowsPatterns.Rdata")
 
-pls_model <- readRDS("~/epigen_app/R/plsda_model.rds")
-lda_model <- readRDS("~/epigen_app/R/EpiWNT-SHH.rds")
-pca_model <- readRDS("~/epigen_app/R/pca_train_model.rds")
-label_meth <- readRDS("~/epigen_app/R/labels_train.rds")
+pls_model <- readRDS("~/epigen_app/epigen_app/R/plsda_model.rds")
+lda_model <- readRDS("~/epigen_app/epigen_app/R/EpiWNT-SHH.rds")
+pca_model <- readRDS("~/epigen_app/epigen_app/R/pca_train_model.rds")
+label_meth <- readRDS("~/epigen_app/epigen_app/R/labels_train.rds")
 
 #### Functions ####
 checkBadPattern <- function(dataframe, replica) {

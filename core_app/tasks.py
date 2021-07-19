@@ -13,12 +13,12 @@ def analysis_and_report(sample_id):
     Task to perform the analysis of a sample and report creation.
     """
     sample = Sample.objects.get(id=sample_id)
-    path_results = mkdir_results(path_to_txt=sample.file.url)
-    read_txt_pcr(path_to_read=sample.file.url, path_to_save=path_results)
+    path_results = mkdir_results(path_to_txt=sample.file.path)
+    read_txt_pcr(path_to_read=sample.file.path, path_to_save=path_results)
     flag1 = check_all_data_files(path_folder=path_results)
     sample.txt_complete = flag1
     if flag1:
-        get_calibration(path_to_txt=sample.file.url, path_to_results=path_results, sample=sample)
+        get_calibration(path_to_txt=sample.file.path, path_to_results=path_results, sample=sample)
         flag2, message = check_all_cpg(path_folder=path_results)
         sample.all_cpg = flag2
         if flag2:
@@ -29,7 +29,7 @@ def analysis_and_report(sample_id):
             sample.amplification_fit = flag3
             if flag3:
                 run_r_script(path_folder=path_results)
-                if os.path.isfile(path_results + 'dataframe_results_lda.csv'):
+                if os.path.isfile(path_results / 'dataframe_results_lda.csv'):
                     get_classification(path_folder=path_results, sample=sample)
                 else:
                     pass

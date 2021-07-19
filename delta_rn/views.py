@@ -9,9 +9,6 @@ import weasyprint
 from django.http import HttpResponse
 from django.conf import settings
 
-static_dir = str(settings.BASE_DIR) + '/static/'
-base_root = str(settings.BASE_DIR)
-
 
 def analysis_view(request):
     if request.method == 'POST':
@@ -49,7 +46,7 @@ def admin_report_pdf(request, sample_id):
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'filename=sample_{sample.id}.pdf'
-    stylesheets = [weasyprint.CSS(static_dir + 'css/pdf.css')]
+    stylesheets = [weasyprint.CSS(settings.STATICFILES_DIRS[0] / 'css/pdf.css')]
     weasyprint.HTML(string=html,
                     base_url=request.build_absolute_uri()).write_pdf(response, stylesheets=stylesheets)
     return response

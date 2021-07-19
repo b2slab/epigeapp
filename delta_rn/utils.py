@@ -7,13 +7,8 @@ import weasyprint
 from django.conf import settings
 
 
-media_root = settings.MEDIA_ROOT
-base_root = str(settings.BASE_DIR)
-static_dir = str(settings.BASE_DIR) + '/static/'
-
-
 def get_classification(path_folder, sample):
-    rf_data = pd.read_csv(path_folder + 'dataframe_rf.csv')
+    rf_data = pd.read_csv(path_folder / 'dataframe_rf.csv')
 
     Classification.objects.create(sample=sample,
                                   subgroup=rf_data.iloc[0]['subgroup'],
@@ -61,7 +56,7 @@ def send_report(sample_id):
                                  'sample': sample})
     # generate PDF file
     out = BytesIO()
-    stylesheets = [weasyprint.CSS(static_dir + 'css/pdf.css')]
+    stylesheets = [weasyprint.CSS(settings.STATICFILES_DIRS[0] / 'css/pdf.css')]
     weasyprint.HTML(string=html, base_url="http://127.0.0.1:8000/").write_pdf(out, stylesheets=stylesheets)
     # attach PDF file
     email.attach(f'analysis_{sample.id}.pdf', out.getvalue(), 'application/pdf')

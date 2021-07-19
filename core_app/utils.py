@@ -20,9 +20,6 @@ import weasyprint
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
 
-media_root = settings.MEDIA_ROOT
-base_root = str(settings.BASE_DIR)
-static_dir = str(settings.BASE_DIR) + '/static/'
 
 cpg_list = ['W1_2554', 'W3_0222', 'S1_1033', 'S3_1292', 'G1_1884', 'G3_0126']
 
@@ -59,12 +56,13 @@ class PCR:
         plt.xlabel('Cycle')
         plt.title(name)
         plt.grid()
-        plt.savefig(path_save + name + ".png", dpi=150)
+        filename = name + ".png"
+        plt.savefig(path_save / filename, dpi=150)
         plt.close()
 
 
 def read_txt_pcr(path_to_read, path_to_save):
-    with open(base_root + path_to_read, 'r') as f:
+    with open(path_to_read, 'r') as f:
         lines = f.readlines()
 
     pattern = re.compile(r"^\[.*?\]$", re.IGNORECASE)
@@ -81,7 +79,7 @@ def read_txt_pcr(path_to_read, path_to_save):
             dict_files[filename] = lines[index[i] + 1:]
 
     for filename in filenames:
-        with open(path_to_save + filename, 'w') as f:
+        with open(path_to_save / filename, 'w') as f:
             f.writelines(dict_files[filename])
 
 
@@ -101,18 +99,17 @@ def replace_label(string):
 
 
 def standard_names(path_folder):
-    filename = "Sample_Setup.csv"
-    setup = pd.read_csv(path_folder + filename, sep="\t")
+    setup = pd.read_csv(path_folder / "Sample_Setup.csv", sep="\t")
     setup['Sample Name'] = [name.split(sep="_")[0] if name is not np.nan else name for name in setup['Sample Name']]
     setup['Sample Name'] = [replace_label(label) for label in setup['Sample Name']]
-    setup.to_csv(path_folder + filename, sep='\t', index=False)
+    setup.to_csv(path_folder / "Sample_Setup.csv", sep='\t', index=False)
     return print('Data have been standardized.')
 
 
 def standard_data(path_folder):
-    amp_path = path_folder + 'Amplification_Data.csv'
+    amp_path = path_folder / 'Amplification_Data.csv'
 
-    setup_path = path_folder + 'Sample_Setup.csv'
+    setup_path = path_folder / 'Sample_Setup.csv'
 
     data = pd.read_csv(amp_path, sep='\t')
 
@@ -183,9 +180,9 @@ def fit(x, y):
 
 
 def processing_data(path_folder):
-    setup = import_setup(path_folder + "Sample_Setup.csv")
+    setup = import_setup(path_folder / "Sample_Setup.csv")
     setup2 = setup.query("task == 'UNKNOWN'")
-    data = import_data(path_folder + "Amplification_Data.csv")
+    data = import_data(path_folder / "Amplification_Data.csv")
     sample_name = setup2.sample_name.unique()[0]
 
     d = np.empty((12, 8))
@@ -195,7 +192,7 @@ def processing_data(path_folder):
         try:
             well_data = data[data.well_pos == well]
         except AttributeError:
-            setup_raw = pd.read_csv(path_folder + "Sample_Setup.csv", sep="\t")
+            setup_raw = pd.read_csv(path_folder / "Sample_Setup.csv", sep="\t")
             ind = int(setup_raw[setup_raw['Well Position'] == well]['Well'].values)
             well_data = data[data.well == ind]
 
@@ -220,14 +217,14 @@ def processing_data(path_folder):
         d[count] = row
         row_names.append(sample_name + "_" + well)
 
-        pcr.plot_curve(path_save=path_folder + "plots/")
+        pcr.plot_curve(path_save=path_folder / "plots")
 
     dataframe = pd.DataFrame(data=d, index=row_names, columns=['plateau_fam', 'slope_fam', 'intercept_fam', 'rmse_fam',
                                                                'plateau_vic', 'slope_vic', 'intercept_vic', 'rmse_vic'])
 
     dataframe['snp'] = setup2.snp.values
 
-    dataframe.to_csv(path_folder + 'dataframe.csv')
+    dataframe.to_csv(path_folder / 'dataframe.csv')
 
     return print('Dataframe has been written.')
 
@@ -235,32 +232,35 @@ def processing_data(path_folder):
 def run_r_script(path_folder, delta_rn=False):
     # Change accordingly to your Rscript.exe & R script path
     r_path = config("R_PATH")
-    script_path = base_root + config("SCRIPT_PATH")
+    script_path = settings.BASE_DIR.parent / config("SCRIPT_PATH", cast=str)
     if delta_rn:
-        script_path = base_root + config("SCRIPT_PATH_2")
+        script_path = settings.BASE_DIR.parent / config("SCRIPT_PATH_2", cast=str)
+
     # Used as input arguments to the R code
-    args = path_folder
+    args = str(path_folder) + "/"
     # Execute command
-    cmd = [r_path, script_path, args]
+    cmd = [r_path, str(script_path), args]
     result = subprocess.check_output(cmd, universal_newlines=True)
     # Display result
     return print(result)
 
 
 def mkdir_results(path_to_txt):
-    path_to_save = base_root + path_to_txt.split("data")[0] + 'results/'
+    path = pathlib.Path(path_to_txt)
+    path_to_save = path.parent.parent / 'results'
     pathlib.Path(path_to_save).mkdir(parents=True, exist_ok=True)
     return path_to_save
 
 
 def mkdir_static(sample_id):
-    path = static_dir + "samples/" + str(sample_id)
+    path = settings.STATICFILES_DIRS[0] / "samples" / sample_id
     pathlib.Path(path).mkdir(parents=True, exist_ok=True)
-    return print("Static folder created!")
+    print("Static folder created!")
+    return path
 
 
 def get_classification(path_folder, sample):
-    lda_data = pd.read_csv(path_folder + 'dataframe_results_lda.csv')
+    lda_data = pd.read_csv(path_folder / 'dataframe_results_lda.csv')
 
     Classification.objects.create(sample=sample,
                                   subgroup1=lda_data.iloc[0]['predicted1'],
@@ -272,7 +272,7 @@ def get_classification(path_folder, sample):
 
 
 def get_calibration(path_to_txt, path_to_results, sample, delta_rn=False):
-    with open(base_root + path_to_txt, 'r') as f:
+    with open(path_to_txt, 'r') as f:
         lines = f.readlines()
 
     ROX_valid = VIC_valid = FAM_valid = True
@@ -343,9 +343,8 @@ def get_calibration(path_to_txt, path_to_results, sample, delta_rn=False):
 
 def amplification_test(path_folder):
     flag = False
-    filename = "Results.csv"
 
-    df = pd.read_csv(path_folder + filename, sep="\t")
+    df = pd.read_csv(path_folder / "Results.csv", sep="\t")
     df_ntc = df.query("Task == 'NTC'")
     allele1_ct = list(set(df_ntc["Allele1 Ct"].values))
     allele2_ct = list(set(df_ntc["Allele2 Ct"].values))
@@ -356,11 +355,10 @@ def amplification_test(path_folder):
 
 
 def media_to_static(path_folder):
-    path_plots = path_folder + "plots/"
-    png_list = glob.glob(path_plots + '*.png', recursive=True)
-    sample_id = path_folder.split("/")[-3]
-    mkdir_static(sample_id=sample_id)
-    path_static_sample = static_dir + "samples/" + str(sample_id) + "/"
+    path_plots = path_folder / "plots"
+    png_list = list(path_plots.rglob('*.png'))
+    sample_id = str(path_folder).split("/")[-2]
+    path_static_sample = mkdir_static(sample_id=sample_id)
     for image in png_list:
         newPath = shutil.copy(image, path_static_sample)
         print(newPath)
@@ -371,16 +369,14 @@ def check_all_data_files(path_folder):
              "Results.csv", "Sample_Setup.csv"]
     flag = True
     for file in files:
-        if not os.path.isfile(path_folder + file):
+        if not os.path.isfile(path_folder / file):
             flag = False
             break
     return flag
 
 
 def check_all_cpg(path_folder):
-    filename = path_folder + "Results.csv"
-
-    df = pd.read_csv(filename, sep="\t")
+    df = pd.read_csv(path_folder / "Results.csv", sep="\t")
 
     names = ['S1_1033', 'S3_1292', 'W1_2554', 'W3_0222', 'G1_1884', 'G3_0126']
 
@@ -401,7 +397,7 @@ def check_all_cpg(path_folder):
 
 
 def check_amplification_fit(path_folder):
-    df = pd.read_csv(path_folder + 'dataframe.csv')
+    df = pd.read_csv(path_folder / 'dataframe.csv')
     return not df.isnull().values.any()
 
 
@@ -455,7 +451,7 @@ def send_report(sample_id):
                                  'group': group})
     # generate PDF file
     out = BytesIO()
-    stylesheets = [weasyprint.CSS(static_dir + 'css/pdf.css')]
+    stylesheets = [weasyprint.CSS(settings.STATICFILES_DIRS[0] / 'css/pdf.css')]
     weasyprint.HTML(string=html, base_url="http://127.0.0.1:8000/").write_pdf(out, stylesheets=stylesheets)
     # attach PDF file
     email.attach(f'analysis_{sample.id}.pdf', out.getvalue(), 'application/pdf')
