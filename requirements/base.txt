@@ -26,7 +26,7 @@ MarkupSafe==1.1.1
 matplotlib==3.3.3
 numpy==1.19.4
 packaging==20.8
-pandas==1.2.0
+pandas
 Pillow==8.1.0
 pluggy==0.13.1
 prompt-toolkit==3.0.8
@@ -39,7 +39,7 @@ python-dateutil==2.8.1
 python-decouple==3.3
 python-magic==0.4.18
 pytz==2020.5
-scipy==1.6.0
+scipy
 six==1.15.0
 sqlparse==0.4.1
 tinycss2==1.1.0

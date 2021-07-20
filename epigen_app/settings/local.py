@@ -1,4 +1,5 @@
 from .base import *
+import dj_database_url
 
 INSTALLED_APPS += ['core_app', 'crispy_forms', 'delta_rn']
 
@@ -17,9 +18,9 @@ EMAIL_USE_TLS = True
 # ==============================================================================
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR.parent / 'db.sqlite3',
-    }
+    "default": dj_database_url.config(
+        default=config("DATABASE_URL", default="postgres://simple:simple@localhost:5432/simple"),
+        conn_max_age=600,
+    )
 }
 
