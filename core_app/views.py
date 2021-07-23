@@ -88,7 +88,10 @@ def admin_report_pdf(request, sample_id):
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'filename=sample_{sample.id}.pdf'
-    stylesheets = [weasyprint.CSS(settings.STATICFILES_DIRS[0] / 'css/pdf.css')]
+    if settings.DEBUG:
+        stylesheets = [weasyprint.CSS(settings.STATICFILES_DIRS[0] / 'css/pdf.css')]
+    else:
+        stylesheets = [weasyprint.CSS(settings.STATIC_ROOT / 'css/pdf.css')]
     weasyprint.HTML(string=html,
                     base_url=request.build_absolute_uri()).write_pdf(response, stylesheets=stylesheets)
     return response

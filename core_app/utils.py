@@ -253,7 +253,10 @@ def mkdir_results(path_to_txt):
 
 
 def mkdir_static(sample_id):
-    path = settings.STATICFILES_DIRS[0] / "samples" / sample_id
+    if settings.DEBUG:
+        path = settings.STATICFILES_DIRS[0] / "samples" / sample_id
+    else:
+        path = settings.STATIC_ROOT / "samples" / sample_id
     pathlib.Path(path).mkdir(parents=True, exist_ok=True)
     print("Static folder created!")
     return path
