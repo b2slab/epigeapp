@@ -16,3 +16,8 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 SESSION_COOKIE_SECURE = True
 
+# ==============================================================================
+# PERMISSIONS FOR DEPLOY SETTINGS
+# ==============================================================================
+
+FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o770
