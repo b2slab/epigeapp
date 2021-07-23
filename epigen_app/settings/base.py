@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from decouple import Csv, config
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,6 +22,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    'core_app',
+    'crispy_forms',
+    'delta_rn',
 ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
@@ -95,7 +100,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = config("LANGUAGE_CODE", default="en-us")
 
-TIME_ZONE = config("TIME_ZONE", default="UTC")
+TIME_ZONE = config("TIME_ZONE", default="Europe/Madrid")
 
 USE_I18N = True
 
@@ -127,6 +132,27 @@ STATICFILES_FINDERS = (
 MEDIA_URL = "/media/"
 
 MEDIA_ROOT = BASE_DIR.parent.parent / "media"
+
+# ==============================================================================
+# DATABASES SETTINGS
+# ==============================================================================
+
+DATABASES = {
+    "default": dj_database_url.config(
+        default=config("DATABASE_URL", default="postgres://simple:simple@localhost:5432/simple"),
+        conn_max_age=600,
+    )
+}
+
+# ==============================================================================
+# EMAIL SETTINGS
+# ==============================================================================
+
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 
 

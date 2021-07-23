@@ -29,7 +29,7 @@ def analysis_view(request):
         form = SampleModelForm(request.POST, request.FILES)
         if form.is_valid():
             sample = form.save()
-            analysis_notification.delay(sample_id=sample.id)
+            # analysis_notification.delay(sample_id=sample.id)
             analysis_and_report.delay(sample_id=sample.id)
             return redirect('core_app:success')
     else:

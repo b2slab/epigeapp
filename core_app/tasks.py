@@ -51,7 +51,7 @@ def analysis_and_report(sample_id):
         sample.status = 1
         sample.save()
 
-    send_report(sample_id=sample_id)
+    # send_report(sample_id=sample_id)
 
 
 @shared_task(name="send_notification")
