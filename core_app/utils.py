@@ -9,7 +9,6 @@ import matplotlib
 from decouple import config
 from .models import Classification, Calibration, Sample
 from delta_rn.models import Calibration as Delta_calibration
-import glob
 import shutil
 import os.path
 from django.template.loader import render_to_string
@@ -410,7 +409,7 @@ def send_report(sample_id):
     score = None
 
     # create e-mail
-    subject = 'EpiGeApp Analysis complete'
+    subject = "EpiGeApp Job ID: {jobID}".format(jobID=sample.id)
     message = f"""
     Hello, the following analysis is complete:
 
@@ -423,7 +422,7 @@ def send_report(sample_id):
     EpiGe Team
     """
 
-    email = EmailMessage(subject, message, 'iosullanoviles@gmail.com',
+    email = EmailMessage(subject, message, 'hospitalbarcelona.PECA@sjd.es',
                          [sample.email])
 
     if not sample.txt_complete:

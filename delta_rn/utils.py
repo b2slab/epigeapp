@@ -22,7 +22,7 @@ def send_report(sample_id):
     sample = Sample.objects.get(id=sample_id)
 
     # create e-mail
-    subject = 'EpiGeApp Analysis complete'
+    subject = "EpiGeApp Job ID: {jobID}".format(jobID=sample.id)
     message = f"""
     Hello, the following analysis is complete:
 
@@ -35,8 +35,7 @@ def send_report(sample_id):
     EpiGe Team
     """
 
-    email = EmailMessage(subject, message, 'iosullanoviles@gmail.com',
-                         [sample.email])
+    email = EmailMessage(subject, message, 'hospitalbarcelona.PECA@sjd.es', [sample.email])
 
     if not sample.txt_complete:
         html = render_to_string('delta_rn/report_error1.html',

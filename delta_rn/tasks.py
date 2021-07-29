@@ -45,7 +45,7 @@ def analysis_notification(sample_id):
     """
     sample = Sample.objects.get(id=sample_id)
 
-    subject = 'EpiGeApp Analysis received'
+    subject = "EpiGeApp Job ID: {jobID}".format(jobID=sample.id)
     message = f"""
     Hello, we just received an analysis with this email!
 
@@ -62,7 +62,7 @@ def analysis_notification(sample_id):
 
     EpiGe Team
     """
-    email = EmailMessage(subject, message, 'iosullanoviles@gmail.com', [sample.email])
+    email = EmailMessage(subject, message, 'hospitalbarcelona.PECA@sjd.es', [sample.email])
     email.send()
     print("Notification Sent!")
 

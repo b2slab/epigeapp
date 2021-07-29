@@ -5,6 +5,7 @@ from .utils import read_txt_pcr, standard_names, processing_data, run_r_script, 
 from .models import Sample
 import os.path
 from django.core.mail import EmailMessage
+import time
 
 
 @shared_task(name="analysis_task")
@@ -51,7 +52,8 @@ def analysis_and_report(sample_id):
         sample.status = 1
         sample.save()
 
-    # send_report(sample_id=sample_id)
+    time.sleep(30)
+    send_report(sample_id=sample_id)
 
 
 @shared_task(name="send_notification")
@@ -61,7 +63,7 @@ def analysis_notification(sample_id):
     """
     sample = Sample.objects.get(id=sample_id)
 
-    subject = 'EpiGeApp Analysis received'
+    subject = "EpiGeApp Job ID: {jobID}".format(jobID=sample.id)
     message = f"""
     Hello, we just received an analysis with this email!
     
@@ -78,7 +80,7 @@ def analysis_notification(sample_id):
     
     EpiGe Team
     """
-    email = EmailMessage(subject, message, 'iosullanoviles@gmail.com', [sample.email])
+    email = EmailMessage(subject, message, 'hospitalbarcelona.PECA@sjd.es', [sample.email])
     email.send()
     print("Notification Sent!")
 

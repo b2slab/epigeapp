@@ -148,9 +148,9 @@ DATABASES = {
 # EMAIL SETTINGS
 # ==============================================================================
 
-EMAIL_HOST = config("EMAIL_HOST")
-EMAIL_HOST_USER = config("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+EMAIL_HOST = config("EMAIL_HOST_SJD")
+EMAIL_HOST_USER = config("EMAIL_HOST_USER_SJD")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD_SJD")
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
