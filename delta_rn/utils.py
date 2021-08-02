@@ -18,7 +18,7 @@ def get_classification(path_folder, sample):
                                   )
 
 
-def send_report(sample_id):
+def send_report(sample_id, base_url):
     sample = Sample.objects.get(id=sample_id)
 
     # create e-mail
@@ -56,7 +56,7 @@ def send_report(sample_id):
     # generate PDF file
     out = BytesIO()
     stylesheets = [weasyprint.CSS(settings.STATICFILES_DIRS[0] / 'css/pdf.css')]
-    weasyprint.HTML(string=html, base_url="http://127.0.0.1:8000/").write_pdf(out, stylesheets=stylesheets)
+    weasyprint.HTML(string=html, base_url=base_url).write_pdf(out, stylesheets=stylesheets)
     # attach PDF file
     email.attach(f'analysis_{sample.id}.pdf', out.getvalue(), 'application/pdf')
     # send e-mail

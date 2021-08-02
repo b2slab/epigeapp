@@ -403,7 +403,7 @@ def check_amplification_fit(path_folder):
     return not df.isnull().values.any()
 
 
-def send_report(sample_id):
+def send_report(sample_id, base_url):
     sample = Sample.objects.get(id=sample_id)
     group = None
     score = None
@@ -454,7 +454,7 @@ def send_report(sample_id):
     # generate PDF file
     out = BytesIO()
     stylesheets = [weasyprint.CSS(settings.STATICFILES_DIRS[0] / 'css/pdf.css')]
-    weasyprint.HTML(string=html, base_url="http://127.0.0.1:8000/").write_pdf(out, stylesheets=stylesheets)
+    weasyprint.HTML(string=html, base_url=base_url).write_pdf(out, stylesheets=stylesheets)
     # attach PDF file
     email.attach(f'analysis_{sample.id}.pdf', out.getvalue(), 'application/pdf')
     # send e-mail

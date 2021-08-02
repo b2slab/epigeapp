@@ -9,7 +9,7 @@ import time
 
 
 @shared_task(name="analysis_task")
-def analysis_and_report(sample_id):
+def analysis_and_report(sample_id, base_url):
     """
     Task to perform the analysis of a sample and report creation.
     """
@@ -53,7 +53,7 @@ def analysis_and_report(sample_id):
         sample.save()
 
     time.sleep(30)
-    send_report(sample_id=sample_id)
+    send_report(sample_id=sample_id, base_url=base_url)
 
 
 @shared_task(name="send_notification")

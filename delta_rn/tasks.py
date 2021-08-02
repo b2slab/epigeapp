@@ -7,7 +7,7 @@ from django.core.mail import EmailMessage
 
 
 @shared_task(name="analysis_delta_rn_task")
-def analysis_and_report(sample_id):
+def analysis_and_report(sample_id, base_url):
     """
     Task to perform the analysis of a sample and report creation.
     """
@@ -26,7 +26,7 @@ def analysis_and_report(sample_id):
             media_to_static(path_folder=path_results)
             sample.status = 1
             sample.save()
-            send_report(sample_id=sample_id)
+            send_report(sample_id=sample_id, base_url=base_url)
         else:
             print("Some CpGs are missing!")
             sample.missing_cpg = message
