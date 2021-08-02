@@ -4,6 +4,7 @@ from core_app.utils import read_txt_pcr, mkdir_results, media_to_static, check_a
 from .models import Sample
 from .utils import get_classification, send_report
 from django.core.mail import EmailMessage
+import time
 
 
 @shared_task(name="analysis_delta_rn_task")
@@ -26,6 +27,7 @@ def analysis_and_report(sample_id, base_url):
             media_to_static(path_folder=path_results)
             sample.status = 1
             sample.save()
+            time.sleep(30)
             send_report(sample_id=sample_id, base_url=base_url)
         else:
             print("Some CpGs are missing!")
