@@ -1,3 +1,17 @@
 .asteriskField {
     display: none;
 }
+
+
+#consent-popup {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem 8rem;
+    transition: opacity 1s ease;
+}
+
+#consent-popup.hidden {
+    opacity: 0;
+}
