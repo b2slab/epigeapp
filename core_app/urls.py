@@ -11,5 +11,6 @@ urlpatterns = [
     path('terms_and_conditions/', views.terms_view, name='terms'),
     path('data_privacy/', views.privacy_view, name='privacy'),
     path('legal_notice/', views.legal_view, name='legal'),
+    path('funding/', views.funding_view, name='funding'),
     path('admin/sample/<uuid:sample_id>/pdf/', views.admin_report_pdf, name='admin_report_pdf'),
 ]

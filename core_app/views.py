@@ -50,6 +50,10 @@ def legal_view(request):
     return render(request, 'core_app/legal.html')
 
 
+def funding_view(request):
+    return render(request, 'core_app/funding.html')
+
+
 def success_view(request):
     return render(request, 'core_app/success.html')
 
