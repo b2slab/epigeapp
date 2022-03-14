@@ -28,37 +28,43 @@
                     <a class="nav-link" href="{% url 'core_app:instructions' %}">Start using the app</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'core_app:terms' %}">Terms and Conditions</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'core_app:privacy' %}">Data privacy</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'core_app:legal' %}">Legal Notice</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{% url 'core_app:funding' %}">Funding</a>
                 </li>
             </ul>
         </div>
     </nav>
 </header>
+
 <main>
     <div class="py-3 text-center">
-        <img class="d-block mx-auto mb-4" src="{% static 'img/logo_sjd.svg' %}" alt="logo_sjd" width="527.60px" height="100px">
+        <img class="d-block mx-auto mb-4" src="{% static 'img/logos/irsjd.png' %}" alt="Logo IRSJD" height="90px">
         <h1 class="mx-auto mb-3" style="color: darkmagenta">EpiGe-App</h1>
         <p class="lead mx-auto mb-3">A web application for a single cytosine methyl-genotyping for Medulloblastoma molecular classification.</p>
     </div>
+
     <div class="container">
         {% block content %}{% endblock %}
     </div>
 </main>
-<footer class="my-5 pt-2 text-muted text-center text-small">
-    <img class="d-block mx-auto mb-4" src="{% static 'img/b2slabupc.png' %}" alt="logo_upc" width="525,45px" height="75px">
-    <p class="mb-1">Hospital Sant Joan de Déu Barcelona 2020, Passeig Sant Joan de Déu 2, 08950 Esplugues de Llobregat</p>
+
+<footer class="py-2 text-muted text-center text-small">
+    <div class="container py-4">
+        <div class="row justify-content-md-center">
+            <div class="col col-lg-auto">
+                <a href="https://www.irsjd.org/en/" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/logos/irsjd.png' %}" alt="Logo IRSJD" height="50px"></a>
+            </div>
+            <div class="col col-lg-auto">
+                <a href="https://creb.upc.edu/" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/logos/hsjd.png' %}" alt="Logo creb" height="50px"></a>
+            </div>
+            <div class="col col-md-auto">
+                <a href="https://creb.upc.edu/" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/logos/upc.png' %}" alt="Logo creb" height="50px"></a>
+            </div>
+        </div>
+    </div>
+    <p class="mb-1">Institut de Recerca Sant Joan de Déu. Edifici Docent. Santa Rosa, 39-57 08950 Esplugues del Llobregat (Barcelona) · <a href="https://www.irsjd.org/en/" target="_blank">www.irsjd.org</a></p>
     <ul class="list-inline">
-        <li class="list-inline-item"><a href="https://www.sjdhospitalbarcelona.org/en/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy</a></li>
-        <li class="list-inline-item"><a href="https://www.sjdhospitalbarcelona.org/en/legal-notice-and-terms-use" target="_blank" rel="noopener noreferrer">Terms</a></li>
+        <li class="list-inline-item"><a href="https://www.irsjd.org/en/legal-notice-and-terms-of-use/" target="_blank" rel="noopener noreferrer">Legal notice and terms of use</a></li>
+        <li class="list-inline-item"><a href="https://www.irsjd.org/en/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy policy</a></li>
     </ul>
 </footer>
 

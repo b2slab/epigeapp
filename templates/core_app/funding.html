@@ -1,19 +1,31 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% load crispy_forms_tags %}
 
 {% block content %}
     <div class="col-md-12">
-        <h3 class="mb-3">Funding</h3>
+        <h2 class="mb-3">Funding</h2>
         <hr>
-        <div><b>This work is supported by:</b></div>
-        <div>
-            <ul>
-                <li>The Spanish Government [Instituto de Salud Carlos III]</li>
-                <li>The Fundació La Marató de TV3 (<a href="https://www.ccma.cat/tv3/marato/en/fundacio/" target="_blank">https://www.ccma.cat/tv3/marato/en/fundacio/</a>)</li>
-                <li>Association of families and friends of patients with Neuroblastoma (NEN association)</li>
-                <li>Barcelona Sant Joan de Déu Children’s Hospital: <a href="https://www.sjdhospitalbarcelona.org/en" target="_blank">https://www.sjdhospitalbarcelona.org/en</a></li>
-            </ul>
+        <div class="row">
+            <div class="col col-md-auto px-4">
+                <p><h3>This project has been developed by:</h3></p>
+                <p>Bioinformatics and Biomedical Signals Laboratory (B2SLAB)</p>
+                <div class="container pb-3" style="text-align: center;"><a href="http://b2slab.upc.edu/" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/logos/b2slab.png' %}" alt="Logo B2SLAB" height="100px"></a></div>
+                <p>Translational Genomics</p>
+                <div class="container pb-3" style="text-align: center;"><a href="https://www.irsjd.org/en/research/39/translational-genomics/" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/logos/TraslationalGenomics.png' %}" alt="Logo TG" height="100px"></a></div>
+            </div>
+            <div class="col col-md-auto px-4">
+                <p><h3>This work is supported by:</h3></p>
+                <p>The Spanish Government [Instituto de Salud Carlos III]</p>
+                <div class="container pb-3" style="text-align: center;"><a href="https://www.isciii.es/Paginas/Inicio.aspx" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/logos/isciii.jpg' %}" alt="Logo ISCIII" height="100px"></a></div>
+                <p>The Fundació La Marató de TV3</p>
+                <div class="container pb-3" style="text-align: center;"><a href="https://www.ccma.cat/tv3/marato/en/fundacio/" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/logos/marato.png' %}" alt="Logo MaratoTV3" height="75px"></a></div>
+                <p>Association of families and friends of patients with Neuroblastoma <br> (NEN association)</p>
+                <div class="container pb-3" style="text-align: center;"><a href="http://asociacion-nen.org/" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/logos/nen.png' %}" alt="Logo NEN" height="120px"></a></div>
+                <p>Barcelona Sant Joan de Déu Children’s Hospital</p>
+                <div class="container pb-3" style="text-align: center;"><a href="https://www.sjdhospitalbarcelona.org/en" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/logos/hsjd.png' %}" alt="Logo HSJD" height="75px"></a></div>
+            </div>
         </div>
     </div>
 {% endblock %}
