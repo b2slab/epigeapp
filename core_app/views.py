@@ -1,17 +1,45 @@
-from django.shortcuts import render, redirect
-from .forms import InstructionsForm, SampleModelForm
-from .tasks import analysis_and_report, analysis_notification
-from django.contrib.admin.views.decorators import staff_member_required
-from django.shortcuts import get_object_or_404
-from django.conf import settings
-from django.http import HttpResponse
-from django.template.loader import render_to_string
+import mimetypes
+import os
+
 import weasyprint
+from django.conf import settings
+from django.contrib.admin.views.decorators import staff_member_required
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
+
+from .forms import InstructionsForm, SampleModelForm
 from .models import Sample, Classification, Calibration
+from .tasks import analysis_and_report, analysis_notification
 
 
 def home_view(request):
     return render(request, 'core_app/home.html')
+
+
+def protocols_view(request):
+    return render(request, 'core_app/protocols.html')
+
+
+def download_pdf(request, filename):
+    if filename != '':
+        # Define Django project base directory
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        # Define the full file path
+        filepath = BASE_DIR + '/static/protocols/' + filename
+        # Open the file for reading content
+        path = open(filepath, 'rb', buffering=0)
+        # Set the mime type
+        mime_type, _ = mimetypes.guess_type(filepath)
+        # Set the return value of the HttpResponse
+        response = HttpResponse(path, content_type=mime_type)
+        # Set the HTTP header for sending to browser
+        response['Content-Disposition'] = "attachment; filename=%s" % filename
+        # Return the response value
+        return response
+    else:
+        return render(request, 'core_app/protocols.html')
 
 
 def instructions_view(request):
