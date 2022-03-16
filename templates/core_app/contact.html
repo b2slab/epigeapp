@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="col-md-12">
+        <h3 class="mb-3">Contact</h3>
+        <hr>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-12 mb-2">
+                    {{ form.first_name|as_crispy_field  }}
+                </div>
+                <div class="col-md-12 mb-2">
+                    {{ form.last_name|as_crispy_field  }}
+                </div>
+                <div class="col-md-12 mb-2">
+                    {{ form.email|as_crispy_field  }}
+                </div>
+                <div class="col-md-12 mb-2">
+                    {{ form.subject|as_crispy_field  }}
+                </div>
+                <div class="col-md-12 mb-2">
+                    {{ form.message|as_crispy_field  }}
+                </div>
+            </div>
+            <button class="btn btn-primary btn-lg btn-block mb-3" type="submit">Submit</button>
+        </form>
+    </div>
+{% endblock %}

@@ -14,5 +14,7 @@ urlpatterns = [
     path('funding/', views.funding_view, name='funding'),
     path('admin/sample/<uuid:sample_id>/pdf/', views.admin_report_pdf, name='admin_report_pdf'),
     path('protocols/', views.protocols_view, name='protocols'),
+    path('contact/', views.contact_view, name='contact'),
+    path('information/', views.information_view, name='information'),
     path('download/<filename>/', views.download_pdf, name='download'),
 ]

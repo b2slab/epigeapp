@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from upload_validator import FileTypeValidator
-from .models import Sample
+from .models import Sample, Contact
 
 
 class InstructionsForm(forms.Form):
@@ -44,5 +44,11 @@ class SampleModelForm(ModelForm):
     sample_identifier = forms.CharField(label="Identifier:")
 
     diagnosis = forms.CharField(label="Diagnosis:")
+
+
+class ContactForm(ModelForm):
+    class Meta:
+        model = Contact
+        fields = '__all__'
 
 

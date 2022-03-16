@@ -9,9 +9,10 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 
-from .forms import InstructionsForm, SampleModelForm
+from .forms import InstructionsForm, SampleModelForm, ContactForm
 from .models import Sample, Classification, Calibration
 from .tasks import analysis_and_report, analysis_notification
+from django.core.mail import EmailMessage
 
 
 def home_view(request):
@@ -84,6 +85,26 @@ def funding_view(request):
 
 def success_view(request):
     return render(request, 'core_app/success.html')
+
+
+def contact_view(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            email_subject = f'New contact {form.cleaned_data["email"]}: {form.cleaned_data["subject"]}'
+            email_message = form.cleaned_data['message']
+            email = EmailMessage(email_subject, email_message, 'hospitalbarcelona.PECA@sjd.es',
+                                 ['joshua.llano@upc.edu'])
+            email.send()
+            return render(request, 'core_app/success_contact.html')
+    form = ContactForm()
+    context = {'form': form}
+    return render(request, 'core_app/contact.html', context)
+
+
+def information_view(request):
+    return render(request, 'core_app/information.html')
 
 
 @staff_member_required

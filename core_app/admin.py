@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Sample, Classification, Calibration
+from .models import Sample, Classification, Calibration, Contact
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
@@ -27,3 +27,6 @@ class ClassificationAdmin(admin.ModelAdmin):
 @admin.register(Calibration)
 class CalibrationAdmin(admin.ModelAdmin):
     list_display = ('sample', 'ROX_valid', 'FAM_valid', 'VIC_valid', 'amplification_test')
+
+
+admin.site.register(Contact)
