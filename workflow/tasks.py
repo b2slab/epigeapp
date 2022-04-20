@@ -6,7 +6,7 @@ from django.core.mail import EmailMessage
 import time
 
 
-@shared_task(name="analysis_report_workflow")
+@shared_task(name="analysis_workflow")
 def analysis_and_report(sample_id, base_url):
     """
     Task to perform the analysis of a sample and report creation.
@@ -40,7 +40,7 @@ def analysis_and_report(sample_id, base_url):
     return print("DONE!")
 
 
-@shared_task(name="send_notification_delta_rn")
+@shared_task(name="send_notification")
 def analysis_notification(sample_id):
     """
     Task to send an e-mail notification when an sample is successfully created.
