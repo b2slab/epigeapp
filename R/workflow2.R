@@ -15,7 +15,7 @@ tablePlot <- function(dataframe, sampleName){
   customRed = "firebrick2"
   customGreen = "springgreen3"
   
-  tab <- formattable::formattable(dataframe, align =c("c","c","c","c","c", "c", "c"), 
+  tab <- formattable::formattable(dataframe, align =c("c","c","c","c","c","c","c"),
                                   list(
                                     `Sample_ID` = formatter("span", style = ~ style(color = "grey",font.weight = "bold")),
                                     `cg18849583`= color_tile(customGreen, customRed), 

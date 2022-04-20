@@ -85,7 +85,7 @@ class Classification(models.Model):
 
     @property
     def logistic_table(self):
-        path_cms = '{0}/samples/{1}/results/table_logistic_regression.csv'.format(media_root, self.sample)
+        path_cms = '{0}/samples/{1}/results/probability_dataframe.csv'.format(media_root, self.sample)
         data = pd.read_csv(path_cms)
         return data.to_html(index=False)
 
@@ -121,7 +121,7 @@ class Calibration(models.Model):
 
         path_results = '{0}/samples/{1}/results/Results.csv'.format(media_root, self.sample)
         dummy = pd.read_csv(path_results, sep="\t")
-        dummy = dummy.iloc[dummy.Task.values == "UNKNOWN",]
+        dummy = dummy.iloc[dummy.Task.values == "UNKNOWN", ]
         dummy = dummy.replace({'Allele1 Ct': 'Undetermined', 'Allele2 Ct': 'Undetermined'}, 40)
 
         allele1 = dummy["Allele1 Ct"].values
@@ -152,3 +152,4 @@ class Calibration(models.Model):
         if any(results['Allele1 Ct Std'] > 0.5) | any(results['Allele2 Ct Std'] > 0.5):
             return True
         return False
+

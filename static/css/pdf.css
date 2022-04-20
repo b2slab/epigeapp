@@ -77,6 +77,10 @@ h1 {
     width: 630px;
 }
 
+.radar {
+    width: 500px;
+}
+
 .image-container {
   display: flex;
   justify-content: center;

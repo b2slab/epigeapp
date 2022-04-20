@@ -20,7 +20,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core_app.urls', namespace='core_app')),
-    path('', include('delta_rn.urls', namespace='delta_rn'))
+    path('', include('workflow.urls', namespace='workflow'))
 ]
 
 if settings.DEBUG:

@@ -47,7 +47,7 @@ def instructions_view(request):
     if request.method == 'POST':
         form = InstructionsForm(request.POST)
         if form.is_valid():
-            return redirect('core_app:analysis')
+            return redirect('workflow:upload_data')
     else:
         form = InstructionsForm()
     return render(request, 'core_app/instructions.html', {'form': form})

@@ -25,26 +25,29 @@
         <img class="replicas" src="{{ classification.sample_image }}" alt="replicas">
     </div>
     <p class="block-text">
-    Molecular subgroup obtained by the randomForest classifier:
+    Molecular subgroup obtained by the hamming distance:
     </p>
     <table>
         <thead>
         <tr>
-            <th>Medulloblastoma predicted subgroup</th>
-            <th>Probability WNT</th>
-            <th>Probability SHH</th>
-            <th>Probability non-WNT/non-SHH</th>
+            <th>Molecular subgroup</th>
+            <th>Score WNT</th>
+            <th>Score SHH</th>
+            <th>Score non-WNT/non-SHH</th>
         </tr>
         </thead>
         <tbody>
         <tr>
             <td>{{ classification.subgroup }}</td>
-            <td>{{ classification.probability_wnt }}</td>
-            <td>{{ classification.probability_shh }}</td>
-            <td>{{ classification.probability_gg }}</td>
+            <td>{{ classification.score_wnt }}</td>
+            <td>{{ classification.score_shh }}</td>
+            <td>{{ classification.score_gg }}</td>
         </tr>
         </tbody>
     </table>
+    <div class="image-container">
+        <img class="radar" src="{{ classification.radar_plot }}" alt="replicas">
+    </div>
     <h3>Subgroup Description</h3>
     <p><b>{{ classification.subgroup }}</b></p>
     <p class="block-text">
@@ -57,7 +60,8 @@
         {% endif %}
     </p>
     <h3>Disclaimer</h3>
-    <p class="block-text">Classification using methylation profiling is a research tool under development, it is not verified and has not been clinically validated. Implementation of the results in a clinical setting is in the sole responsibility of the treating physician.<br> Intended for non-commercial use only.</p>
+    <p class="block-text">Classification using methylation profiling is a research tool under development, it is not verified and has not been clinically validated. Implementation of the results in a clinical setting is in the sole responsibility of the treating physician.</p>
+    <p>Intended for non-commercial use only.</p>
     <h3>Cytosine Methylation Status Predictor</h3>
     {{ classification.logistic_table | safe }}
     <p class="block-text">

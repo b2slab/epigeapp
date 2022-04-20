@@ -8,13 +8,13 @@ from django.conf import settings
 
 
 def get_classification(path_folder, sample):
-    rf_data = pd.read_csv(path_folder / 'dataframe_rf.csv')
+    data = pd.read_csv(path_folder / 'table_distances.csv')
 
     Classification.objects.create(sample=sample,
-                                  subgroup=rf_data.iloc[0]['subgroup'],
-                                  probability_wnt=round(rf_data.iloc[0]['probability WNT'], 4),
-                                  probability_shh=round(rf_data.iloc[0]['probability SHH'], 4),
-                                  probability_gg=round(rf_data.iloc[0]['probability non-WNT/non-SHH'], 4),
+                                  subgroup=data.iloc[0]['subgroup'],
+                                  score_wnt=data.iloc[0]['d_WNT'],
+                                  score_shh=data.iloc[0]['d_SHH'],
+                                  score_gg=data.iloc[0]['d_G3G4'],
                                   )
 
 

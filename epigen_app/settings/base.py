@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'core_app',
     'crispy_forms',
     'delta_rn',
+    'workflow',
 ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

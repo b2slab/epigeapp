@@ -359,6 +359,7 @@ def amplification_test(path_folder):
 def media_to_static(path_folder):
     path_plots = path_folder / "plots"
     png_list = list(path_plots.rglob('*.png'))
+    print(png_list)
     sample_id = str(path_folder).split("/")[-2]
     path_static_sample = mkdir_static(sample_id=sample_id)
     for image in png_list:
