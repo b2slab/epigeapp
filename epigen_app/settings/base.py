@@ -25,7 +25,6 @@ INSTALLED_APPS = [
 
     'core_app',
     'crispy_forms',
-    'delta_rn',
     'workflow',
 ]
 

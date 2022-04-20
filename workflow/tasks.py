@@ -1,7 +1,7 @@
 from celery import shared_task
-from core_app.utils import read_txt_pcr, mkdir_results, media_to_static, check_all_data_files, check_all_cpg
 from .models import Sample
-from .functions import get_classification, send_report, fixing_radar_plot, get_calibration, call_r_functions
+from .functions import get_classification, send_report, fixing_radar_plot, get_calibration, call_r_functions, \
+    read_txt_pcr, mkdir_results, media_to_static, check_all_data_files, check_all_cpg
 from django.core.mail import EmailMessage
 import time
 
@@ -27,7 +27,7 @@ def analysis_and_report(sample_id, base_url):
             media_to_static(path_folder=path_results)
             sample.status = 1
             sample.save()
-            time.sleep(30)
+            time.sleep(15)
             send_report(sample_id=sample_id, base_url=base_url)
         else:
             print("Some CpGs are missing!")

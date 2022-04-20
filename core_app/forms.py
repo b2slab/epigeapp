@@ -1,7 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from upload_validator import FileTypeValidator
-from .models import Sample, Contact
+from .models import Contact
 
 
 class InstructionsForm(forms.Form):
@@ -26,24 +25,6 @@ class InstructionsForm(forms.Form):
                                       "into the consensus medulloblastoma subgroups WNT, SHH and non-WNT/non-SHH "
                                       "(Ramaswamy et al. Acta Neuropathol 2016; Louis et al. Acta Neuropathol 2016). "
                                       "It has not been developed and validated for diagnosis purposes”.", required=True)
-
-
-class SampleModelForm(ModelForm):
-    class Meta:
-        model = Sample
-        fields = ['email', 'file', 'sample_identifier', 'diagnosis']
-
-    file = forms.FileField(label='Upload File:',
-                           help_text="Only txt formats are accepted.",
-                           validators=[FileTypeValidator(allowed_types=['text/plain'],
-                                                         allowed_extensions=['.txt'])])
-
-    email = forms.EmailField(label="Your email:",
-                             help_text="You will receive an e-mail when the analysis is finished.",)
-
-    sample_identifier = forms.CharField(label="Identifier:")
-
-    diagnosis = forms.CharField(label="Diagnosis:")
 
 
 class ContactForm(ModelForm):

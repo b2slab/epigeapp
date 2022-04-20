@@ -140,7 +140,6 @@ class Calibration(models.Model):
 
         return results
 
-
     @property
     def standard_deviation_table(self):
         results = self.standard_deviation_dataframe

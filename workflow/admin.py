@@ -5,7 +5,7 @@ from django.utils.safestring import mark_safe
 
 
 def report_pdf(obj):
-    url = reverse('delta_rn:admin_report_delta_rn', args=[obj.id])
+    url = reverse('workflow:admin_report', args=[obj.id])
     return mark_safe(f'<a href="{url}">PDF</a>')
 
 
