@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
     <div class="col-md-12">
         <h3 class="mb-3">General information</h3>
         <hr>
-        <p>The classifier algorithm allows rapid comparison of a diagnostic case with over 2.800 cases of a reference cohort and is bases on the random forest algorithm. The main output is a classification score that indicates the resemblance to one of the included central nervous system tumor classes. A score between 0 and 1 is generated for every class. All class prediction scores theoretically add up to 1. For a prediction, a methylation class score has to be above the cutoff of 0.9.</p>
-        <div class="alert alert-danger" role="alert">
-            Classification using methylation profiling is a research tool under development, it is not verified and has not been clinically validated. Implementation of the results in a clinical setting is in the sole responsibility of the treating physician.
+        <p>Classification of medulloblastoma into clinically relevant molecular subgroups is crucial to adjust tumour treatment and optimize patient care. Genome-wide DNA methylation profiling enables precise classification of this malignant paediatric brain tumour. However, the implementation of this diagnostic approach in daily clinical practice is challenging for many centres worldwide. We have developed a single cytosine methyl-genotyping PCR-based machine-learning tool that enables rapid, precise and cost-effective classification of medulloblastoma.</p>
+        <p><b>Graphical Abstract</b></p>
+        <div class="container pb-3" style="text-align: center;">
+            <img src="{% static 'img/EpiGe_GraphicalAbstract.png' %}" alt="Graphical Abstract" height="750px">
         </div>
     </div>
 {% endblock %}
