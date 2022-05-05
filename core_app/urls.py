@@ -15,4 +15,5 @@ urlpatterns = [
     path('contact/', views.contact_view, name='contact'),
     path('information/', views.information_view, name='information'),
     path('download/<filename>/', views.download_pdf, name='download'),
+    path('about_us/', views.about_view, name='about'),
 ]

@@ -40,6 +40,10 @@ def information_view(request):
     return render(request, 'core_app/information.html')
 
 
+def about_view(request):
+    return render(request, 'core_app/about_us.html')
+
+
 def instructions_view(request):
     if request.method == 'POST':
         form = InstructionsForm(request.POST)

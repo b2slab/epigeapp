@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="col-md-12">
+        <h3 class="mb-3">About us</h3>
+        <hr>
+        <p><h4>This project has been developed by:</h4></p>
+        <p style="text-align: center;">Bioinformatics and Biomedical Signals Laboratory (B2SLAB)</p>
+        <div class="container pb-3" style="text-align: center;"><a href="http://b2slab.upc.edu/" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/logos/b2slab.png' %}" alt="Logo B2SLAB" height="200px"></a></div>
+        <p style="text-align: center;">Translational Genomics Group from IRSJD</p>
+        <div class="container pb-3" style="text-align: center;"><a href="https://www.irsjd.org/en/research/39/translational-genomics/" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/logos/TraslationalGenomics.png' %}" alt="Logo TG" height="200px"></a></div>
+    </div>
+{% endblock %}
