@@ -26,6 +26,9 @@ class InstructionsForm(forms.Form):
                                       "(Ramaswamy et al. Acta Neuropathol 2016; Louis et al. Acta Neuropathol 2016). "
                                       "It has not been developed and validated for diagnosis purposes”.", required=True)
 
+    check8 = forms.BooleanField(label="Avoid using personal patient information in the sample identifier such as name, "
+                                      "gender or nationality.", required=True)
+
 
 class ContactForm(ModelForm):
     class Meta:

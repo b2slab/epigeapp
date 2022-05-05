@@ -17,7 +17,10 @@ class SampleModelForm(ModelForm):
     email = forms.EmailField(label="Your email:",
                              help_text="You will receive an e-mail when the analysis is finished.",)
 
-    sample_identifier = forms.CharField(label="Sample identifier:")
+    sample_identifier = forms.CharField(label="Sample identifier:",
+                                        help_text='Avoid using personal patient information in the sample identifier '
+                                                  'such as name, gender or nationality.')
 
-    diagnosis = forms.CharField(label="Diagnosis:")
+    diagnosis = forms.CharField(label="Diagnosis:",
+                                help_text='EpiGe-App is not designed as a diagnostic tool.')
 
