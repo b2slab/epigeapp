@@ -2,6 +2,8 @@ from django import forms
 from django.forms import ModelForm
 from .models import Contact
 
+from django.utils.safestring import mark_safe
+
 
 class InstructionsForm(forms.Form):
     check1 = forms.BooleanField(label="The sample has been evaluated and diagnosed as medulloblastoma by "
@@ -19,12 +21,14 @@ class InstructionsForm(forms.Form):
 
     check6 = forms.BooleanField(label="Upload a txt file that contains the results.", required=True)
 
-    check7 = forms.BooleanField(label="Confirmation: I accept the terms and conditions of use [link], the data privacy "
-                                      "statement [link] and I confirm that: “The epigenetic classifier EpiWNT-SHH "
-                                      "has been designed for the classification of pediatric medulloblastoma tumors "
-                                      "into the consensus medulloblastoma subgroups WNT, SHH and non-WNT/non-SHH "
-                                      "(Ramaswamy et al. Acta Neuropathol 2016; Louis et al. Acta Neuropathol 2016). "
-                                      "It has not been developed and validated for diagnosis purposes”.", required=True)
+    check7 = forms.BooleanField(label=mark_safe("Confirmation: I accept the <a href='https://www.irsjd.org/en/legal-notice-and-terms-of-use/' target='_blank' rel='noopener noreferrer'>terms of use</a>, "
+                                                "the <a href='https://www.irsjd.org/en/privacy-policy/' target='_blank' rel='noopener noreferrer'>privacy policy</a> "
+                                                "and I confirm that: “The epigenetic classifier EpiWNT-SHH "
+                                                "has been designed for the classification of pediatric medulloblastoma tumors "
+                                                "into the consensus medulloblastoma subgroups WNT, SHH and non-WNT/non-SHH "
+                                                "(<a href='https://pubmed.ncbi.nlm.nih.gov/27040285/' target='_blank' rel='noopener noreferrer'>Ramaswamy et al. Acta Neuropathol 2016</a>; "
+                                                "<a href='https://pubmed.ncbi.nlm.nih.gov/34185076/' target='_blank' rel='noopener noreferrer'>Louis DN et al. Neuro Oncol 2021</a>). "
+                                                "It has not been developed and validated for diagnosis purposes”."), required=True)
 
     check8 = forms.BooleanField(label="Avoid using personal patient information in the sample identifier such as name, "
                                       "gender or nationality.", required=True)
@@ -35,10 +39,11 @@ class ContactForm(ModelForm):
         model = Contact
         fields = '__all__'
 
-    check_box = forms.BooleanField(label='I have read and accept that my data will be the responsibility of the '
+    check_box = forms.BooleanField(label=mark_safe('I have read and accept that my data will be the responsibility of the '
                                          'Fundació Sant Joan de Déu · Institut de Recerca Sant Joan de Déu on '
                                          'the legal basis of consent. The data will not be transferred to third '
                                          'parties. For more information or how to exercise your rights, '
-                                         'you can consult the terms of use and the privacy policy', required=True)
+                                         'you can consult the <a href="https://www.irsjd.org/en/legal-notice-and-terms-of-use/" target="_blank" rel="noopener noreferrer">terms of use</a> and '
+                                                   '<a href="https://www.irsjd.org/en/privacy-policy/" target="_blank" rel="noopener noreferrer">privacy policy</a>'), required=True)
 
 
