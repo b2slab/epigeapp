@@ -35,4 +35,10 @@ class ContactForm(ModelForm):
         model = Contact
         fields = '__all__'
 
+    check_box = forms.BooleanField(label='I have read and accept that my data will be the responsibility of the '
+                                         'Fundació Sant Joan de Déu · Institut de Recerca Sant Joan de Déu on '
+                                         'the legal basis of consent. The data will not be transferred to third '
+                                         'parties. For more information or how to exercise your rights, '
+                                         'you can consult the terms of use and the privacy policy', required=True)
+
 
