@@ -52,30 +52,49 @@
         <p class="lead mx-auto mb-3">A web application for cytosine methyl-genotyping for Medulloblastoma molecular classification.</p>
     </div>
 
-    <div class="container">
+    <div class="container py-3">
         {% block content %}{% endblock %}
     </div>
 </main>
 
-<footer class="py-2 text-muted text-center text-small">
-    <div class="container py-4">
-        <div class="row justify-content-md-center">
-            <div class="col col-lg-auto">
-                <a href="https://www.irsjd.org/en/" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/logos/irsjd.png' %}" alt="Logo IRSJD" height="50px"></a>
-            </div>
-            <div class="col col-lg-auto">
-                <a href="https://creb.upc.edu/" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/logos/hsjd.png' %}" alt="Logo creb" height="50px"></a>
-            </div>
-            <div class="col col-md-auto">
-                <a href="https://creb.upc.edu/" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/logos/upc.png' %}" alt="Logo creb" height="50px"></a>
+<footer>
+    <div id="footer-1" class="py-4">
+        <div class="container pb-3">
+            <p class="pb-4 text-muted text-center text-small">Institut de Recerca Sant Joan de Déu. Edifici Docent. Santa Rosa, 39-57 08950 Esplugues del Llobregat (Barcelona) · <a href="https://www.irsjd.org/en/" target="_blank">www.irsjd.org</a></p>
+            <div class="row justify-content-md-center">
+                <div class="col col-lg-auto">
+                    <a href="https://www.irsjd.org/en/" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/logos/irsjd.png' %}" alt="Logo IRSJD" height="50px"></a>
+                </div>
+                <div class="col col-lg-auto">
+                    <a href="https://www.sjdhospitalbarcelona.org/en" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/logos/hsjd.png' %}" alt="Logo HSJD" height="60px"></a>
+                </div>
+                <div class="col col-md-auto">
+                    <a href="https://creb.upc.edu/" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/logos/upc.png' %}" alt="Logo CREB" height="50px"></a>
+                </div>
             </div>
         </div>
     </div>
-    <p class="mb-1">Institut de Recerca Sant Joan de Déu. Edifici Docent. Santa Rosa, 39-57 08950 Esplugues del Llobregat (Barcelona) · <a href="https://www.irsjd.org/en/" target="_blank">www.irsjd.org</a></p>
-    <ul class="list-inline">
-        <li class="list-inline-item"><a href="https://www.irsjd.org/en/legal-notice-and-terms-of-use/" target="_blank" rel="noopener noreferrer">Legal notice and terms of use</a></li>
-        <li class="list-inline-item"><a href="https://www.irsjd.org/en/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy policy</a></li>
-    </ul>
+    <div id="footer-2" class="pb-3">
+        <div class="container pb-3">
+            <h4 class="pb-3 text-center">Funding</h4>
+            <div class="row justify-content-md-center">
+                <div class="col col-lg-auto">
+                    <a class="pb-3" href="https://www.sjdhospitalbarcelona.org/en" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/logos/hsjd.png' %}" alt="Logo HSJD" height="60px"></a>
+                    <p class="pb-3">Associations of patients' families</p>
+                </div>
+                <div class="col col-lg-auto">
+                    <a href="https://www.isciii.es/Paginas/Inicio.aspx" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/logos/isciii.jpg' %}" alt="Logo IRSJD" height="75px"></a>
+                </div>
+                <div class="col col-lg-auto">
+                    <a href="https://www.ccma.cat/tv3/marato/en/fundacio/" target="_blank" rel="noopener noreferrer"><img src="{% static 'img/logos/marato.png' %}" alt="Logo HSJD" height="50px"></a>
+                </div>
+            </div>
+            <ul class="list-inline text-center">
+                <li class="list-inline-item"><a href="https://www.irsjd.org/en/legal-notice-and-terms-of-use/" target="_blank" rel="noopener noreferrer">Legal notice and terms of use</a></li>
+                <li class="list-inline-item"><a href="https://www.irsjd.org/en/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy policy</a></li>
+            </ul>
+        </div>
+    </div>
 </footer>
 
 <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
