@@ -90,7 +90,7 @@ def fixing_radar_plot(path_to_image):
     # convert image to numpy array
     data = asarray(image)
     # trimming image
-    im_trim = data[0:1200,:]
+    im_trim = data[0:1200, :]
     # convert numpy array to image
     img = Image.fromarray(im_trim, 'RGBA')
     # save the image

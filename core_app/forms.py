@@ -14,7 +14,7 @@ class InstructionsForm(forms.Form):
     check3 = forms.BooleanField(label="Analyse only one sample in each qPCR experiment.", required=True)
 
     check4 = forms.BooleanField(label="The sample has been analysed in one of the following qPCR Thermocycle "
-                                      "(Applied Biosystems 7500, QS, QS1, QS3, QS5 or QS6)", required=True)
+                                      "(Applied Biosystems 7500, QS1, QS3, QS5 or QS6)", required=True)
 
     check5 = forms.BooleanField(label="The following names (W1_2554, W3_0222, S1_1033, S3_1292, G1_1884, G3_0126) have "
                                       "been assigned to the SNP primers.", required=True)
