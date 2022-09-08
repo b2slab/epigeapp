@@ -1,11 +1,15 @@
 import mimetypes
 import os
 
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
+
+from django.http import HttpResponse, Http404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import EmailMessage
+from django.core.exceptions import ValidationError
+
 
 from .forms import InstructionsForm, ContactForm
+from workflow.models import Sample
 
 
 def home_view(request):
@@ -88,3 +92,24 @@ def download_pdf(request, filename):
         return response
     else:
         return render(request, 'core_app/protocols.html')
+
+
+def search_view(request):
+    if request.method == 'POST':
+        searched = request.POST['searched']
+        if searched:
+            return redirect('core_app:sample-detail', sample_id=searched)
+        else:
+            return render(request, 'core_app/search_job_id.html')
+    else:
+        return redirect('core_app:home')
+
+
+def sample_view(request, sample_id):
+    try:
+        sample = get_object_or_404(Sample, id=sample_id)
+        return render(request, 'core_app/sample_detail.html', {'sample': sample})
+    except ValidationError:
+        raise Http404("Job ID is not valid")
+
+

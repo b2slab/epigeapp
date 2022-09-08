@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h3>EpiGe Medulloblastoma Subgroup Prediction</h3>
+    <br>
+    <div class="card" style="width: 30rem;">
+        <div class="card-header"><b>Basic Information</b></div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><b>Sample ID:</b> {{ sample.sample_identifier }}</li>
+            <li class="list-group-item"><b>Uploaded file:</b> {{ sample.filename}}</li>
+            <li class="list-group-item"><b>Size file:</b> {{ sample.filesize}}</li>
+            <li class="list-group-item"><b>Email:</b> {{ sample.email }}</li>
+            <li class="list-group-item"><b>Date:</b> {{ sample.created|date:"M d, Y, H:i:s" }}</li>
+        </ul>
+    </div>
+    <br>
+    <h3>EpiGe Medulloblastoma Subgroup Class Prediction (v1.1)</h3>
+    <br>
+    <h4>Reference pattern data</h4>
+    <br>
+    <div>
+        <img class="patterns" src="{% static 'img/tablaRef.png' %}" alt="patterns">
+    </div>
+    <br>
+    <h4>Results</h4>
+    <p class="block-text">
+    Sample pattern obtained by the logistic regression:
+    </p>
+
+{% endblock %}
