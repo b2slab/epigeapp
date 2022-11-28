@@ -4,6 +4,8 @@ from .functions import get_classification, send_report, fixing_radar_plot, get_c
     read_txt_pcr, mkdir_results, media_to_static, check_all_data_files, check_all_cpg
 from django.core.mail import EmailMessage
 import time
+from time import process_time
+
 
 
 @shared_task(name="analysis_workflow")
@@ -11,6 +13,7 @@ def analysis_and_report(sample_id, base_url):
     """
     Task to perform the analysis of a sample and report creation.
     """
+    t1_start = process_time()
     sample = Sample.objects.get(id=sample_id)
     path_results = mkdir_results(path_to_txt=sample.file.path)
     read_txt_pcr(path_to_read=sample.file.path, path_to_save=path_results)
@@ -41,6 +44,8 @@ def analysis_and_report(sample_id, base_url):
         print('Sending email...')
         send_report(sample_id=sample_id, base_url=base_url)
 
+    t1_stop = process_time()
+    print("Elapsed time during the whole program in seconds:", t1_stop-t1_start)
     return print("DONE!")
 
 

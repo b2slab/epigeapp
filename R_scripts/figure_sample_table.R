@@ -46,7 +46,7 @@ export_formattable <- function(f, file, width = "100%", height = NULL,
 
 #### Debug Flag ####
 
-debug <- T
+debug <- F
 
 if (debug) {
   # Path del archivo csv

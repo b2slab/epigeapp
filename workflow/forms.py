@@ -39,6 +39,3 @@ class SampleModelForm(ModelForm):
             if not email:
                 msg = "Must put a valid e-mail when you want to recieve an e-mail with the results."
                 self.add_error('email', msg)
-
-    
-
