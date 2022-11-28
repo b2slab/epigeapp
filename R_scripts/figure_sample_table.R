@@ -17,7 +17,7 @@ tablePlot <- function(dataframe, sampleName){
                                   align =c("c","c","c","c","c","c","c"),
                                   list(
                                     `Sample_ID` = formatter("span", style = ~ style(
-                                      color = "grey",font.weight = "bold")),
+                                      color = "grey")),
                                     `cg18849583`= color_tile(customGreen, customRed), 
                                     `cg01268345`= color_tile(customGreen, customRed), 
                                     `cg10333416`= color_tile(customGreen, customRed), 
@@ -38,19 +38,19 @@ export_formattable <- function(f, file, width = "100%", height = NULL,
   webshot(url,
           file = file,
           selector = ".formattable_widget",
-          delay = delay)
+          delay = delay,
+          zoom = 2)
 }
-
 
 #### Main ####
 
 #### Debug Flag ####
 
-debug <- F
+debug <- T
 
 if (debug) {
   # Path del archivo csv
-  path <- "~/"
+  path <- "~/media/samples/b45607e0-f732-44e0-bb99-f3859e2c7414/results/"
   
 }else{
   # Fetch command line arguments #
@@ -74,4 +74,4 @@ sample_data <- dataframe[,1:6]
 tab <- tablePlot(dataframe = sample_data, sampleName = sample_name)
 
 # save figure
-export_formattable(f = tab, file = paste0(path, "plots/table_sample.png"))
+export_formattable(f = tab, file = paste0(path, "plots/sample_table.png"))

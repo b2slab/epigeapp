@@ -27,21 +27,15 @@ def analysis_and_report(sample_id, base_url):
             media_to_static(path_folder=path_results)
             sample.status = 1
             sample.save()
-            print('Start 15 seconds timer')
-            time.sleep(15)
-            print('Sending email...')
-            send_report(sample_id=sample_id, base_url=base_url)
         else:
             print("Some CpGs are missing!")
             sample.missing_cpg = message
             sample.save()
-            print('Start 15 seconds timer')
-            time.sleep(15)
-            print('Sending email...')
-            send_report(sample_id=sample_id, base_url=base_url)
     else:
         print("Txt file is incomplete!")
         sample.save()
+    
+    if sample.send_mail:
         print('Start 15 seconds timer')
         time.sleep(15)
         print('Sending email...')

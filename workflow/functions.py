@@ -379,9 +379,12 @@ def call_r_functions(path_folder):
     # Change accordingly to your Rscript.exe & R script path
     r_path = config("R_PATH")
 
-    script_path1 = settings.BASE_DIR.parent / "R/1_plot_table_sample.R"
-    script_path2 = settings.BASE_DIR.parent / "R/2_plot_radar_plot.R"
-    script_list = [script_path1, script_path2]
+    script_path1 = settings.BASE_DIR.parent / "R_scripts/figure_NTC.R"
+    script_path2 = settings.BASE_DIR.parent / "R_scripts/figure_probability_table.R"
+    script_path3 = settings.BASE_DIR.parent / "R_scripts/figure_radar_plot.R"
+    script_path4 = settings.BASE_DIR.parent / "R_scripts/figure_sample_table.R"
+    script_path5 = settings.BASE_DIR.parent / "R_scripts/figure_standard_deviation.R"
+    script_list = [script_path1, script_path2, script_path3, script_path4, script_path5]
 
     # Used as input arguments to the R code
     args = str(path_folder) + "/"

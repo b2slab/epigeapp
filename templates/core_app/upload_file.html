@@ -19,8 +19,13 @@
             </div>
             <div class="row">
                 <div class="col-md-6 mb-3">
+                    {{ form.send_mail|as_crispy_field }}
+                </div>
+                <div class="col-md-6 mb-3">
                     {{ form.email|as_crispy_field }}
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-md-6 mb-3">
                     {{ form.file|as_crispy_field }}
                 </div>
@@ -32,7 +37,7 @@
                 <i class="fa-solid fa-triangle-exclamation"></i> Classification using methylation profiling is a research tool under development, it is not verified and has not been clinically validated. Implementation of the results in a clinical setting is in the sole responsibility of the treating physician.
             </div>
             <div class="alert alert-info" role="alert">
-                <i class="fa-solid fa-clock"></i> The result will be sent to the e-mail according to the queue of samples to be analyzed. The waiting time if the queue is empty is approximately 1 minute.
+                <i class="fa-solid fa-clock"></i> The analysis will be perfomed according to the queue of samples. The waiting time if the queue is empty is approximately 1 minute.
             </div>
             <button class="btn btn-primary btn-lg btn-block mb-3" type="submit">Upload data</button>
         </form>

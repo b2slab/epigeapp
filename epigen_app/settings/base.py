@@ -136,13 +136,17 @@ MEDIA_ROOT = BASE_DIR.parent.parent / "media"
 # ==============================================================================
 # DATABASES SETTINGS
 # ==============================================================================
-
-DATABASES = {
-    "default": dj_database_url.config(
-        default=config("DATABASE_URL", default="postgres://simple:simple@localhost:5432/simple"),
-        conn_max_age=600,
-    )
-}
+if DEBUG:
+    DATABASES = {
+        "default": dj_database_url.config(default='sqlite:///db.sqlite3'),
+    }
+else:
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=config("DATABASE_URL", default="postgres://simple:simple@localhost:5432/simple"),
+            conn_max_age=600,
+        )
+    }
 
 # ==============================================================================
 # EMAIL SETTINGS

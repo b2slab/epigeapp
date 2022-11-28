@@ -12,7 +12,7 @@ debug <- F
 
 if (debug) {
   # Path del archivo csv
-  path <- "~/"
+  path <- "~/media/samples/b45607e0-f732-44e0-bb99-f3859e2c7414/results/"
   
 }else{
   # Fetch command line arguments #

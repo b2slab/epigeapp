@@ -1,3 +1,7 @@
 .asteriskField {
     display: none;
 }
+
+iframe[seamless] {
+    border: none;
+}

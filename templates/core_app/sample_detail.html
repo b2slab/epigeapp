@@ -4,30 +4,207 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <h3>EpiGe Medulloblastoma Subgroup Prediction</h3>
-    <br>
+    <h3>EpiGe Medulloblastoma Subgroup Prediction (v1.0)</h3>
+    <hr>
     <div class="card" style="width: 30rem;">
         <div class="card-header"><b>Basic Information</b></div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item"><b>Sample ID:</b> {{ sample.sample_identifier }}</li>
             <li class="list-group-item"><b>Uploaded file:</b> {{ sample.filename}}</li>
             <li class="list-group-item"><b>Size file:</b> {{ sample.filesize}}</li>
-            <li class="list-group-item"><b>Email:</b> {{ sample.email }}</li>
+            {% if sample.send_email %}
+              <li class="list-group-item"><b>Email:</b> {{ sample.email }}</li>
+            {% endif %}
             <li class="list-group-item"><b>Date:</b> {{ sample.created|date:"M d, Y, H:i:s" }}</li>
         </ul>
     </div>
     <br>
-    <h3>EpiGe Medulloblastoma Subgroup Class Prediction (v1.1)</h3>
-    <br>
-    <h4>Reference pattern data</h4>
-    <br>
-    <div>
-        <img class="patterns" src="{% static 'img/tablaRef.png' %}" alt="patterns">
+    <h3>Medulloblastoma Subgroup Assignment</h3>
+    <hr>
+    <h4>non-WNT/non-SHH</h4>
+    <p style="text-align: justify;
+    text-justify: inter-word;">Medulloblastoma (MB) genetically defined as non-WNT/non-SHH is a provisionally entity composed by Group 3 and Group 4 MB subgroups [<a href="#cita_louis">1</a>, <a href="#cita_rama">2</a>]. 
+      Group 3 and Group 4 have a low incidence of recurring mutations but are characterized by recurrent, partly overlapping, chromosomal alterations. Histologically most cases fall into the classical and large cell/anaplastic groups. Tumors are located in the cerebellum, typically in the vermis. non-WNT/non-SHH MB are more common in males than females. MYC amplification, MYCN amplification, aneuploidy, isochromosome 17q and GFI1/1B activation by enhancer hijacking are recurrent features, but a fraction lack an obvious driving genetic change. Patients with non-WNT/non-SHH tumors have the most unfavorable prognosis, especially when associated with MYC amplification.</p>
+    <h4>Disclaimer</h4>
+    <div class="alert alert-danger" role="alert">
+        <i class="fa-solid fa-triangle-exclamation"></i> Classification using methylation profiling is a research tool under development, it is not verified and has not been clinically validated. Implementation of the results in a clinical setting is in the sole responsibility of the treating physician.
     </div>
     <br>
-    <h4>Results</h4>
-    <p class="block-text">
-    Sample pattern obtained by the logistic regression:
-    </p>
-
+    <h3>Cytosine Methylation Status Predictor</h3>
+    <hr>
+    <h5>Probability table</h5>
+    <figure class="figure">
+      <img src="{{ classification.probability_table }}" class="figure-img img-fluid rounded" alt="probabilities_table_image">
+      <figcaption class="figure-caption">Probability threshold: 0.456</figcaption>
+    </figure>
+    <h5>Sample pattern</h5>
+    <figure class="figure">
+      <img src="{{ classification.sample_table }}" class="figure-img img-fluid rounded" alt="sample_table_image">
+      <figcaption class="figure-caption">Sample pattern obtained by the logistic regression.</figcaption>
+    </figure>
+    <h5>Table of reference patterns</h5>
+    <figure class="figure">
+      <img src="{% static 'img/reference_table.png' %}" class="figure-img img-fluid rounded" alt="reference_table_image">
+      <figcaption class="figure-caption">Reference patterns.</figcaption>
+    </figure>
+    <br>
+    <h3>Medulloblastoma Subgroup Classification by Hamming Distance</h3>
+    <hr>
+    <figure class="figure">
+        <img src="{{ classification.radar_plot }}" class="figure-img img-fluid rounded mx-auto d-block" alt="radar_plot" style="width:50%">
+        <figcaption class="figure-caption text-center">A radar plot of the hamming distances.</figcaption>
+      </figure>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Molecular subgroup</th>
+            <th scope="col">Score WNT</th>
+            <th scope="col">Score SHH</th>
+            <th scope="col">Score non-WNT/non-SHH</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">non-WNT/non-SHH</th>
+            <td>0.3</td>
+            <td>0.3</td>
+            <td>1.0</td>
+          </tr>
+        </tbody>
+    </table>
+    <br>
+    <h3>Quality Control Summary</h3>
+    <hr>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">CheckPoint</th>
+            <th scope="col">Result</th>
+            <th scope="col">Possible Solution</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Text file complete</th>
+                <td colspan="2">The txt file contains all the information.</td>
+            </tr>
+            <tr>
+                <th scope="row">All CpG</th>
+                <td colspan="2">All 6 CpG are included.</td>
+            </tr>
+            <tr>
+                <th scope="row">Dye calibration</th>
+                {% if calibration.ROX_valid and calibration.VIC_valid and calibration.FAM_valid %}
+                    <td colspan="2">All dyes are calibrated.</td>
+                {% else %}
+                    <td>Some of the dyes have expired calibration.</td>
+                    <td>See the technical report for more information.</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th scope="row">No template controls</th>
+                {% if not calibration.amplification_test %}
+                    <td>Amplification has been detected in some no template controls.</td>
+                    <td>See the technical report for more information.</td>
+                {% else %}
+                    <td colspan="2">No amplification was detected in any no template control.</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th scope="row">SD<0.5</th>
+                {% if calibration.standard_deviation_test %}
+                    <td>Some pairs of replicates have a standard deviation greater than 0.5.</td>
+                    <td>See the technical report for more information.</td>
+                {% else %}
+                    <td colspan="2">No pairs of replicates have a standard deviation greater than 0.5.</td>
+                {% endif %}
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <h3>Technical report</h3>
+    <hr>
+    <h4>Calibration information</h4>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ROX is expired</th>
+            <th>ROX performed</th>
+            <th>FAM is expired</th>
+            <th>FAM performed</th>
+            <th>VIC is expired</th>
+            <th>VIC performed</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{% if calibration.ROX_valid %}No{% else %}Yes{% endif %}</td>
+                <td>{{ calibration.ROX_date }}</td>
+                <td>{% if calibration.FAM_valid %}No{% else %}Yes{% endif %}</td>
+                <td>{{ calibration.FAM_date }}</td>
+                <td>{% if calibration.VIC_valid %}No{% else %}Yes{% endif %}</td>
+                <td>{{ calibration.VIC_date }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <h4>No template control amplification</h4>
+    <figure class="figure">
+      <img src="{{ calibration.NTC_table }}"  class="figure-img img-fluid rounded" alt="ntc_table_image">
+      <figcaption class="figure-caption">No template control amplification table.</figcaption>
+    </figure>
+    {% if calibration.amplification_test %}
+        <p>No amplification detected.</p>
+    {% else %}
+        <p>Amplification detected.</p>
+    {% endif %}
+    <h4>SD<0.5</h4>
+    <figure class="figure">
+      <img src="{{ calibration.standard_deviation_table }}" class="figure-img img-fluid rounded" alt="standard_deviation_image">
+      <figcaption class="figure-caption">No template control amplification table.</figcaption>
+    </figure>
+    {% if calibration.standard_deviation_test %}
+        <p>Some pairs of replicates have a standard deviation greater than 0.5.</p>
+    {% else %}
+        <p>No pairs of replicates have a standard deviation greater than 0.5.</p>
+    {% endif %}
+    <h3>Run information</h3>
+    <hr>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Task</th>
+            <th scope="col">Version</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>EpiGe_qc</td>
+            <td>1.0</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>EpiGe_logisticRegression</td>
+            <td>1.0</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>EpiGe_hammingDistance</td>
+            <td>1.0</td>
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td>EpiGe_report</td>
+            <td>1.0</td>
+          </tr>
+        </tbody>
+    </table>
+    <h3>References</h3>
+    <hr>
+    <ol>
+        <li><a id="cita_louis" href="https://pubmed.ncbi.nlm.nih.gov/34185076/" target="_blank" rel="noopener noreferrer">Louis DN, Perry A, Wesseling P, Brat DJ, Cree IA, Figarella-Branger D, Hawkins C, Ng HK, Pfister SM, Reifenberger G, Soffietti R, von Deimling A, Ellison DW. The 2021 WHO Classification of Tumors of the Central Nervous System: a summary. Neuro Oncol. 2021 Aug 2;23(8):1231-1251. doi: 10.1093/neuonc/noab106. PMID: 34185076; PMCID: PMC8328013.</a></li><br>
+        <li><a id="cita_rama" href="https://pubmed.ncbi.nlm.nih.gov/27040285/" target="_blank" rel="noopener noreferrer">Ramaswamy V, Remke M, Bouffet E, Bailey S, Clifford SC, Doz F, Kool M, Dufour C, Vassal G, Milde T, Witt O, von Hoff K, Pietsch T, Northcott PA, Gajjar A, Robinson GW, Padovani L, André N, Massimino M, Pizer B, Packer R, Rutkowski S, Pfister SM, Taylor MD, Pomeroy SL. Risk stratification of childhood medulloblastoma in the molecular era: the current consensus. Acta Neuropathol. 2016 Jun;131(6):821-31. doi: 10.1007/s00401-016-1569-6. Epub 2016 Apr 4. PMID: 27040285; PMCID: PMC4867119.</a></li><br>
+        <li><a href="https://pubmed.ncbi.nlm.nih.gov/29351917/" target="_blank" rel="noopener noreferrer">Gómez S, Garrido-Garcia A, Garcia-Gerique L, Lemos I, Suñol M, de Torres C, Kulis M, Pérez-Jaume S, Carcaboso ÁM, Luu B, Kieran MW, Jabado N, Kozlenkov A, Dracheva S, Ramaswamy V, Hovestadt V, Johann P, Jones DTW, Pfister SM, Morales La Madrid A, Cruz O, Taylor MD, Martin-Subero JI, Mora J, Lavarino C. A Novel Method for Rapid Molecular Subgrouping of Medulloblastoma. Clin Cancer Res. 2018 Mar 15;24(6):1355-1363. doi: 10.1158/1078-0432.CCR-17-2243. Epub 2018 Jan 19. PMID: 29351917.</a></li>
+    </ol>
 {% endblock %}

@@ -21,7 +21,8 @@ class Sample(models.Model):
     )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    email = models.EmailField()
+    send_mail = models.BooleanField(default=False)
+    email = models.EmailField(blank=True)
     sample_identifier = models.CharField(max_length=25)
     diagnosis = models.CharField(max_length=25)
     created = models.DateTimeField(auto_now_add=True)
@@ -76,18 +77,16 @@ class Classification(models.Model):
         return str(self.sample.id)
 
     @property
-    def sample_image(self):
-        return '/static/samples/{0}/table_sample.png'.format(self.sample)
+    def sample_table(self):
+        return '/static/samples/{0}/sample_table.png'.format(self.sample)
 
     @property
     def radar_plot(self):
         return '/static/samples/{0}/radar_plot.png'.format(self.sample)
 
     @property
-    def logistic_table(self):
-        path_cms = '{0}/samples/{1}/results/probability_dataframe.csv'.format(media_root, self.sample)
-        data = pd.read_csv(path_cms)
-        return data.to_html(index=False)
+    def probability_table(self):
+        return '/static/samples/{0}/probability_table.png'.format(self.sample)
 
 
 class Calibration(models.Model):
@@ -105,12 +104,8 @@ class Calibration(models.Model):
         return str(self.sample.id)
 
     @property
-    def amplification_table(self):
-        path_results = '{0}/samples/{1}/results/Results.csv'.format(media_root, self.sample)
-        df = pd.read_csv(path_results, sep="\t")
-        df_ntc = df.query("Task == 'NTC'")
-        df_ntc = df_ntc[['Well Position', 'SNP Assay Name', 'Allele1 Ct', 'Allele2 Ct']]
-        return df_ntc.to_html(index=False)
+    def NTC_table(self):
+        return '/static/samples/{0}/NTC_table.png'.format(self.sample)
 
     @property
     def standard_deviation_dataframe(self):
@@ -141,14 +136,12 @@ class Calibration(models.Model):
         return results
 
     @property
-    def standard_deviation_table(self):
-        results = self.standard_deviation_dataframe
-        return results.to_html(index=False)
-
-    @property
     def standard_deviation_test(self):
         results = self.standard_deviation_dataframe
         if any(results['Allele1 Ct Std'] > 0.5) | any(results['Allele2 Ct Std'] > 0.5):
             return True
         return False
 
+    @property
+    def standard_deviation_table(self):
+        return '/static/samples/{0}/standard_deviation_table.png'.format(self.sample)

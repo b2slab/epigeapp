@@ -6,6 +6,8 @@ __pycache__
 db.sqlite3
 media/
 media
+*.DS_Store
+.Rhistory
 
 # Backup data #
 *.bak
@@ -21,6 +23,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.vscode/
 
 static/samples/
 Rplots.pdf

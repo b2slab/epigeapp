@@ -16,7 +16,8 @@ def workflow_view(request):
         if form.is_valid():
             sample = form.save()
             base_url = request.build_absolute_uri()
-            analysis_notification.delay(sample_id=sample.id)
+            if sample.send_mail:
+                analysis_notification.delay(sample_id=sample.id)
             analysis_and_report.delay(sample_id=sample.id, base_url=base_url)
             return redirect('core_app:success')
     else:

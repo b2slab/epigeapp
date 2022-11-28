@@ -9,7 +9,7 @@ from django.core.exceptions import ValidationError
 
 
 from .forms import InstructionsForm, ContactForm
-from workflow.models import Sample
+from workflow.models import Sample, Calibration, Classification
 
 
 def home_view(request):
@@ -108,7 +108,11 @@ def search_view(request):
 def sample_view(request, sample_id):
     try:
         sample = get_object_or_404(Sample, id=sample_id)
-        return render(request, 'core_app/sample_detail.html', {'sample': sample})
+        classification = get_object_or_404(Classification, sample=sample)
+        calibration = get_object_or_404(Calibration, sample=sample)
+        return render(request, 'core_app/sample_detail.html', {'sample': sample, 
+                                                            'classification': classification, 
+                                                            'calibration': calibration})
     except ValidationError:
         raise Http404("Job ID is not valid")
 
