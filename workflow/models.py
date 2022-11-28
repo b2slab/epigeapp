@@ -21,7 +21,7 @@ class Sample(models.Model):
     )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    send_mail = models.BooleanField(default=False)
+    send_mail = models.BooleanField(default=False, blank=True)
     email = models.EmailField(blank=True)
     sample_identifier = models.CharField(max_length=25)
     diagnosis = models.CharField(max_length=25)
