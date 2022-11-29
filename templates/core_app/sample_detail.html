@@ -21,10 +21,19 @@
     <br>
     <h3>Medulloblastoma Subgroup Assignment</h3>
     <hr>
-    <h4>non-WNT/non-SHH</h4>
-    <p style="text-align: justify;
-    text-justify: inter-word;">Medulloblastoma (MB) genetically defined as non-WNT/non-SHH is a provisionally entity composed by Group 3 and Group 4 MB subgroups [<a href="#cita_louis">1</a>, <a href="#cita_rama">2</a>]. 
-      Group 3 and Group 4 have a low incidence of recurring mutations but are characterized by recurrent, partly overlapping, chromosomal alterations. Histologically most cases fall into the classical and large cell/anaplastic groups. Tumors are located in the cerebellum, typically in the vermis. non-WNT/non-SHH MB are more common in males than females. MYC amplification, MYCN amplification, aneuploidy, isochromosome 17q and GFI1/1B activation by enhancer hijacking are recurrent features, but a fraction lack an obvious driving genetic change. Patients with non-WNT/non-SHH tumors have the most unfavorable prognosis, especially when associated with MYC amplification.</p>
+    <h4>{{ classification.subgroup }}</h4>
+    {% if classification.subgroup == "WNT" %}
+        <p class="text-align: justify;text-justify: inter-word;">Medulloblastoma (MB) genetically defined as Wingless-activated (WNT) is characterized by monosomy of chromosome 6 in more than 80% of tumors together with mutation of CTNNB1. Histologically most WNT cases are classified as classic or, less frequent, as large cell/anaplastic variant. WNT tumors are located in the cerebellum, typically in the vermis and the median age of presentation is 12 years. Patients with WNT MB have an excellent prognosis with current therapy schemes (5-year event free survival greater than 90%) and are currently considered for controlled reduction of treatment (<a href="https://clinicaltrials.gov" target="_blank" rel="noreferrer noopener">https://clinicaltrials.gov</a>).</p>
+    {% elif classification.subgroup == "SHH" %}
+        <p class="text-align: justify;text-justify: inter-word;">Medulloblastoma (MB) genetically defined as Sonic Hedgehog activated (SHH) are characterized by upstream SHH pathway alterations, such as PTCH1 and SMO, or SUFU. Young MB SHH patients may have germline origin associated to Gorlin’s syndrome. SHH MB subgroup class includes the majority of TP53-mutated MB tumors, often associated to Li-Fraumeni syndrome. This SHH-TP53 mutated tumors are typically associated with children about 8-15 years and often have large cell/anaplastic morphology, with large amount of copy number alterations even chromothripsis. Histologically most cases are classified as desmoplastic or extensive nodularity variant, less commonly as classic variant and occasionally as large cell/anaplastic. MB SHH tumors are located in the cerebellum with a tendency to be present laterally. Median age of presentation is 2 years for infants and 22 years for children and adult. The prognosis of SHH-activated MBs is largely dependent on patient’s age and specific genetic features where children with TP53 mutated SHH tumors have  poorer outcome. Subgroup-driven clinical trials are currently being conducted aimed at the estimation of the efficacy of SHH pathway inhibitors (e.g.vismodegib) at diagnosis or in recurrent or refractory SHH-activated tumors (<a href="https://clinicaltrials.gov" target="_blank" rel="noreferrer noopener">https://clinicaltrials.gov</a>).</p>
+    {% elif classification.subgroup == "non-WNT/non-SHH" %}
+        <p style="text-align: justify;text-justify: inter-word;">
+          Medulloblastoma (MB) genetically defined as non-WNT/non-SHH is a provisionally entity composed by Group 3 and Group 4 MB subgroups [<a href="#cita_louis">1</a>, <a href="#cita_rama">2</a>]. 
+          Group 3 and Group 4 have a low incidence of recurring mutations but are characterized by recurrent, partly overlapping, chromosomal alterations. Histologically most cases fall into the classical and large cell/anaplastic groups. Tumors are located in the cerebellum, typically in the vermis. non-WNT/non-SHH MB are more common in males than females. MYC amplification, MYCN amplification, aneuploidy, isochromosome 17q and GFI1/1B activation by enhancer hijacking are recurrent features, but a fraction lack an obvious driving genetic change. Patients with non-WNT/non-SHH tumors have the most unfavorable prognosis, especially when associated with MYC amplification.
+        </p>
+    {% else %}
+        <p class="text-align: justify;text-justify: inter-word;"></p>
+    {% endif %}
     <h4>Disclaimer</h4>
     <div class="alert alert-danger" role="alert">
         <i class="fa-solid fa-triangle-exclamation"></i> Classification using methylation profiling is a research tool under development, it is not verified and has not been clinically validated. Implementation of the results in a clinical setting is in the sole responsibility of the treating physician.
@@ -65,10 +74,10 @@
         </thead>
         <tbody>
           <tr>
-            <th scope="row">non-WNT/non-SHH</th>
-            <td>0.3</td>
-            <td>0.3</td>
-            <td>1.0</td>
+            <th scope="row">{{ classification.subgroup }}</th>
+            <td>{{ classification.score_wnt }}</td>
+            <td>{{ classification.score_shh }}</td>
+            <td>{{ classification.score_gg }}</td>
           </tr>
         </tbody>
     </table>
