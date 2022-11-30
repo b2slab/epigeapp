@@ -15,8 +15,12 @@ def sample_directory_path(instance, filename):
 class Sample(models.Model):
     PENDING = 0
     CLASSIFIED = 1
+    INCOMPLETE_ERROR = 2
+    CPG_ERROR = 3
     STATUS = (
         (PENDING, 'Pending'),
+        (INCOMPLETE_ERROR, 'Incomplete file'),
+        (CPG_ERROR, 'Incomplete CpGs'),
         (CLASSIFIED, 'Classified'),
     )
 

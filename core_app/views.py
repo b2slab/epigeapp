@@ -1,12 +1,10 @@
 import mimetypes
 import os
 
-
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import EmailMessage
 from django.core.exceptions import ValidationError
-
 
 from .forms import InstructionsForm, ContactForm
 from workflow.models import Sample, Calibration, Classification
@@ -110,6 +108,7 @@ def sample_view(request, sample_id):
         sample = get_object_or_404(Sample, id=sample_id)
         classification = get_object_or_404(Classification, sample=sample)
         calibration = get_object_or_404(Calibration, sample=sample)
+        print("El estado de la muestra", sample.id, "es", sample.get_status_display())
         return render(request, 'core_app/sample_detail.html', {'sample': sample, 
                                                             'classification': classification, 
                                                             'calibration': calibration})

@@ -52,3 +52,21 @@ def admin_report_pdf(request, sample_id):
     weasyprint.HTML(string=html,
                     base_url=request.build_absolute_uri()).write_pdf(response, stylesheets=stylesheets)
     return response
+
+
+def download_report(request, sample_id):
+    sample = get_object_or_404(Sample, id=sample_id)
+    calibration = get_object_or_404(Calibration, sample=sample)
+    classification = get_object_or_404(Classification, sample=sample)
+
+    html = render_to_string('workflow/report_complete.html',{'classification': classification,
+                                                             'calibration': calibration,
+                                                             'sample': sample})
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'filename=sample_{sample.id}.pdf'
+    stylesheets = [weasyprint.CSS(settings.STATICFILES_DIRS[0] / 'css/pdf.css')]
+    weasyprint.HTML(string=html,
+                    base_url=request.build_absolute_uri()).write_pdf(response, stylesheets=stylesheets)
+    return response
+

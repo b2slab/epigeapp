@@ -33,9 +33,11 @@ def analysis_and_report(sample_id, base_url):
         else:
             print("Some CpGs are missing!")
             sample.missing_cpg = message
+            sample.status = 3
             sample.save()
     else:
         print("Txt file is incomplete!")
+        sample.status = 2
         sample.save()
     
     if sample.send_mail:
