@@ -44,50 +44,48 @@
       <br>
       <h3>Cytosine Methylation Status Predictor</h3>
       <hr>
-      <h5>Probability table</h5>
-      <figure class="figure" style="border: 1px solid grey;background-color: white;">
-        <img src="{{ classification.probability_table }}" class="figure-img img-fluid rounded" alt="probabilities_table_image">
-        <figcaption class="figure-caption">Probability threshold: 0.456</figcaption>
-      </figure>
-      <h5>Sample pattern</h5>
-      <figure class="figure" style="border: 1px solid grey;background-color: white;">
-        <img src="{{ classification.sample_table }}" class="figure-img img-fluid rounded" alt="sample_table_image">
-        <figcaption class="figure-caption">Sample pattern obtained by the logistic regression.</figcaption>
-      </figure>
       <h5>Table of reference patterns</h5>
-      <figure class="figure" style="border: 1px solid grey;background-color: white;">
+      <figure class="figure border bg-white">
         <img src="{% static 'img/reference_table.png' %}" class="figure-img img-fluid rounded" alt="reference_table_image">
-        <figcaption class="figure-caption">Reference patterns.</figcaption>
+      </figure>
+      <h5>Table of probabilities of being methylated obtained by logistic regression</h5>
+      <figure class="figure border bg-white">
+        <img src="{{ classification.probability_table }}" class="figure-img img-fluid rounded" alt="probabilities_table_image">
+      </figure>
+      <h5>Table of sample pattern obtained by logistic regression</h5>
+      <figure class="figure border bg-white">
+        <img src="{{ classification.sample_table }}" class="figure-img img-fluid rounded" alt="sample_table_image">
       </figure>
       <br>
       <h3>Medulloblastoma Subgroup Classification by Hamming Distance</h3>
       <hr>
-      <figure class="figure" style="border: 1px solid grey;background-color: white;">
-          <img src="{{ classification.radar_plot }}" class="figure-img img-fluid rounded mx-auto d-block" alt="radar_plot" style="width:50%">
-          <figcaption class="figure-caption text-center">A radar plot of the hamming distances.</figcaption>
-        </figure>
-      <table class="table">
+      <h5>Radar plot with Hamming distances</h5>
+      <figure class="figure">
+          <img src="{{ classification.radar_plot }}" class="figure-img img-fluid rounded mx-auto d-block border" alt="radar_plot" style="width:50%">
+      </figure>
+      <h5>Table of scores from Hamming distances</h5>
+      <table class="table border bg-white">
           <thead>
             <tr>
-              <th scope="col">Molecular subgroup</th>
-              <th scope="col">Score WNT</th>
-              <th scope="col">Score SHH</th>
-              <th scope="col">Score non-WNT/non-SHH</th>
+              <th scope="col" class="text-center">Molecular subgroup</th>
+              <th scope="col" class="text-center">Score for WNT</th>
+              <th scope="col" class="text-center">Score for SHH</th>
+              <th scope="col" class="text-center">Score for non-WNT/non-SHH</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th scope="row">{{ classification.subgroup }}</th>
-              <td>{{ classification.score_wnt }}</td>
-              <td>{{ classification.score_shh }}</td>
-              <td>{{ classification.score_gg }}</td>
+              <th scope="row" class="text-center">{{ classification.subgroup }}</th>
+              <td class="text-center">{{ classification.score_wnt }}</td>
+              <td class="text-center">{{ classification.score_shh }}</td>
+              <td class="text-center">{{ classification.score_gg }}</td>
             </tr>
           </tbody>
       </table>
       <br>
       <h3>Quality Control Summary</h3>
       <hr>
-      <table class="table">
+      <table class="table border bg-white">
           <thead>
             <tr>
               <th scope="col">CheckPoint</th>
@@ -98,16 +96,19 @@
           <tbody>
               <tr>
                   <th scope="row">Text file complete</th>
-                  <td colspan="2">The txt file contains all the information.</td>
+                  <td>The txt file contains all the information.</td>
+                  <td></td>
               </tr>
               <tr>
                   <th scope="row">All CpG</th>
-                  <td colspan="2">All 6 CpG are included.</td>
+                  <td>All 6 CpG are included.</td>
+                  <td></td>
               </tr>
               <tr>
                   <th scope="row">Dye calibration</th>
                   {% if calibration.ROX_valid and calibration.VIC_valid and calibration.FAM_valid %}
-                      <td colspan="2">All dyes are calibrated.</td>
+                      <td>All dyes are calibrated.</td>
+                      <td></td>
                   {% else %}
                       <td>Some of the dyes have expired calibration.</td>
                       <td>See the technical report for more information.</td>
@@ -119,7 +120,8 @@
                       <td>Amplification has been detected in some no template controls.</td>
                       <td>See the technical report for more information.</td>
                   {% else %}
-                      <td colspan="2">No amplification was detected in any no template control.</td>
+                      <td>No amplification was detected in any no template control.</td>
+                      <td></td>
                   {% endif %}
               </tr>
               <tr>
@@ -128,7 +130,8 @@
                       <td>Some pairs of replicates have a standard deviation greater than 0.5.</td>
                       <td>See the technical report for more information.</td>
                   {% else %}
-                      <td colspan="2">No pairs of replicates have a standard deviation greater than 0.5.</td>
+                      <td>No pairs of replicates have a standard deviation greater than 0.5.</td>
+                      <td></td>
                   {% endif %}
               </tr>
           </tbody>
@@ -137,7 +140,7 @@
       <h3>Technical report</h3>
       <hr>
       <h4>Calibration information</h4>
-      <table class="table">
+      <table class="table border bg-white">
           <thead>
           <tr>
               <th>ROX is expired</th>
@@ -160,9 +163,8 @@
           </tbody>
       </table>
       <h4>No template control amplification</h4>
-      <figure class="figure" style="border: 1px solid grey;background-color: white;">
+      <figure class="figure border bg-white">
         <img src="{{ calibration.NTC_table }}"  class="figure-img img-fluid rounded" alt="ntc_table_image">
-        <figcaption class="figure-caption">No template control amplification table.</figcaption>
       </figure>
       {% if calibration.amplification_test %}
           <p>No amplification detected.</p>
@@ -170,9 +172,8 @@
           <p>Amplification detected.</p>
       {% endif %}
       <h4>SD<0.5</h4>
-      <figure class="figure" style="border: 1px solid grey;background-color: white;">
+      <figure class="figure border bg-white">
         <img src="{{ calibration.standard_deviation_table }}" class="figure-img img-fluid rounded" alt="standard_deviation_image">
-        <figcaption class="figure-caption">No template control amplification table.</figcaption>
       </figure>
       {% if calibration.standard_deviation_test %}
           <p>Some pairs of replicates have a standard deviation greater than 0.5.</p>
@@ -181,7 +182,8 @@
       {% endif %}
       <br>
       <h3>Run information</h3>
-      <table class="table">
+      <hr>
+      <table class="table border bg-white">
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -236,7 +238,8 @@
       <p>The uploaded file is not complete.</p>
       <br>
       <h3>Quality Control Summary</h3>
-      <table class="table">
+      <hr>
+      <table class="table border bg-white">
           <thead>
           <tr>
               <th scope="col">CheckPoint</th>
@@ -287,8 +290,9 @@
       <h4>SD<0.5</h4>
       <p>Not available.</p>
       <br>
-      <h4>Run information</h4>
-      <table class="table">
+      <h3>Run information</h3>
+      <hr>
+      <table class="table border bg-white">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -329,7 +333,8 @@
       <p>Please check the cytosine indicated in the table below.</p>
       <br>
       <h3>Quality Control Summary</h3>
-      <table class="table">
+      <hr>
+      <table class="table border bg-white">
           <thead>
           <tr>
               <th scope="col">CheckPoint</th>
@@ -375,7 +380,7 @@
       <h3>Technical report</h3>
       <hr>
       <h4>Dye calibration</h4>
-      <table class="table">
+      <table class="table border bg-white">
           <thead>
           <tr>
               <th>ROX is expired</th>
@@ -407,8 +412,9 @@
       <h4>SD<0.5</h4>
       <p>Not available.</p>
       <br>
-      <h4>Run information</h4>
-      <table class="table">
+      <h3>Run information</h3>
+      <hr>
+      <table class="table border bg-white">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -439,6 +445,10 @@
           </tr>
         </tbody>
       </table>
+
+    {% elif sample.status == 0 %}
+    
+    <h3>The file has not been analyzed.</h3>
 
     {% endif %}
 {% endblock %}
