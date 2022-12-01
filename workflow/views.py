@@ -8,6 +8,8 @@ from django.template.loader import render_to_string
 import weasyprint
 from django.http import HttpResponse
 from django.conf import settings
+from django.urls import reverse
+from urllib.parse import urlencode
 
 
 def workflow_view(request):
@@ -19,7 +21,11 @@ def workflow_view(request):
             if sample.send_mail:
                 analysis_notification.delay(sample_id=sample.id)
             analysis_and_report.delay(sample_id=sample.id, base_url=base_url)
-            return redirect('core_app:success')
+            
+            base_url = reverse('core_app:success')
+            query_string =  urlencode({'job_id': sample.id}) 
+            url = '{}?{}'.format(base_url, query_string)
+            return redirect(url)
     else:
         form = SampleModelForm()
     return render(request, 'core_app/upload_file.html', {'form': form})

@@ -35,7 +35,9 @@ def funding_view(request):
 
 
 def success_view(request):
-    return render(request, 'core_app/success.html')
+    job_id = request.GET.get('job_id')
+    sample = get_object_or_404(Sample, id=job_id)
+    return render(request, 'core_app/success.html', context={'job_id': sample.id})
 
 
 def information_view(request):
