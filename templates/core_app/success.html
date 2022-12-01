@@ -2,17 +2,39 @@
 
 {% block content %}
     <div class="col-md-12">
-        <h3 class="mb-3">Success!</h3>
+        <h3 class="mb-3">Thank you for use EpiGe-App!</h3>
         <hr>
-        <div class="row">
-            <p class="text-justify mx-3">Thank you for use the Sant Joan de Déu Hospital Medulloblastoma classification web-application!</p>
-            <p class="text-justify mx-3">Please contact me if there are any problems: <a href="mailto:peca@hsjdbcn.es">peca@hsjdbcn.es</a></p>
+        <h6>Your analysis has been assigned the following Job ID:</h6>
+        <div class="my-3 text-center">
+            <p class="text-justify p-2 border rounded bg-white" id="myInput" style="vertical-align: middle; display: inline-block; margin-bottom: 0;"><strong>df3692c8-f97f-4a1a-99ba-3d14ffac514b</strong></p> 
+            <button id="btn-copy" type="button" class="btn btn-secondary" onclick="CopyToClipboard('myInput');return false;" data-toggle="tooltip" data-placement="top" title="Copy to Clipboard"><i class="fa-regular fa-copy"></i></button>
         </div>
+        <div class="alert alert-primary" role="alert">
+            <i class="fa-solid fa-circle-info mr-1"></i>
+            <strong>Please keep this code to be able to access the results of the analysis through the search engine.</strong>
+        </div>
+        <p class="text-justify">In case of any problem, please contact us at the following e-mail address: <a href="mailto:peca@hsjdbcn.es">peca@hsjdbcn.es</a></p>
         <div class="progress mb-3">
             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
         </div>
         <div class="alert alert-danger" role="alert">
+            <i class="fa-solid fa-triangle-exclamation mr-1"></i>
             Classification using methylation profiling is a research tool under development, it is not verified and has not been clinically validated. Implementation of the results in a clinical setting is in the sole responsibility of the treating physician.
         </div>
     </div>
+
+    <!--TODO: Describir la funcion de javascript-->
+    <script>
+        function CopyToClipboard(id) {
+          var r = document.createRange();
+          r.selectNode(document.getElementById(id));
+          window.getSelection().removeAllRanges();
+          window.getSelection().addRange(r);
+          document.execCommand('copy');
+          window.getSelection().removeAllRanges();
+          // Alert the copied text
+          //alert("Copied the text: " + r);
+        }
+    </script>
+
 {% endblock %}
