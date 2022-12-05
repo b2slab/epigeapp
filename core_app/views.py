@@ -110,7 +110,6 @@ def sample_view(request, sample_id):
         sample = get_object_or_404(Sample, id=sample_id)
         classification = get_object_or_404(Classification, sample=sample)
         calibration = get_object_or_404(Calibration, sample=sample)
-        print("El estado de la muestra", sample.id, "es", sample.get_status_display())
         return render(request, 'core_app/sample_detail.html', {'sample': sample, 
                                                             'classification': classification, 
                                                             'calibration': calibration})

@@ -50,20 +50,20 @@
       </figure>
       <h5>Table of probabilities of being methylated obtained by logistic regression</h5>
       <figure class="figure border bg-white">
-        <img src="{{ classification.probability_table }}" class="figure-img img-fluid rounded" alt="probabilities_table_image">
+        <img src="{% get_static_prefix %}samples/{{ sample.id }}/probability_table.png" class="figure-img img-fluid rounded" alt="probabilities_table_image">
       </figure>
       <h5>Table of sample pattern obtained by logistic regression</h5>
       <figure class="figure border bg-white">
-        <img src="{{ classification.sample_table }}" class="figure-img img-fluid rounded" alt="sample_table_image">
+        <img src="{% get_static_prefix %}samples/{{ sample.id }}/sample_table.png"  class="figure-img img-fluid rounded" alt="sample_table_image">
       </figure>
       <br>
       <h3>Medulloblastoma Subgroup Classification by Hamming Distance</h3>
       <hr>
       <h5>Radar plot with Hamming distances</h5>
       <figure class="figure">
-          <img src="{{ classification.radar_plot }}" class="figure-img img-fluid rounded mx-auto d-block border" alt="radar_plot" style="width:50%">
+          <img src="{% get_static_prefix %}samples/{{ sample.id }}/radar_plot.png" class="figure-img img-fluid rounded mx-auto d-block border" alt="radar_plot" style="width:50%">
       </figure>
-      <h5>Table of scores from Hamming distances</h5>
+      <h5>Table of scores</h5>
       <table class="table border bg-white">
           <thead>
             <tr>
@@ -164,7 +164,7 @@
       </table>
       <h4>No template control amplification</h4>
       <figure class="figure border bg-white">
-        <img src="{{ calibration.NTC_table }}"  class="figure-img img-fluid rounded" alt="ntc_table_image">
+        <img src="{% get_static_prefix %}samples/{{ sample.id }}/NTC_table.png"  class="figure-img img-fluid rounded" alt="ntc_table_image">
       </figure>
       {% if calibration.amplification_test %}
           <p>No amplification detected.</p>
@@ -173,7 +173,7 @@
       {% endif %}
       <h4>SD<0.5</h4>
       <figure class="figure border bg-white">
-        <img src="{{ calibration.standard_deviation_table }}" class="figure-img img-fluid rounded" alt="standard_deviation_image">
+        <img src="{% get_static_prefix %}samples/{{ sample.id }}/standard_deviation_table.png" class="figure-img img-fluid rounded" alt="standard_deviation_image">
       </figure>
       {% if calibration.standard_deviation_test %}
           <p>Some pairs of replicates have a standard deviation greater than 0.5.</p>
@@ -403,7 +403,9 @@
           </tbody>
       </table>
       <h4>No template control amplification</h4>
-      {{ calibration.amplification_table | safe }}
+      <figure class="figure border bg-white">
+        <img src="{% get_static_prefix %}samples/{{ sample.id }}/NTC_table.png"  class="figure-img img-fluid rounded" alt="ntc_table_image">
+      </figure>
       {% if calibration.amplification_test %}
           <p>No amplification detected.</p>
       {% else %}
