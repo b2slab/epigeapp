@@ -88,7 +88,9 @@ colnames(data2table) <- c("SNP Assay Name",
                           "Allele2 Ct Std")
 
 # Making the format table
-tab <- formattable::formattable(data2table, align =c("c","c","c"))
+tab <- formattable::formattable(data2table, align = c("c","c","c"), 
+                                table.attr = 'style="font-size: 16px;"')
+
 
 # Saving as png
 export_formattable(f = tab, 

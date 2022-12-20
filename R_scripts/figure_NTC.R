@@ -56,7 +56,8 @@ colnames(df_ntc) <- c('Well Position',
 row.names(df_ntc) <- NULL 
 
 # Make a format table
-tab <- formattable::formattable(df_ntc, align =c("c","c","c"))
+tab <- formattable::formattable(df_ntc, align =c("c","c","c"),
+                                table.attr = 'style="font-size: 16px;"')
 
 # Saving table as png
 export_formattable(tab, file = paste0(path, "plots/NTC_table.png"))

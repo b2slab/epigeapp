@@ -33,7 +33,7 @@ dataplot <- data.frame(sample = c("max", "min", "cutoff", "sample"),
                        d_WNT = c(1,0,0.67,dataframe$dWNT))
 
 tiff(paste0(path,"plots/radar_plot.tiff"), width = 5, height = 5, units = 'in', res = 300)
-op <- par(xpd=T, mar = c(0.8, 0.8, 0.8, 0.8))
+op <- par(xpd=T, mar = c(0.8, 0.8, 0.8, 0.8), cex = 1.2)
 radarchart(dataplot[,2:4], 
            vlabels=c("non-WNT/non-SHH (100101)","SHH (011001)","WNT (010110)"), 
            pcol = c("#f23f3f","#00AFBB"), pfcol = scales::alpha("#00AFBB", c(0,0.5)), plwd = 2, plty = c(2,1),

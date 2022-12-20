@@ -36,18 +36,18 @@ def admin_report_pdf(request, sample_id):
     sample = get_object_or_404(Sample, id=sample_id)
 
     if not sample.txt_complete:
-        html = render_to_string('workflow/report_error1.html',
+        html = render_to_string('workflow/report.html',
                                 {'sample': sample})
     elif not sample.all_cpg:
         calibration = get_object_or_404(Calibration, sample=sample)
-        html = render_to_string('workflow/report_error2.html',
+        html = render_to_string('workflow/report.html',
                                 {'calibration': calibration,
                                  'sample': sample})
     else:
         calibration = get_object_or_404(Calibration, sample=sample)
         classification = get_object_or_404(Classification, sample=sample)
 
-        html = render_to_string('workflow/report_complete.html',
+        html = render_to_string('workflow/report.html',
                                 {'classification': classification,
                                  'calibration': calibration,
                                  'sample': sample})
@@ -65,9 +65,9 @@ def download_report(request, sample_id):
     calibration = get_object_or_404(Calibration, sample=sample)
     classification = get_object_or_404(Classification, sample=sample)
 
-    html = render_to_string('workflow/report_complete.html',{'classification': classification,
-                                                             'calibration': calibration,
-                                                             'sample': sample})
+    html = render_to_string('workflow/report.html',{'classification': classification,
+                                                    'calibration': calibration,
+                                                    'sample': sample})
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'filename=sample_{sample.id}.pdf'

@@ -1,0 +1,707 @@
+{% load static %}
+
+<html>
+    <body>
+
+        {% if sample.status == 1 %}
+
+        <div style="text-align: center; margin-top: 0px; padding-top: 0px;">
+            <img src="{% static 'img/logos/EpiGe-App_V2_web.png' %}" style="width: 70%;" alt="logo_web">
+            <p style="font-size: 10px;">A web application for cytosine methyl-genotyping for Medulloblastoma molecular classification.</p>
+        </div>
+        <h3>EpiGe Medulloblastoma Subgroup Prediction (v1.0)</h3>
+        <hr>
+        <table class="my_tables">
+            <thead>
+                <tr>
+                    <th scope="col" colspan="2">Basic Information</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row" style="background-color: rgba(0,0,0,.03);text-align: center;border: 1px solid #dee2e6;">Sample ID:</th>
+                    <td style="text-align: center;">{{ sample.sample_identifier }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" style="background-color: rgba(0,0,0,.03);text-align: center;border: 1px solid #dee2e6;">Uploaded file:</th>
+                    <td style="text-align: center;">{{ sample.filename }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" style="background-color: rgba(0,0,0,.03);text-align: center;border: 1px solid #dee2e6;">Size file:</th>
+                    <td style="text-align: center;">{{ sample.filesize }}</td>
+                </tr>
+                {% if sample.send_email %}
+                <tr>
+                    <th scope="row" style="background-color: rgba(0,0,0,.03);text-align: center;border: 1px solid #dee2e6;">Email:</th>
+                    <td style="text-align: center;">{{ sample.email }}</td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <th scope="row" style="background-color: rgba(0,0,0,.03);text-align: center;border: 1px solid #dee2e6;">Date:</th>
+                    <td style="text-align: center;">{{ sample.created|date:"M d, Y, H:i:s" }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Medulloblastoma Subgroup Assignment</h3>
+        <hr>
+        <h4 style="margin-bottom: 0px;">{{ classification.subgroup }}</h4>
+        {% if classification.subgroup == "WNT" %}
+            <p style="text-align: justify;text-justify: inter-word;margin-top: 0px;">
+                Medulloblastoma (MB) genetically defined as Wingless-activated (WNT) is characterized 
+                by monosomy of chromosome 6 in more than 80% of tumors together with mutation of CTNNB1. 
+                Histologically most WNT cases are classified as classic or, less frequent, as large cell/anaplastic variant. 
+                WNT tumors are located in the cerebellum, typically in the vermis and the median age of presentation is 12 years. 
+                Patients with WNT MB have an excellent prognosis with current therapy schemes (5-year event free survival greater than 90%) 
+                and are currently considered for controlled reduction of treatment 
+                (<a href="https://clinicaltrials.gov" target="_blank" rel="noreferrer noopener">https://clinicaltrials.gov</a>).
+            </p>
+        {% elif classification.subgroup == "SHH" %}
+            <p style="text-align: justify;text-justify: inter-word;margin-top: 0px;">
+                Medulloblastoma (MB) genetically defined as Sonic Hedgehog activated (SHH) are characterized 
+                by upstream SHH pathway alterations, such as PTCH1 and SMO, or SUFU. Young MB SHH patients may 
+                have germline origin associated to Gorlin’s syndrome. SHH MB subgroup class includes the majority 
+                of TP53-mutated MB tumors, often associated to Li-Fraumeni syndrome. This SHH-TP53 mutated tumors 
+                are typically associated with children about 8-15 years and often have large cell/anaplastic 
+                morphology, with large amount of copy number alterations even chromothripsis. Histologically most 
+                cases are classified as desmoplastic or extensive nodularity variant, less commonly as classic variant 
+                and occasionally as large cell/anaplastic. MB SHH tumors are located in the cerebellum with a tendency 
+                to be present laterally. Median age of presentation is 2 years for infants and 22 years for children and adult. 
+                The prognosis of SHH-activated MBs is largely dependent on patient’s age and specific genetic features where 
+                children with TP53 mutated SHH tumors have  poorer outcome. Subgroup-driven clinical trials are currently being 
+                conducted aimed at the estimation of the efficacy of SHH pathway inhibitors (e.g.vismodegib) at diagnosis or 
+                in recurrent or refractory SHH-activated tumors 
+                (<a href="https://clinicaltrials.gov" target="_blank" rel="noreferrer noopener">https://clinicaltrials.gov</a>).
+            </p>
+        {% elif classification.subgroup == "non-WNT/non-SHH" %}
+            <p style="text-align: justify;text-justify: inter-word;margin-top: 0px;">
+                Medulloblastoma (MB) genetically defined as non-WNT/non-SHH is a provisionally entity composed by 
+                Group 3 and Group 4 MB subgroups [<a href="#cita_louis">1</a>, <a href="#cita_rama">2</a>]. 
+                Group 3 and Group 4 have a low incidence of recurring mutations but are characterized by recurrent, 
+                partly overlapping, chromosomal alterations. Histologically most cases fall into the classical and 
+                large cell/anaplastic groups. Tumors are located in the cerebellum, typically in the vermis. 
+                non-WNT/non-SHH MB are more common in males than females. MYC amplification, MYCN amplification, 
+                aneuploidy, isochromosome 17q and GFI1/1B activation by enhancer hijacking are recurrent features, 
+                but a fraction lack an obvious driving genetic change. Patients with non-WNT/non-SHH tumors have the 
+                most unfavorable prognosis, especially when associated with MYC amplification.
+            </p>
+        {% else %}
+            <p style="text-align: justify;text-justify: inter-word;"></p>
+        {% endif %}
+        <h4 style="margin-bottom: 0px;">Disclaimer</h4>
+        <div style="border: 1px solid #f5c6cb;border-radius: 5px;background-color: #f8d7da;color: #721c24">
+            <p style="text-align: justify;text-justify: inter-word;margin: 10px 15px;">
+                Classification using methylation profiling is a research tool under development, 
+                it is not verified and has not been clinically validated. Implementation of the results 
+                in a clinical setting is in the sole responsibility of the treating physician.
+            </p>
+        </div>
+        <h3>Cytosine Methylation Status Predictor</h3>
+        <hr>
+        <h4>Table of reference patterns</h4>
+        <div style="text-align: center;">
+            <img src="{% static 'img/reference_table.png' %}" style="width: 100%;border: 1px solid #dee2e6;" alt="reference_table_image">
+        </div>
+        <h4>Table of probabilities of being methylated obtained by logistic regression</h4>
+        <div style="text-align: center;">
+            <img src="{% get_static_prefix %}samples/{{ sample.id }}/probability_table.png" style="width: 100%;border: 1px solid #dee2e6;" alt="probabilities_table_image">
+        </div>
+        <h4>Table of sample pattern obtained by logistic regression</h4>
+        <div style="text-align: center;">
+            <img src="{% get_static_prefix %}samples/{{ sample.id }}/sample_table.png"  style="width: 100%;border: 1px solid #dee2e6;" alt="sample_table_image">
+        </div>
+        <h3>Medulloblastoma Subgroup Classification by Hamming Distance</h3>
+        <hr>
+        <h4>Radar plot with Hamming distances</h4>
+        <div style="text-align: center;">
+            <img src="{% get_static_prefix %}samples/{{ sample.id }}/radar_plot.png" style="width:75%;border: 1px solid #dee2e6;" alt="radar_plot">
+        </div>
+        <h4>Table of scores</h4>
+        <table class="my_tables">
+            <thead>
+            <tr>
+                <th scope="col" style="text-align: center;">Molecular subgroup</th>
+                <th scope="col" style="text-align: center;">Score for WNT</th>
+                <th scope="col" style="text-align: center;">Score for SHH</th>
+                <th scope="col" style="text-align: center;">Score for non-WNT/non-SHH</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row" style="text-align: center;">{{ classification.subgroup }}</th>
+                <td style="text-align: center;">{{ classification.score_wnt }}</td>
+                <td style="text-align: center;">{{ classification.score_shh }}</td>
+                <td style="text-align: center;">{{ classification.score_gg }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <h3>Quality Control Summary</h3>
+        <hr>
+        <table class="my_tables">
+            <thead>
+            <tr>
+                <th scope="col">CheckPoint</th>
+                <th scope="col">Result</th>
+                <th scope="col">Possible Solution</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">Text file complete</th>
+                    <td>The txt file contains all the information.</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">All CpG</th>
+                    <td>All 6 CpG are included.</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">Dye calibration</th>
+                    {% if calibration.ROX_valid and calibration.VIC_valid and calibration.FAM_valid %}
+                        <td>All dyes are calibrated.</td>
+                        <td></td>
+                    {% else %}
+                        <td>Some of the dyes have expired calibration.</td>
+                        <td>See the technical report for more information.</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <th scope="row">No template controls</th>
+                    {% if not calibration.amplification_test %}
+                        <td>Amplification has been detected in some no template controls.</td>
+                        <td>See the technical report for more information.</td>
+                    {% else %}
+                        <td>No amplification was detected in any no template control.</td>
+                        <td></td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <th scope="row">SD < 0.5</th>
+                    {% if calibration.standard_deviation_test %}
+                        <td>Some pairs of replicates have a standard deviation greater than 0.5.</td>
+                        <td>See the technical report for more information.</td>
+                    {% else %}
+                        <td>No pairs of replicates have a standard deviation greater than 0.5.</td>
+                        <td></td>
+                    {% endif %}
+                </tr>
+            </tbody>
+        </table>
+        <h3>Technical report</h3>
+        <hr>
+        <h4>Calibration information</h4>
+        <table class="my_tables">
+            <thead>
+            <tr>
+                <th>ROX is expired</th>
+                <th>ROX performed</th>
+                <th>FAM is expired</th>
+                <th>FAM performed</th>
+                <th>VIC is expired</th>
+                <th>VIC performed</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{% if calibration.ROX_valid %}No{% else %}Yes{% endif %}</td>
+                    <td>{{ calibration.ROX_date }}</td>
+                    <td>{% if calibration.FAM_valid %}No{% else %}Yes{% endif %}</td>
+                    <td>{{ calibration.FAM_date }}</td>
+                    <td>{% if calibration.VIC_valid %}No{% else %}Yes{% endif %}</td>
+                    <td>{{ calibration.VIC_date }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>No template control amplification</h4>
+        <div style="text-align: center;">
+            <img src="{% get_static_prefix %}samples/{{ sample.id }}/NTC_table.png"  style="width: 100%;border: 1px solid #dee2e6;" alt="ntc_table_image">
+        </div>
+        {% if calibration.amplification_test %}
+            <p>No amplification detected.</p>
+        {% else %}
+            <p>Amplification detected.</p>
+        {% endif %}
+        <h4>SD < 0.5</h4>
+        <div style="text-align: center;">
+            <img src="{% get_static_prefix %}samples/{{ sample.id }}/standard_deviation_table.png" style="width: 100%;border: 1px solid #dee2e6;" alt="standard_deviation_image">
+        </div>
+        {% if calibration.standard_deviation_test %}
+            <p>Some pairs of replicates have a standard deviation greater than 0.5.</p>
+        {% else %}
+            <p>No pairs of replicates have a standard deviation greater than 0.5.</p>
+        {% endif %}
+        <h3>Run information</h3>
+        <hr>
+        <table class="my_tables">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Task</th>
+                <th scope="col">Version</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>EpiGe_qc</td>
+                <td>1.0</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>EpiGe_logisticRegression</td>
+                <td>1.0</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>EpiGe_hammingDistance</td>
+                <td>1.0</td>
+            </tr>
+            <tr>
+                <th scope="row">4</th>
+                <td>EpiGe_report</td>
+                <td>1.0</td>
+            </tr>
+            </tbody>
+        </table>
+        <h3>References</h3>
+        <hr>
+        <ol>
+            <li><a id="cita_louis" href="https://pubmed.ncbi.nlm.nih.gov/34185076/" target="_blank" rel="noopener noreferrer" style="text-align: justify;text-justify: inter-word;">Louis DN, Perry A, Wesseling P, Brat DJ, Cree IA, Figarella-Branger D, Hawkins C, Ng HK, Pfister SM, Reifenberger G, Soffietti R, von Deimling A, Ellison DW. The 2021 WHO Classification of Tumors of the Central Nervous System: a summary. Neuro Oncol. 2021 Aug 2;23(8):1231-1251. doi: 10.1093/neuonc/noab106. PMID: 34185076; PMCID: PMC8328013.</a></li><br>
+            <li><a id="cita_rama" href="https://pubmed.ncbi.nlm.nih.gov/27040285/" target="_blank" rel="noopener noreferrer" style="text-align: justify;text-justify: inter-word;">Ramaswamy V, Remke M, Bouffet E, Bailey S, Clifford SC, Doz F, Kool M, Dufour C, Vassal G, Milde T, Witt O, von Hoff K, Pietsch T, Northcott PA, Gajjar A, Robinson GW, Padovani L, André N, Massimino M, Pizer B, Packer R, Rutkowski S, Pfister SM, Taylor MD, Pomeroy SL. Risk stratification of childhood medulloblastoma in the molecular era: the current consensus. Acta Neuropathol. 2016 Jun;131(6):821-31. doi: 10.1007/s00401-016-1569-6. Epub 2016 Apr 4. PMID: 27040285; PMCID: PMC4867119.</a></li><br>
+            <li><a href="https://pubmed.ncbi.nlm.nih.gov/29351917/" target="_blank" rel="noopener noreferrer" style="text-align: justify;text-justify: inter-word;">Gómez S, Garrido-Garcia A, Garcia-Gerique L, Lemos I, Suñol M, de Torres C, Kulis M, Pérez-Jaume S, Carcaboso ÁM, Luu B, Kieran MW, Jabado N, Kozlenkov A, Dracheva S, Ramaswamy V, Hovestadt V, Johann P, Jones DTW, Pfister SM, Morales La Madrid A, Cruz O, Taylor MD, Martin-Subero JI, Mora J, Lavarino C. A Novel Method for Rapid Molecular Subgrouping of Medulloblastoma. Clin Cancer Res. 2018 Mar 15;24(6):1355-1363. doi: 10.1158/1078-0432.CCR-17-2243. Epub 2018 Jan 19. PMID: 29351917.</a></li>
+        </ol>
+        <h3>Involved parties</h3>
+        <hr>
+        <div class="row">
+            <div class="column">
+                <a href="https://www.irsjd.org/en/" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/logos/irsjd.png' %}" alt="Logo IRSJD" style="width: 100%;">
+                </a>
+            </div>
+            <div class="column">
+                <a href="https://www.sjdhospitalbarcelona.org/en" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/logos/hsjd.png' %}" alt="Logo HSJD" style="width: 100%;">
+                </a>
+            </div>
+            <div class="column">
+                <a href="https://creb.upc.edu/" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/logos/upc.png' %}" alt="Logo CREB" style="width: 100%;">
+                </a>
+            </div>
+        </div>
+        <h3>Funding</h3>
+        <hr>
+        <div class="row">
+            <div class="column">
+                <a href="https://www.sjdhospitalbarcelona.org/en" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/logos/hsjd.png' %}" alt="Logo HSJD" style="width: 100%;padding-bottom: 0px; margin-bottom: 0px;">
+                </a>
+                <p style="font-size: 10px;padding-top: 0px; margin-top: 0px;">Associations of patients' families</p>
+            </div>
+            <div class="column">
+                <a href="https://www.isciii.es/Paginas/Inicio.aspx" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/logos/isciii.jpg' %}" alt="Logo IRSJD" style="width: 100%;">
+                </a>
+            </div>
+            <div class="column">
+                <a href="https://www.ccma.cat/tv3/marato/en/fundacio/" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/logos/marato.png' %}" alt="Logo HSJD" style="width: 100%;">
+                </a>
+            </div>
+        </div>
+        
+        {% elif sample.status == 2 %}
+
+        <div style="text-align: center; margin-top: 0px; padding-top: 0px;">
+            <img src="{% static 'img/logos/EpiGe-App_V2_web.png' %}" style="width: 70%;" alt="logo_web">
+            <p style="font-size: 10px;">A web application for cytosine methyl-genotyping for Medulloblastoma molecular classification.</p>
+        </div>
+        <h3>EpiGe Medulloblastoma Subgroup Prediction (v1.0)</h3>
+        <hr>
+        <table class="my_tables">
+            <thead>
+                <tr>
+                    <th scope="col" colspan="2">Basic Information</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row" style="background-color: rgba(0,0,0,.03);text-align: center;border: 1px solid #dee2e6;">Sample ID:</th>
+                    <td style="text-align: center;">{{ sample.sample_identifier }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" style="background-color: rgba(0,0,0,.03);text-align: center;border: 1px solid #dee2e6;">Uploaded file:</th>
+                    <td style="text-align: center;">{{ sample.filename }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" style="background-color: rgba(0,0,0,.03);text-align: center;border: 1px solid #dee2e6;">Size file:</th>
+                    <td style="text-align: center;">{{ sample.filesize }}</td>
+                </tr>
+                {% if sample.send_email %}
+                <tr>
+                    <th scope="row" style="background-color: rgba(0,0,0,.03);text-align: center;border: 1px solid #dee2e6;">Email:</th>
+                    <td style="text-align: center;">{{ sample.email }}</td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <th scope="row" style="background-color: rgba(0,0,0,.03);text-align: center;border: 1px solid #dee2e6;">Date:</th>
+                    <td style="text-align: center;">{{ sample.created|date:"M d, Y, H:i:s" }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Medulloblastoma Subgroup Assignment</h3>
+        <hr>
+        <p>The uploaded file is not complete.</p>
+        <br>
+        <h3>Quality Control Summary</h3>
+        <hr>
+        <table class="my_tables">
+            <thead>
+            <tr>
+                <th scope="col">CheckPoint</th>
+                <th scope="col">Result</th>
+                <th scope="col">Possible Solution</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">Text file complete</th>
+                    <td>The uploaded file is not complete.</td>
+                    <td>Make sure that the file contains the following sections:
+                        <ul>
+                            <li>Amplification Data</li>
+                            <li>Multicomponent Data</li>
+                            <li>Raw Data</li>
+                            <li>Reagent Information</li>
+                            <li>Results</li>
+                            <li>Sample Setup</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">All CpG</th>
+                    <td>Not available.</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">Dye calibration</th>
+                    <td>Not available.</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">No template controls</th>
+                    <td>Not available.</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">SD < 0.5</th>
+                    <td>Not available.</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Technical report</h3>
+        <hr>
+        <h4>Dye calibration</h4>
+        <p>Not available.</p>
+        <h4>No template control amplification</h4>
+        <p>Not available.</p>
+        <h4>SD<0.5</h4>
+        <p>Not available.</p>
+        <h3>Run information</h3>
+        <hr>
+        <table class="my_tables">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Task</th>
+                <th scope="col">Version</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>EpiGe_qc</td>
+                <td>1.0</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>EpiGe_logisticRegression</td>
+                <td>1.0</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>EpiGe_hammingDistance</td>
+                <td>1.0</td>
+            </tr>
+            <tr>
+                <th scope="row">4</th>
+                <td>EpiGe_report</td>
+                <td>1.0</td>
+            </tr>
+            </tbody>
+        </table>
+        <h3>References</h3>
+        <hr>
+        <ol>
+            <li><a id="cita_louis" href="https://pubmed.ncbi.nlm.nih.gov/34185076/" target="_blank" rel="noopener noreferrer" style="text-align: justify;text-justify: inter-word;">Louis DN, Perry A, Wesseling P, Brat DJ, Cree IA, Figarella-Branger D, Hawkins C, Ng HK, Pfister SM, Reifenberger G, Soffietti R, von Deimling A, Ellison DW. The 2021 WHO Classification of Tumors of the Central Nervous System: a summary. Neuro Oncol. 2021 Aug 2;23(8):1231-1251. doi: 10.1093/neuonc/noab106. PMID: 34185076; PMCID: PMC8328013.</a></li><br>
+            <li><a id="cita_rama" href="https://pubmed.ncbi.nlm.nih.gov/27040285/" target="_blank" rel="noopener noreferrer" style="text-align: justify;text-justify: inter-word;">Ramaswamy V, Remke M, Bouffet E, Bailey S, Clifford SC, Doz F, Kool M, Dufour C, Vassal G, Milde T, Witt O, von Hoff K, Pietsch T, Northcott PA, Gajjar A, Robinson GW, Padovani L, André N, Massimino M, Pizer B, Packer R, Rutkowski S, Pfister SM, Taylor MD, Pomeroy SL. Risk stratification of childhood medulloblastoma in the molecular era: the current consensus. Acta Neuropathol. 2016 Jun;131(6):821-31. doi: 10.1007/s00401-016-1569-6. Epub 2016 Apr 4. PMID: 27040285; PMCID: PMC4867119.</a></li><br>
+            <li><a href="https://pubmed.ncbi.nlm.nih.gov/29351917/" target="_blank" rel="noopener noreferrer" style="text-align: justify;text-justify: inter-word;">Gómez S, Garrido-Garcia A, Garcia-Gerique L, Lemos I, Suñol M, de Torres C, Kulis M, Pérez-Jaume S, Carcaboso ÁM, Luu B, Kieran MW, Jabado N, Kozlenkov A, Dracheva S, Ramaswamy V, Hovestadt V, Johann P, Jones DTW, Pfister SM, Morales La Madrid A, Cruz O, Taylor MD, Martin-Subero JI, Mora J, Lavarino C. A Novel Method for Rapid Molecular Subgrouping of Medulloblastoma. Clin Cancer Res. 2018 Mar 15;24(6):1355-1363. doi: 10.1158/1078-0432.CCR-17-2243. Epub 2018 Jan 19. PMID: 29351917.</a></li>
+        </ol>
+        <h3>Involved parties</h3>
+        <hr>
+        <div class="row">
+            <div class="column">
+                <a href="https://www.irsjd.org/en/" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/logos/irsjd.png' %}" alt="Logo IRSJD" style="width: 100%;">
+                </a>
+            </div>
+            <div class="column">
+                <a href="https://www.sjdhospitalbarcelona.org/en" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/logos/hsjd.png' %}" alt="Logo HSJD" style="width: 100%;">
+                </a>
+            </div>
+            <div class="column">
+                <a href="https://creb.upc.edu/" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/logos/upc.png' %}" alt="Logo CREB" style="width: 100%;">
+                </a>
+            </div>
+        </div>
+        <h3>Funding</h3>
+        <hr>
+        <div class="row">
+            <div class="column">
+                <a href="https://www.sjdhospitalbarcelona.org/en" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/logos/hsjd.png' %}" alt="Logo HSJD" style="width: 100%;padding-bottom: 0px; margin-bottom: 0px;">
+                </a>
+                <p style="font-size: 10px;padding-top: 0px; margin-top: 0px;">Associations of patients' families</p>
+            </div>
+            <div class="column">
+                <a href="https://www.isciii.es/Paginas/Inicio.aspx" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/logos/isciii.jpg' %}" alt="Logo IRSJD" style="width: 100%;">
+                </a>
+            </div>
+            <div class="column">
+                <a href="https://www.ccma.cat/tv3/marato/en/fundacio/" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/logos/marato.png' %}" alt="Logo HSJD" style="width: 100%;">
+                </a>
+            </div>
+        </div>
+
+        {% elif sample.status == 3 %}
+
+        <div style="text-align: center; margin-top: 0px; padding-top: 0px;">
+            <img src="{% static 'img/logos/EpiGe-App_V2_web.png' %}" style="width: 70%;" alt="logo_web">
+            <p style="font-size: 10px;">A web application for cytosine methyl-genotyping for Medulloblastoma molecular classification.</p>
+        </div>
+        <h3>EpiGe Medulloblastoma Subgroup Prediction (v1.0)</h3>
+        <hr>
+        <table class="my_tables">
+            <thead>
+                <tr>
+                    <th scope="col" colspan="2">Basic Information</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row" style="background-color: rgba(0,0,0,.03);text-align: center;border: 1px solid #dee2e6;">Sample ID:</th>
+                    <td style="text-align: center;">{{ sample.sample_identifier }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" style="background-color: rgba(0,0,0,.03);text-align: center;border: 1px solid #dee2e6;">Uploaded file:</th>
+                    <td style="text-align: center;">{{ sample.filename }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" style="background-color: rgba(0,0,0,.03);text-align: center;border: 1px solid #dee2e6;">Size file:</th>
+                    <td style="text-align: center;">{{ sample.filesize }}</td>
+                </tr>
+                {% if sample.send_email %}
+                <tr>
+                    <th scope="row" style="background-color: rgba(0,0,0,.03);text-align: center;border: 1px solid #dee2e6;">Email:</th>
+                    <td style="text-align: center;">{{ sample.email }}</td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <th scope="row" style="background-color: rgba(0,0,0,.03);text-align: center;border: 1px solid #dee2e6;">Date:</th>
+                    <td style="text-align: center;">{{ sample.created|date:"M d, Y, H:i:s" }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Medulloblastoma Subgroup Assignment</h3>
+        <hr>
+        <p>Some CpGs are missing.</p>
+        <p>Make sure that all six cytosines are in the file.</p>
+        <p>Please check the cytosine indicated in the table below.</p>
+        <h3>Quality Control Summary</h3>
+        <hr>
+        <table class="my_tables">
+            <thead>
+            <tr>
+                <th scope="col">CheckPoint</th>
+                <th scope="col">Result</th>
+                <th scope="col">Possible Solution</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">Text file complete</th>
+                    <td>The txt file contains all the information.</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">All CpG</th>
+                    <td>Some CpGs are missing.</td>
+                    <td>We have not found the following cytosine: <b>{{ sample.missing_cpg }}</b></td>
+                </tr>
+                <tr>
+                    <th scope="row">Dye calibration</th>
+                    {% if calibration.ROX_valid and calibration.VIC_valid and calibration.FAM_valid %}
+                      <td>All dyes are calibrated.</td>
+                      <td></td>
+                    {% else %}
+                      <td>Some of the dyes have expired calibration.</td>
+                      <td>See the technical report for more information.</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <th scope="row">No template controls</th>
+                    {% if not calibration.amplification_test %}
+                      <td>Amplification has been detected in some no template controls.</td>
+                      <td>See the technical report for more information.</td>
+                    {% else %}
+                      <td>No amplification was detected in any no template control.</td>
+                      <td></td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <th scope="row">SD < 0.5</th>
+                    <td>Not available.</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Technical report</h3>
+        <hr>
+        <h4>Dye calibration</h4>
+        <table class="my_tables">
+            <thead>
+            <tr>
+                <th>ROX is expired</th>
+                <th>ROX performed</th>
+                <th>FAM is expired</th>
+                <th>FAM performed</th>
+                <th>VIC is expired</th>
+                <th>VIC performed</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{% if calibration.ROX_valid %}No{% else %}Yes{% endif %}</td>
+                    <td>{{ calibration.ROX_date }}</td>
+                    <td>{% if calibration.FAM_valid %}No{% else %}Yes{% endif %}</td>
+                    <td>{{ calibration.FAM_date }}</td>
+                    <td>{% if calibration.VIC_valid %}No{% else %}Yes{% endif %}</td>
+                    <td>{{ calibration.VIC_date }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>No template control amplification</h4>
+        <div style="text-align: center;">
+            <img src="{% get_static_prefix %}samples/{{ sample.id }}/NTC_table.png"  style="width: 100%;border: 1px solid #dee2e6;" alt="ntc_table_image">
+        </div>
+        {% if calibration.amplification_test %}
+            <p>No amplification detected.</p>
+        {% else %}
+            <p>Amplification detected.</p>
+        {% endif %}
+        <h4>SD<0.5</h4>
+        <p>Not available.</p>
+        <h3>Run information</h3>
+        <hr>
+        <table class="my_tables">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Task</th>
+                <th scope="col">Version</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>EpiGe_qc</td>
+                <td>1.0</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>EpiGe_logisticRegression</td>
+                <td>1.0</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>EpiGe_hammingDistance</td>
+                <td>1.0</td>
+            </tr>
+            <tr>
+                <th scope="row">4</th>
+                <td>EpiGe_report</td>
+                <td>1.0</td>
+            </tr>
+            </tbody>
+        </table>
+        <h3>References</h3>
+        <hr>
+        <ol>
+            <li><a id="cita_louis" href="https://pubmed.ncbi.nlm.nih.gov/34185076/" target="_blank" rel="noopener noreferrer" style="text-align: justify;text-justify: inter-word;">Louis DN, Perry A, Wesseling P, Brat DJ, Cree IA, Figarella-Branger D, Hawkins C, Ng HK, Pfister SM, Reifenberger G, Soffietti R, von Deimling A, Ellison DW. The 2021 WHO Classification of Tumors of the Central Nervous System: a summary. Neuro Oncol. 2021 Aug 2;23(8):1231-1251. doi: 10.1093/neuonc/noab106. PMID: 34185076; PMCID: PMC8328013.</a></li><br>
+            <li><a id="cita_rama" href="https://pubmed.ncbi.nlm.nih.gov/27040285/" target="_blank" rel="noopener noreferrer" style="text-align: justify;text-justify: inter-word;">Ramaswamy V, Remke M, Bouffet E, Bailey S, Clifford SC, Doz F, Kool M, Dufour C, Vassal G, Milde T, Witt O, von Hoff K, Pietsch T, Northcott PA, Gajjar A, Robinson GW, Padovani L, André N, Massimino M, Pizer B, Packer R, Rutkowski S, Pfister SM, Taylor MD, Pomeroy SL. Risk stratification of childhood medulloblastoma in the molecular era: the current consensus. Acta Neuropathol. 2016 Jun;131(6):821-31. doi: 10.1007/s00401-016-1569-6. Epub 2016 Apr 4. PMID: 27040285; PMCID: PMC4867119.</a></li><br>
+            <li><a href="https://pubmed.ncbi.nlm.nih.gov/29351917/" target="_blank" rel="noopener noreferrer" style="text-align: justify;text-justify: inter-word;">Gómez S, Garrido-Garcia A, Garcia-Gerique L, Lemos I, Suñol M, de Torres C, Kulis M, Pérez-Jaume S, Carcaboso ÁM, Luu B, Kieran MW, Jabado N, Kozlenkov A, Dracheva S, Ramaswamy V, Hovestadt V, Johann P, Jones DTW, Pfister SM, Morales La Madrid A, Cruz O, Taylor MD, Martin-Subero JI, Mora J, Lavarino C. A Novel Method for Rapid Molecular Subgrouping of Medulloblastoma. Clin Cancer Res. 2018 Mar 15;24(6):1355-1363. doi: 10.1158/1078-0432.CCR-17-2243. Epub 2018 Jan 19. PMID: 29351917.</a></li>
+        </ol>
+        <h3>Involved parties</h3>
+        <hr>
+        <div class="row">
+            <div class="column">
+                <a href="https://www.irsjd.org/en/" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/logos/irsjd.png' %}" alt="Logo IRSJD" style="width: 100%;">
+                </a>
+            </div>
+            <div class="column">
+                <a href="https://www.sjdhospitalbarcelona.org/en" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/logos/hsjd.png' %}" alt="Logo HSJD" style="width: 100%;">
+                </a>
+            </div>
+            <div class="column">
+                <a href="https://creb.upc.edu/" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/logos/upc.png' %}" alt="Logo CREB" style="width: 100%;">
+                </a>
+            </div>
+        </div>
+        <h3>Funding</h3>
+        <hr>
+        <div class="row">
+            <div class="column">
+                <a href="https://www.sjdhospitalbarcelona.org/en" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/logos/hsjd.png' %}" alt="Logo HSJD" style="width: 100%;padding-bottom: 0px; margin-bottom: 0px;">
+                </a>
+                <p style="font-size: 10px;padding-top: 0px; margin-top: 0px;">Associations of patients' families</p>
+            </div>
+            <div class="column">
+                <a href="https://www.isciii.es/Paginas/Inicio.aspx" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/logos/isciii.jpg' %}" alt="Logo IRSJD" style="width: 100%;">
+                </a>
+            </div>
+            <div class="column">
+                <a href="https://www.ccma.cat/tv3/marato/en/fundacio/" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/logos/marato.png' %}" alt="Logo HSJD" style="width: 100%;">
+                </a>
+            </div>
+        </div>
+
+        {% elif sample.status == 0 %}
+    
+         <h3>The file has not been analyzed.</h3>
+
+        {% endif %}
+
+
+    </body>
+</html>

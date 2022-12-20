@@ -39,7 +39,8 @@ format_tab <- formattable::formattable(df,
                                   `cg12925355`= color_tile(customGreen, customRed), 
                                   `cg25542041`= color_tile(customGreen, customRed), 
                                   `cg02227036`= color_tile(customGreen, customRed)
-                                ))
+                                ),
+                                table.attr = 'style="font-size: 16px;"')
 
 export_formattable(format_tab, "reference_table.png")
 

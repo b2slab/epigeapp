@@ -20,7 +20,7 @@
     </div>
     <br>
 
-    {% if sample.status == 1%}
+    {% if sample.status == 1 %}
 
       <h3>Medulloblastoma Subgroup Assignment</h3>
       <hr>
@@ -227,7 +227,7 @@
       <hr>
       <div class="container">
         <div class="col-md-12 text-center">
-            <a class="btn btn-success btn-lg" href="{% url 'workflow:download_report' sample.id %}" role="button" target="_blank" download>Download as PDF file</a>
+            <a class="btn btn-success btn-lg" href="{% url 'workflow:download_report' sample.id %}" role="button" target="_blank" download>Download as PDF file <i class="fa-solid fa-file-arrow-down ml-2"></i></a>
         </div>
       </div>
     
