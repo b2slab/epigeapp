@@ -12,9 +12,6 @@
             {% csrf_token %}
             <div class="row">
                 <div class="col-md-12 mb-2">
-                    {{ form.check1|as_crispy_field  }}
-                </div>
-                <div class="col-md-12 mb-2">
                     {{ form.check2|as_crispy_field  }}
                 </div>
                 <div class="col-md-12 mb-2">
@@ -31,9 +28,6 @@
                 </div>
                 <div class="col-md-12 mb-2">
                     {{ form.check8|as_crispy_field  }}
-                </div>
-                <div class="col-md-12 mb-2">
-                    {{ form.check7|as_crispy_field  }}
                 </div>
             </div>
             <div class="progress mb-3">
