@@ -62,7 +62,8 @@ dummy$Allele1.Ct <- Allele1
 dummy$Allele2.Ct <- Allele2
 
 # Init var
-names = c('S1_1033', 'S3_1292', 'W1_2554', 'W3_0222', 'G1_1884', 'G3_0126')
+# names = c('S1_1033', 'S3_1292', 'W1_2554', 'W3_0222', 'G1_1884', 'G3_0126')
+names = c('cg18849583', 'cg01268345', 'cg10333416', 'cg12925355', 'cg25542041', 'cg02227036')
 std1 = vector(length = length(names))
 std2 = vector(length = length(names))
 snp_name = vector(length = length(names))

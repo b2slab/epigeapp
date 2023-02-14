@@ -128,7 +128,8 @@ def check_all_data_files(path_folder):
 def check_all_cpg(path_folder):
     df = pd.read_csv(path_folder / "Results.csv", sep="\t")
 
-    names = ['S1_1033', 'S3_1292', 'W1_2554', 'W3_0222', 'G1_1884', 'G3_0126']
+    # CAMBIO DE BUSQUEDA DE NOMBRES: names = ['S1_1033', 'S3_1292', 'W1_2554', 'W3_0222', 'G1_1884', 'G3_0126']
+    names = ['cg18849583', 'cg01268345', 'cg10333416', 'cg12925355', 'cg25542041', 'cg02227036']
 
     flag = True
     message = None
@@ -263,21 +264,29 @@ def get_classification(path_folder, sample):
 
     delta = []
     names = []
+        
     for name, group in results_data.groupby("SNP Assay Name"):
         dummy_mean = group[["Allele1 Delta Rn", "Allele2 Delta Rn"]].mean()
         delta.append(dummy_mean.values)
         names.append(name)
 
     delta = np.vstack(delta)
-
+    
     df = pd.DataFrame(delta, columns=["Allele1 Delta Rn", "Allele2 Delta Rn"])
     df["delta1_avg_log"] = np.log(df["Allele1 Delta Rn"])
     df["delta2_avg_log"] = np.log(df["Allele2 Delta Rn"])
     df["cpg"] = names
-
-    if sum(df['cpg'] == ['G1_1884', 'G3_0126', 'S1_1033', 'S3_1292', 'W1_2554', 'W3_0222']) != 6:
-        df = df.sort_values('cpg')
-
+    
+    # # CAMBIO DE BUSQUEDA DE NOMBRES:
+    # if sum(df['cpg'] == ['G1_1884', 'G3_0126', 'S1_1033', 'S3_1292', 'W1_2554', 'W3_0222']) != 6:
+    #    df = df.sort_values('cpg')
+        
+    if sum(df['cpg'] == ['cg18849583', 'cg01268345', 'cg10333416', 'cg12925355', 'cg25542041', 'cg02227036']) != 6:
+        # CAMBIO DE BUSQUEDA DE NOMBRES:
+        # df = df.sort_values('cpg')
+        df['cpg'] = pd.Categorical(df['cpg'], ['cg18849583', 'cg01268345', 'cg10333416', 'cg12925355', 'cg25542041', 'cg02227036'])
+        df = df.sort_values("cpg")
+        
     filename = 'logistic_model.sav'
     loaded_model = pickle.load(open('workflow/classifiers/' + filename, 'rb'))
     my_array = loaded_model.predict_proba(df[['delta1_avg_log', 'delta2_avg_log']])

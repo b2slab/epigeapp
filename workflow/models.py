@@ -113,7 +113,8 @@ class Calibration(models.Model):
 
     @property
     def standard_deviation_dataframe(self):
-        names = ['S1_1033', 'S3_1292', 'W1_2554', 'W3_0222', 'G1_1884', 'G3_0126']
+        #names = ['S1_1033', 'S3_1292', 'W1_2554', 'W3_0222', 'G1_1884', 'G3_0126']
+        names = ['cg18849583', 'cg01268345', 'cg10333416', 'cg12925355', 'cg25542041', 'cg02227036']
         std1 = []
         std2 = []
         snp_name = []
