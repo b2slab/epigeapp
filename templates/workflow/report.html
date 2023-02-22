@@ -6,8 +6,7 @@
         {% if sample.status == 1 %}
 
         <div style="text-align: center; margin-top: 0px; padding-top: 0px;">
-            <img src="{% static 'img/logos/EpiGe-App_V2_web.png' %}" style="width: 70%;" alt="logo_web">
-            <p style="font-size: 10px;">A web application for cytosine methyl-genotyping for Medulloblastoma molecular classification.</p>
+            <img src="{% static 'img/logos/EpiGe-App_V4_removeBKG.png' %}" style="width: 70%;" alt="logo_web">
         </div>
         <h3>EpiGe Medulloblastoma Subgroup Prediction (v1.0)</h3>
         <hr>
@@ -44,57 +43,55 @@
         </table>
         <h3>Medulloblastoma Subgroup Assignment</h3>
         <hr>
-        <h4 style="margin-bottom: 0px;">{{ classification.subgroup }}</h4>
         {% if classification.subgroup == "WNT" %}
+            <h4 style="margin-bottom: 0px;">Medulloblastoma, Wingless/INT1 (WNT)-activated</h4>
             <p style="text-align: justify;text-justify: inter-word;margin-top: 0px;">
-                Medulloblastoma (MB) genetically defined as Wingless-activated (WNT) is characterized 
-                by monosomy of chromosome 6 in more than 80% of tumors together with mutation of CTNNB1. 
-                Histologically most WNT cases are classified as classic or, less frequent, as large cell/anaplastic variant. 
-                WNT tumors are located in the cerebellum, typically in the vermis and the median age of presentation is 12 years. 
-                Patients with WNT MB have an excellent prognosis with current therapy schemes (5-year event free survival greater than 90%) 
-                and are currently considered for controlled reduction of treatment 
-                (<a href="https://clinicaltrials.gov" target="_blank" rel="noreferrer noopener">https://clinicaltrials.gov</a>).
+                WNT-activated medulloblastoma is an embryonal tumour thought to arise from cells in the dorsal brainstem. 
+                WNT-activated tumours account for approximately 10% of all medulloblastomas, occurring generally in children between 4 and 7 years of age, and accounting for 15-20% of adult medulloblastomas. 
+                Two molecular subgroups have been described: WNT-α and WNT-β that differ in age at presentation of the disease, and frequency of monosomy 6. 
+                Patients with WNT-activated medulloblastomas rarely present metastatic disease at diagnosis, and the outcomes are favourable (5-year survival of more than 95%). 
+                These tumours generally have a classic histology. Somatic mutations in exon 3 of CTNNB1 gene are present in 85-89% of WNT-activated medulloblastomas. 
+                Most WNT-activated medulloblastoma lacking somatic CTNNB1 mutation arise in patients carrying pathogenic germline <i>APC</i> mutations. 
+                Monosomy of chromosome 6, in absence of other somatic copy-number alterations, is a characteristic genetic feature of these tumours.
             </p>
         {% elif classification.subgroup == "SHH" %}
+            <h4 style="margin-bottom: 0px;">Medulloblastoma, Sonic hedgehog (SHH)-activated</h4>
             <p style="text-align: justify;text-justify: inter-word;margin-top: 0px;">
-                Medulloblastoma (MB) genetically defined as Sonic Hedgehog activated (SHH) are characterized 
-                by upstream SHH pathway alterations, such as PTCH1 and SMO, or SUFU. Young MB SHH patients may 
-                have germline origin associated to Gorlin’s syndrome. SHH MB subgroup class includes the majority 
-                of TP53-mutated MB tumors, often associated to Li-Fraumeni syndrome. This SHH-TP53 mutated tumors 
-                are typically associated with children about 8-15 years and often have large cell/anaplastic 
-                morphology, with large amount of copy number alterations even chromothripsis. Histologically most 
-                cases are classified as desmoplastic or extensive nodularity variant, less commonly as classic variant 
-                and occasionally as large cell/anaplastic. MB SHH tumors are located in the cerebellum with a tendency 
-                to be present laterally. Median age of presentation is 2 years for infants and 22 years for children and adult. 
-                The prognosis of SHH-activated MBs is largely dependent on patient’s age and specific genetic features where 
-                children with TP53 mutated SHH tumors have  poorer outcome. Subgroup-driven clinical trials are currently being 
-                conducted aimed at the estimation of the efficacy of SHH pathway inhibitors (e.g.vismodegib) at diagnosis or 
-                in recurrent or refractory SHH-activated tumors 
-                (<a href="https://clinicaltrials.gov" target="_blank" rel="noreferrer noopener">https://clinicaltrials.gov</a>).
+                SHH-activated medulloblastoma is an embryonal tumour of the cerebellum, characterized by the activation of the SHH signalling pathway. 
+                SHH-activated tumours represent about 30% of patients with medulloblastoma, and are subdivided according to <i>TP53</i> gene mutation status (SHH-with wild type <i>TP53</i> and SHH with mutant <i>TP53</i>). 
+                SHH-activated medulloblastoma display a bimodal age distribution, being the most common molecular subgroup in infants (less than 3 years of age) and adults (older than 17 years), with fewer cases being diagnosed during childhood and adolescence. 
+                Medulloblastoma SHH are characterized by upstream SHH pathway alterations, such as PTCH1 and SMO, or SUFU. Young MB SHH patients may have germline origin associated to Gorlin’s syndrome. Histologically most cases present as desmoplastic or extensive nodularity variant, less commonly as classic variant and occasionally as large cell/anaplastic. 
+                SHH-activated tumours are located in the cerebellum with a tendency to be located laterally. 
+                Median age of presentation is 2 years for infants and 22 years for children and adult. 
+                The prognosis of SHH-activated MBs is largely dependent on patient’s age and specific genetic features where children with TP53 mutated SHH tumours have poorer outcome.
             </p>
         {% elif classification.subgroup == "non-WNT/non-SHH" %}
+            <h4 style="margin-bottom: 0px;">Medulloblastoma, non-WNT/non-SHH</h4>
             <p style="text-align: justify;text-justify: inter-word;margin-top: 0px;">
-                Medulloblastoma (MB) genetically defined as non-WNT/non-SHH is a provisionally entity composed by 
-                Group 3 and Group 4 MB subgroups [<a href="#cita_louis">1</a>, <a href="#cita_rama">2</a>]. 
-                Group 3 and Group 4 have a low incidence of recurring mutations but are characterized by recurrent, 
-                partly overlapping, chromosomal alterations. Histologically most cases fall into the classical and 
-                large cell/anaplastic groups. Tumors are located in the cerebellum, typically in the vermis. 
-                non-WNT/non-SHH MB are more common in males than females. MYC amplification, MYCN amplification, 
-                aneuploidy, isochromosome 17q and GFI1/1B activation by enhancer hijacking are recurrent features, 
-                but a fraction lack an obvious driving genetic change. Patients with non-WNT/non-SHH tumors have the 
-                most unfavorable prognosis, especially when associated with MYC amplification.
+                Medulloblastoma, non-WNT/non-SHH is an embryonal tumour of the cerebellum without a molecular signature associated with activation of the WNT or SHH signalling pathway.
+                Non-WNT/non-SHH are classified as group 3 and group 4 tumours and comprise eight molecular subgroups. 
+                Group 3 tumours occur during infancy and childhood, and account for about 25% of medulloblastomas (~40% of cases in infants). 
+                Group 4 medulloblastomas occurs across all age groups, accounting for 40% of cases. 
+                Approximately 30-40% of patients of both subgroups, present metastasis disease at the moment of diagnosis. 
+                Histologically most cases fall into the classical and large cell/anaplastic groups. 
+                Group 3 and group 4 are characterized by partly overlapping genetic features, making their distinction in some cases difficult. 
+                Consequently, group 3 and group 4 have been described as a single subgroup designated non-WNT/non-SHH. 
+                <i>MYC</i> or <i>MYCN</i> amplification, isochromosome 17q (found in >50%) and GFI1/1B activation by enhancer hijacking are recurrent features in both subgroups. 
+                <i>MYC</i> amplification is a common genetic alteration seen in group 3 (17%) medulloblastomas, and is associated with a poor outcome. 
+                <i>MYCN</i> amplification in the most frequent alteration identified in group 4 medulloblastomas. 
+                Metastatic disease at presentation of the disease, is associated with poor outcome in group 4 medulloblastomas.
             </p>
         {% else %}
             <p style="text-align: justify;text-justify: inter-word;"></p>
         {% endif %}
         <h4 style="margin-bottom: 0px;">Disclaimer</h4>
         <div style="border: 1px solid #f5c6cb;border-radius: 5px;background-color: #f8d7da;color: #721c24">
-            <p style="text-align: justify;text-justify: inter-word;margin: 10px 15px;">
-                Classification using methylation profiling is a research tool under development, 
-                it is not verified and has not been clinically validated. Implementation of the results 
-                in a clinical setting is in the sole responsibility of the treating physician.
+            <p style="text-align: justify;text-justify: inter-word;margin: 5px 10px;">
+                EpiGe-App is a research tool that is intended only for scientific purposes: 
+                the EpiGe-App has not been validated clinically and was not designed to be used for diagnostic purpose nor to replace the services of a licensed, trained physician or health professional or to be a substitute for medical advice.
             </p>
         </div>
+        <div class="pagebreak"> </div>
         <h3>Cytosine Methylation Status Predictor</h3>
         <hr>
         <h4>Table of reference patterns</h4>
@@ -109,6 +106,7 @@
         <div style="text-align: center;">
             <img src="{% get_static_prefix %}samples/{{ sample.id }}/sample_table.png"  style="width: 100%;border: 1px solid #dee2e6;" alt="sample_table_image">
         </div>
+        <div class="pagebreak"> </div>
         <h3>Medulloblastoma Subgroup Classification by Hamming Distance</h3>
         <hr>
         <h4>Radar plot with Hamming distances</h4>
@@ -134,6 +132,7 @@
             </tr>
             </tbody>
         </table>
+        <div class="pagebreak"> </div>
         <h3>Quality Control Summary</h3>
         <hr>
         <table class="my_tables">
@@ -187,6 +186,7 @@
                 </tr>
             </tbody>
         </table>
+        <div class="pagebreak"> </div>
         <h3>Technical report</h3>
         <hr>
         <h4>Calibration information</h4>
@@ -230,6 +230,7 @@
         {% else %}
             <p>No pairs of replicates have a standard deviation greater than 0.5.</p>
         {% endif %}
+        <div class="pagebreak"> </div>
         <h3>Run information</h3>
         <hr>
         <table class="my_tables">
@@ -267,12 +268,17 @@
         <hr>
         <ol>
             <li><a id="cita_louis" href="https://pubmed.ncbi.nlm.nih.gov/34185076/" target="_blank" rel="noopener noreferrer" style="text-align: justify;text-justify: inter-word;">Louis DN, Perry A, Wesseling P, Brat DJ, Cree IA, Figarella-Branger D, Hawkins C, Ng HK, Pfister SM, Reifenberger G, Soffietti R, von Deimling A, Ellison DW. The 2021 WHO Classification of Tumors of the Central Nervous System: a summary. Neuro Oncol. 2021 Aug 2;23(8):1231-1251. doi: 10.1093/neuonc/noab106. PMID: 34185076; PMCID: PMC8328013.</a></li><br>
-            <li><a id="cita_rama" href="https://pubmed.ncbi.nlm.nih.gov/27040285/" target="_blank" rel="noopener noreferrer" style="text-align: justify;text-justify: inter-word;">Ramaswamy V, Remke M, Bouffet E, Bailey S, Clifford SC, Doz F, Kool M, Dufour C, Vassal G, Milde T, Witt O, von Hoff K, Pietsch T, Northcott PA, Gajjar A, Robinson GW, Padovani L, André N, Massimino M, Pizer B, Packer R, Rutkowski S, Pfister SM, Taylor MD, Pomeroy SL. Risk stratification of childhood medulloblastoma in the molecular era: the current consensus. Acta Neuropathol. 2016 Jun;131(6):821-31. doi: 10.1007/s00401-016-1569-6. Epub 2016 Apr 4. PMID: 27040285; PMCID: PMC4867119.</a></li><br>
+            <li><a href="https://publications.iarc.fr/Book-And-Report-Series/Who-Classification-Of-Tumours/Central-Nervous-System-Tumours-2021" target="_blank" rel="noopener noreferrer" style="text-align: justify;text-justify: inter-word;">WHO Classification of Tumours. Central Nervous System Tumours/Fifth Edition, IARC 2021.</a></li><br>
             <li><a href="https://pubmed.ncbi.nlm.nih.gov/29351917/" target="_blank" rel="noopener noreferrer" style="text-align: justify;text-justify: inter-word;">Gómez S, Garrido-Garcia A, Garcia-Gerique L, Lemos I, Suñol M, de Torres C, Kulis M, Pérez-Jaume S, Carcaboso ÁM, Luu B, Kieran MW, Jabado N, Kozlenkov A, Dracheva S, Ramaswamy V, Hovestadt V, Johann P, Jones DTW, Pfister SM, Morales La Madrid A, Cruz O, Taylor MD, Martin-Subero JI, Mora J, Lavarino C. A Novel Method for Rapid Molecular Subgrouping of Medulloblastoma. Clin Cancer Res. 2018 Mar 15;24(6):1355-1363. doi: 10.1158/1078-0432.CCR-17-2243. Epub 2018 Jan 19. PMID: 29351917.</a></li>
         </ol>
         <h3>Involved parties</h3>
         <hr>
         <div class="row">
+            <div class="column">
+                <a href="https://www.irsjd.org/en/" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/logos/PCCB logo.png' %}" alt="Logo PCCB" style="width: 100%;">
+                </a>
+            </div>
             <div class="column">
                 <a href="https://www.irsjd.org/en/" target="_blank" rel="noopener noreferrer">
                     <img src="{% static 'img/logos/irsjd.png' %}" alt="Logo IRSJD" style="width: 100%;">
@@ -291,21 +297,20 @@
         </div>
         <h3>Funding</h3>
         <hr>
-        <div class="row">
+        <div class="row" style="text-align: center;">
             <div class="column">
                 <a href="https://www.sjdhospitalbarcelona.org/en" target="_blank" rel="noopener noreferrer">
-                    <img src="{% static 'img/logos/hsjd.png' %}" alt="Logo HSJD" style="width: 100%;padding-bottom: 0px; margin-bottom: 0px;">
+                    <img src="{% static 'img/logos/EpiGe-App_Patients_V4_RemoveBKG.png' %}" alt="Logo HSJD Patients" style="width: 50%">
                 </a>
-                <p style="font-size: 10px;padding-top: 0px; margin-top: 0px;">Associations of patients' families</p>
             </div>
             <div class="column">
                 <a href="https://www.isciii.es/Paginas/Inicio.aspx" target="_blank" rel="noopener noreferrer">
-                    <img src="{% static 'img/logos/isciii.jpg' %}" alt="Logo IRSJD" style="width: 100%;">
+                    <img src="{% static 'img/logos/isciii.jpg' %}" alt="Logo IRSJD" style="width: 50%;">
                 </a>
             </div>
             <div class="column">
                 <a href="https://www.ccma.cat/tv3/marato/en/fundacio/" target="_blank" rel="noopener noreferrer">
-                    <img src="{% static 'img/logos/marato.png' %}" alt="Logo HSJD" style="width: 100%;">
+                    <img src="{% static 'img/logos/marato.png' %}" alt="Logo HSJD" style="width: 50%;">
                 </a>
             </div>
         </div>
@@ -313,8 +318,7 @@
         {% elif sample.status == 2 %}
 
         <div style="text-align: center; margin-top: 0px; padding-top: 0px;">
-            <img src="{% static 'img/logos/EpiGe-App_V2_web.png' %}" style="width: 70%;" alt="logo_web">
-            <p style="font-size: 10px;">A web application for cytosine methyl-genotyping for Medulloblastoma molecular classification.</p>
+            <img src="{% static 'img/logos/EpiGe-App_V4_removeBKG.png' %}" style="width: 70%;" alt="logo_web">
         </div>
         <h3>EpiGe Medulloblastoma Subgroup Prediction (v1.0)</h3>
         <hr>
@@ -445,12 +449,17 @@
         <hr>
         <ol>
             <li><a id="cita_louis" href="https://pubmed.ncbi.nlm.nih.gov/34185076/" target="_blank" rel="noopener noreferrer" style="text-align: justify;text-justify: inter-word;">Louis DN, Perry A, Wesseling P, Brat DJ, Cree IA, Figarella-Branger D, Hawkins C, Ng HK, Pfister SM, Reifenberger G, Soffietti R, von Deimling A, Ellison DW. The 2021 WHO Classification of Tumors of the Central Nervous System: a summary. Neuro Oncol. 2021 Aug 2;23(8):1231-1251. doi: 10.1093/neuonc/noab106. PMID: 34185076; PMCID: PMC8328013.</a></li><br>
-            <li><a id="cita_rama" href="https://pubmed.ncbi.nlm.nih.gov/27040285/" target="_blank" rel="noopener noreferrer" style="text-align: justify;text-justify: inter-word;">Ramaswamy V, Remke M, Bouffet E, Bailey S, Clifford SC, Doz F, Kool M, Dufour C, Vassal G, Milde T, Witt O, von Hoff K, Pietsch T, Northcott PA, Gajjar A, Robinson GW, Padovani L, André N, Massimino M, Pizer B, Packer R, Rutkowski S, Pfister SM, Taylor MD, Pomeroy SL. Risk stratification of childhood medulloblastoma in the molecular era: the current consensus. Acta Neuropathol. 2016 Jun;131(6):821-31. doi: 10.1007/s00401-016-1569-6. Epub 2016 Apr 4. PMID: 27040285; PMCID: PMC4867119.</a></li><br>
+            <li><a href="https://publications.iarc.fr/Book-And-Report-Series/Who-Classification-Of-Tumours/Central-Nervous-System-Tumours-2021" target="_blank" rel="noopener noreferrer" style="text-align: justify;text-justify: inter-word;">WHO Classification of Tumours. Central Nervous System Tumours/Fifth Edition, IARC 2021.</a></li><br>
             <li><a href="https://pubmed.ncbi.nlm.nih.gov/29351917/" target="_blank" rel="noopener noreferrer" style="text-align: justify;text-justify: inter-word;">Gómez S, Garrido-Garcia A, Garcia-Gerique L, Lemos I, Suñol M, de Torres C, Kulis M, Pérez-Jaume S, Carcaboso ÁM, Luu B, Kieran MW, Jabado N, Kozlenkov A, Dracheva S, Ramaswamy V, Hovestadt V, Johann P, Jones DTW, Pfister SM, Morales La Madrid A, Cruz O, Taylor MD, Martin-Subero JI, Mora J, Lavarino C. A Novel Method for Rapid Molecular Subgrouping of Medulloblastoma. Clin Cancer Res. 2018 Mar 15;24(6):1355-1363. doi: 10.1158/1078-0432.CCR-17-2243. Epub 2018 Jan 19. PMID: 29351917.</a></li>
         </ol>
         <h3>Involved parties</h3>
         <hr>
         <div class="row">
+            <div class="column">
+                <a href="https://www.irsjd.org/en/" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/logos/PCCB logo.png' %}" alt="Logo PCCB" style="width: 100%;">
+                </a>
+            </div>
             <div class="column">
                 <a href="https://www.irsjd.org/en/" target="_blank" rel="noopener noreferrer">
                     <img src="{% static 'img/logos/irsjd.png' %}" alt="Logo IRSJD" style="width: 100%;">
@@ -469,21 +478,20 @@
         </div>
         <h3>Funding</h3>
         <hr>
-        <div class="row">
+        <div class="row" style="text-align: center;">
             <div class="column">
                 <a href="https://www.sjdhospitalbarcelona.org/en" target="_blank" rel="noopener noreferrer">
-                    <img src="{% static 'img/logos/hsjd.png' %}" alt="Logo HSJD" style="width: 100%;padding-bottom: 0px; margin-bottom: 0px;">
+                    <img src="{% static 'img/logos/EpiGe-App_Patients_V4_RemoveBKG.png' %}" alt="Logo HSJD Patients" style="width: 50%">
                 </a>
-                <p style="font-size: 10px;padding-top: 0px; margin-top: 0px;">Associations of patients' families</p>
             </div>
             <div class="column">
                 <a href="https://www.isciii.es/Paginas/Inicio.aspx" target="_blank" rel="noopener noreferrer">
-                    <img src="{% static 'img/logos/isciii.jpg' %}" alt="Logo IRSJD" style="width: 100%;">
+                    <img src="{% static 'img/logos/isciii.jpg' %}" alt="Logo IRSJD" style="width: 50%;">
                 </a>
             </div>
             <div class="column">
                 <a href="https://www.ccma.cat/tv3/marato/en/fundacio/" target="_blank" rel="noopener noreferrer">
-                    <img src="{% static 'img/logos/marato.png' %}" alt="Logo HSJD" style="width: 100%;">
+                    <img src="{% static 'img/logos/marato.png' %}" alt="Logo HSJD" style="width: 50%;">
                 </a>
             </div>
         </div>
@@ -491,8 +499,7 @@
         {% elif sample.status == 3 %}
 
         <div style="text-align: center; margin-top: 0px; padding-top: 0px;">
-            <img src="{% static 'img/logos/EpiGe-App_V2_web.png' %}" style="width: 70%;" alt="logo_web">
-            <p style="font-size: 10px;">A web application for cytosine methyl-genotyping for Medulloblastoma molecular classification.</p>
+            <img src="{% static 'img/logos/EpiGe-App_V4_removeBKG.png' %}" style="width: 70%;" alt="logo_web">
         </div>
         <h3>EpiGe Medulloblastoma Subgroup Prediction (v1.0)</h3>
         <hr>
@@ -653,12 +660,17 @@
         <hr>
         <ol>
             <li><a id="cita_louis" href="https://pubmed.ncbi.nlm.nih.gov/34185076/" target="_blank" rel="noopener noreferrer" style="text-align: justify;text-justify: inter-word;">Louis DN, Perry A, Wesseling P, Brat DJ, Cree IA, Figarella-Branger D, Hawkins C, Ng HK, Pfister SM, Reifenberger G, Soffietti R, von Deimling A, Ellison DW. The 2021 WHO Classification of Tumors of the Central Nervous System: a summary. Neuro Oncol. 2021 Aug 2;23(8):1231-1251. doi: 10.1093/neuonc/noab106. PMID: 34185076; PMCID: PMC8328013.</a></li><br>
-            <li><a id="cita_rama" href="https://pubmed.ncbi.nlm.nih.gov/27040285/" target="_blank" rel="noopener noreferrer" style="text-align: justify;text-justify: inter-word;">Ramaswamy V, Remke M, Bouffet E, Bailey S, Clifford SC, Doz F, Kool M, Dufour C, Vassal G, Milde T, Witt O, von Hoff K, Pietsch T, Northcott PA, Gajjar A, Robinson GW, Padovani L, André N, Massimino M, Pizer B, Packer R, Rutkowski S, Pfister SM, Taylor MD, Pomeroy SL. Risk stratification of childhood medulloblastoma in the molecular era: the current consensus. Acta Neuropathol. 2016 Jun;131(6):821-31. doi: 10.1007/s00401-016-1569-6. Epub 2016 Apr 4. PMID: 27040285; PMCID: PMC4867119.</a></li><br>
+            <li><a href="https://publications.iarc.fr/Book-And-Report-Series/Who-Classification-Of-Tumours/Central-Nervous-System-Tumours-2021" target="_blank" rel="noopener noreferrer" style="text-align: justify;text-justify: inter-word;">WHO Classification of Tumours. Central Nervous System Tumours/Fifth Edition, IARC 2021.</a></li><br>
             <li><a href="https://pubmed.ncbi.nlm.nih.gov/29351917/" target="_blank" rel="noopener noreferrer" style="text-align: justify;text-justify: inter-word;">Gómez S, Garrido-Garcia A, Garcia-Gerique L, Lemos I, Suñol M, de Torres C, Kulis M, Pérez-Jaume S, Carcaboso ÁM, Luu B, Kieran MW, Jabado N, Kozlenkov A, Dracheva S, Ramaswamy V, Hovestadt V, Johann P, Jones DTW, Pfister SM, Morales La Madrid A, Cruz O, Taylor MD, Martin-Subero JI, Mora J, Lavarino C. A Novel Method for Rapid Molecular Subgrouping of Medulloblastoma. Clin Cancer Res. 2018 Mar 15;24(6):1355-1363. doi: 10.1158/1078-0432.CCR-17-2243. Epub 2018 Jan 19. PMID: 29351917.</a></li>
         </ol>
         <h3>Involved parties</h3>
         <hr>
         <div class="row">
+            <div class="column">
+                <a href="https://www.irsjd.org/en/" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'img/logos/PCCB logo.png' %}" alt="Logo PCCB" style="width: 100%;">
+                </a>
+            </div>
             <div class="column">
                 <a href="https://www.irsjd.org/en/" target="_blank" rel="noopener noreferrer">
                     <img src="{% static 'img/logos/irsjd.png' %}" alt="Logo IRSJD" style="width: 100%;">
@@ -677,21 +689,20 @@
         </div>
         <h3>Funding</h3>
         <hr>
-        <div class="row">
+        <div class="row" style="text-align: center;">
             <div class="column">
                 <a href="https://www.sjdhospitalbarcelona.org/en" target="_blank" rel="noopener noreferrer">
-                    <img src="{% static 'img/logos/hsjd.png' %}" alt="Logo HSJD" style="width: 100%;padding-bottom: 0px; margin-bottom: 0px;">
+                    <img src="{% static 'img/logos/EpiGe-App_Patients_V4_RemoveBKG.png' %}" alt="Logo HSJD Patients" style="width: 50%">
                 </a>
-                <p style="font-size: 10px;padding-top: 0px; margin-top: 0px;">Associations of patients' families</p>
             </div>
             <div class="column">
                 <a href="https://www.isciii.es/Paginas/Inicio.aspx" target="_blank" rel="noopener noreferrer">
-                    <img src="{% static 'img/logos/isciii.jpg' %}" alt="Logo IRSJD" style="width: 100%;">
+                    <img src="{% static 'img/logos/isciii.jpg' %}" alt="Logo IRSJD" style="width: 50%;">
                 </a>
             </div>
             <div class="column">
                 <a href="https://www.ccma.cat/tv3/marato/en/fundacio/" target="_blank" rel="noopener noreferrer">
-                    <img src="{% static 'img/logos/marato.png' %}" alt="Logo HSJD" style="width: 100%;">
+                    <img src="{% static 'img/logos/marato.png' %}" alt="Logo HSJD" style="width: 50%;">
                 </a>
             </div>
         </div>

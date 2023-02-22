@@ -142,3 +142,9 @@ h1 {
     flex: 33.33%;
     padding: 5px;
 }
+
+@page {
+    @bottom-right{
+        content: counter(page) " / " counter(pages);
+    };
+}
