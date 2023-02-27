@@ -5,9 +5,8 @@
 
 {% block content %}
     <div class="col-md-12">
-        <h3 class="mb-3">Step I</h3>
+        <h3 class="mb-3">Protocols</h3>
         <hr>
-        <h4 class="mb-3">Protocols</h4>
         <p>Download and make sure to follow the guidelines below before proceeding:</p>
         <ul>
             <li><a href="{% url 'core_app:download' filename='EpiGe_Genotyping_Protocol.pdf' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_Genotyping_Protocol.pdf</a></li>
@@ -22,12 +21,5 @@
             <li><a href="{% static 'protocols/EpiGe_TEMPLATE_QS3.edt' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_TEMPLATE_QS3.edt</a></li>
             <li><a href="{% static 'protocols/EpiGe_TEMPLATE_QS5.edt' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_TEMPLATE_QS5.edt</a></li>
         </ul>
-        <div class="progress mb-3">
-            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%"></div>
-        </div>
-        <div class="alert alert-danger" role="alert">
-            <i class="fa-solid fa-triangle-exclamation"></i> Classification using methylation profiling is a research tool under development, it is not verified and has not been clinically validated. Implementation of the results in a clinical setting is in the sole responsibility of the treating physician.
-        </div>
-        <a class="btn btn-primary btn-lg btn-block" href="{% url 'core_app:instructions' %}" role="button">Next</a>
     </div>
 {% endblock %}

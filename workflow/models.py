@@ -28,7 +28,6 @@ class Sample(models.Model):
     send_mail = models.BooleanField(default=False, blank=True)
     email = models.EmailField(blank=True)
     sample_identifier = models.CharField(max_length=25)
-    diagnosis = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     file = models.FileField(upload_to=sample_directory_path)
 

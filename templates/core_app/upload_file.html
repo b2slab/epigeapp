@@ -4,47 +4,65 @@
 
 {% block content %}
     <div class="col-md-12">
-        <h3 class="mb-3">Step III</h3>
+        <h3 class="mb-3">Analyse</h3>
         <hr>
-        <h4 class="mb-3">Sample data</h4>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    {{ form.sample_identifier|as_crispy_field }}
+                <div class="card mb-3">
+                    <h4 class="card-header">Requirements and conditions</h4>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-3 text-muted">To proceed with the analysis you must <b>accept</b> the following conditions:</h6>
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ form.diagnosis|as_crispy_field  }}
+                            </div>
+                            <div class="col-md-12">
+                                {{ form.cell_content|as_crispy_field  }}
+                            </div>
+                            <div class="col-md-12">
+                                {{ form.only_one|as_crispy_field  }}
+                            </div>
+                            <div class="col-md-12">
+                                {{ form.instruments|as_crispy_field  }}
+                            </div>
+                            <div class="col-md-12">
+                                {{ form.cpg_names|as_crispy_field  }}
+                            </div>
+                            <div class="col-md-12">
+                                {{ form.confirmation|as_crispy_field  }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6 mb-3">
-                    {{ form.diagnosis|as_crispy_field }}
+                <div class="card mb-3">
+                    <h4 class="card-header">Sample data</h4>
+                    <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    {{ form.sample_identifier|as_crispy_field }}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    {{ form.file|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{ form.send_mail|as_crispy_field }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form.email|as_crispy_field }}
+                                </div>
+                            </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    {{ form.send_mail|as_crispy_field }}
+                <div class="alert alert-danger" role="alert">
+                    <p class="pb-0 mb-0" style="text-align: justify;"><i class="fa-solid fa-triangle-exclamation mr-1"></i> EpiGe-App is a research tool that is intended only for scientific purposes: the EpiGe-App has not been validated clinically and was not designed for diagnostics purpose, nor to replace the services of a licensed, trained physician or health professional, or to substitute for medical advice.</p>
                 </div>
-                <div class="col-md-6 mb-3">
-                    {{ form.email|as_crispy_field }}
+                <div class="alert alert-primary" role="alert">
+                    <p class="pb-0 mb-0" style="text-align: justify;"><i class="fa-solid fa-clock mr-1"></i> The analysis will be perfomed according to the queue of samples. The waiting time if the queue is empty is approximately 1 minute.</p>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    {{ form.file|as_crispy_field }}
-                </div>
-            </div>
-            <div class="row border rounded my-3 pt-3 bg-white">
-                <div class="col-md-12">
-                    {{ form.confirmation|as_crispy_field }}
-                </div>
-            </div>
-            <div class="progress mb-3">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
-            </div>
-            <div class="alert alert-danger" role="alert">
-                <i class="fa-solid fa-triangle-exclamation"></i> Classification using methylation profiling is a research tool under development, it is not verified and has not been clinically validated. Implementation of the results in a clinical setting is in the sole responsibility of the treating physician.
-            </div>
-            <div class="alert alert-primary" role="alert">
-                <i class="fa-solid fa-clock"></i> The analysis will be perfomed according to the queue of samples. The waiting time if the queue is empty is approximately 1 minute.
-            </div>
-            <button class="btn btn-primary btn-lg btn-block mb-3" type="submit">Upload data</button>
+                <button class="btn btn-success btn-lg btn-block mb-3" type="submit"><i class="fa-solid fa-cloud-arrow-up mr-1"></i> UPLOAD TO SERVER</button>
         </form>
+
     </div>
 {% endblock %}
