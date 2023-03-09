@@ -92,7 +92,8 @@ def fixing_radar_plot(path_to_image):
     # trimming image
     im_trim = data[0:1200, :]
     # convert numpy array to image
-    img = Image.fromarray(im_trim, 'RGBA')
+    #img = Image.fromarray(im_trim, 'RGBA')
+    img = Image.fromarray(im_trim, 'RGB')
     # save the image
     img.save(path_to_image / "plots/radar_plot.png")
 
@@ -338,11 +339,11 @@ def send_report(sample_id, base_url):
     sample = Sample.objects.get(id=sample_id)
 
     # create e-mail
-    subject = "EpiGeApp Job ID: {jobID}".format(jobID=sample.id)
+    subject = "EpiGe-App Job ID: {jobID}".format(jobID=sample.id)
     message = f"""
     Hello, the following analysis is complete:
 
-    Job code: {sample.id}
+    Job ID: {sample.id}
     Sample identifier: {sample.sample_identifier}
     Created at: {sample.created}
 
@@ -353,28 +354,30 @@ def send_report(sample_id, base_url):
 
     email = EmailMessage(subject, message, 'hospitalbarcelona.PECA@sjd.es', [sample.email])
 
+    
     if not sample.txt_complete:
-        html = render_to_string('workflow/report_error1.html',
+        html = render_to_string('workflow/report.html',
                                 {'sample': sample})
     elif not sample.all_cpg:
         calibration = Calibration.objects.get(sample=sample_id)
-        html = render_to_string('workflow/report_error2.html',
+        html = render_to_string('workflow/report.html',
                                 {'calibration': calibration,
                                  'sample': sample})
     else:
         calibration = Calibration.objects.get(sample=sample_id)
         classification = Classification.objects.get(sample=sample_id)
 
-        html = render_to_string('workflow/report_complete.html',
+        html = render_to_string('workflow/report.html',
                                 {'classification': classification,
                                  'calibration': calibration,
                                  'sample': sample})
+
     # generate PDF file
     out = BytesIO()
     stylesheets = [weasyprint.CSS(settings.STATICFILES_DIRS[0] / 'css/pdf.css')]
     weasyprint.HTML(string=html, base_url=base_url).write_pdf(out, stylesheets=stylesheets)
     # attach PDF file
-    email.attach(f'analysis_{sample.id}.pdf', out.getvalue(), 'application/pdf')
+    email.attach(f'sample_{sample.id}.pdf', out.getvalue(), 'application/pdf')
     # send e-mail
     email.send()
     print("Report Sent!")

@@ -58,20 +58,20 @@ def analysis_notification(sample_id):
     """
     sample = Sample.objects.get(id=sample_id)
 
-    subject = "EpiGeApp Job ID: {jobID}".format(jobID=sample.id)
+    subject = "EpiGe-App Job ID: {jobID}".format(jobID=sample.id)
     message = f"""
-    Hello, we just received an analysis with this email!
+    Hello, we just received an analysis with this e-mail address!
 
-    You will receive another email with your test result in a few minutes.
-    If you do not receive the email, please write to us at this email address with the job code of the analysis.
+    You will receive another e-mail with your results in a few minutes.
+    If you do not receive the e-mail, please write to us at this e-mail address with the job code of the analysis.
 
-    We show you the job code that has been assigned to you below.
+    The Job ID assigned to you is shown below:
 
-    Job code: {sample.id}
+    Job ID: {sample.id}
     Sample identifier: {sample.sample_identifier}
     Created at: {sample.created}
 
-    Thank you for using EpiGe App!
+    Thank you for using EpiGe-App!
 
     EpiGe Team
     """
