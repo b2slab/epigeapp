@@ -2,7 +2,7 @@ body {
     font-family:Helvetica, sans-serif;
     color:#222;
     line-height:1.5;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 /*
@@ -146,5 +146,6 @@ h1 {
 @page {
     @bottom-right{
         content: counter(page) " / " counter(pages);
+        font-size: x-small;
     };
 }

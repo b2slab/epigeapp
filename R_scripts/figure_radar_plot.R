@@ -4,6 +4,8 @@ library(magrittr)
 library(fmsb)
 options(warn=-1)
 
+Sys.setenv("OPENSSL_CONF"="/dev/null")
+
 #### Main ####
 
 #### Debug Flag ####

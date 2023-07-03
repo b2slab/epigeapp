@@ -28,15 +28,15 @@ class SampleModelForm(ModelForm):
     
     sample_identifier = forms.CharField(label="Sample identifier:",
                                         help_text=mark_safe('<b>Avoid</b> using personal patient information in the sample identifier '
-                                                  'such as name, gender or nationality.'))
+                                                  'such as name, date of birth, gender or nationality.'))
 
     send_mail = forms.BooleanField(required=False,
-                                    label="Do you want to receive the results via email?",
-                                    help_text="If you accept, you will receive an email with the results to the email address below. Otherwise you will be able to consult the results on our web server for the next 30 days.")
+                                    label="Do you want to receive the results via e-mail?",
+                                    help_text="If you accept, you will receive an e-mail with the results to the e-mail address below. Otherwise you will be able to consult the results on our web server for the next 30 days.")
 
 
     diagnosis = forms.BooleanField(label="The sample has been reviewed and diagnosed as medulloblastoma by a pathologist.",
-                                    help_text='EpiGe-App is not designed as a diagnostic tool.', error_messages= {'required': 'Please let us know what to call you!'})
+                                    help_text='EpiGe-App is not designed as a diagnostic tool.')
     
     
     confirmation = forms.BooleanField(label=mark_safe("<strong>Confirmation:</strong> I accept the <a href='https://www.irsjd.org/en/legal-notice-and-terms-of-use/' target='_blank' rel='noopener noreferrer'>terms of use</a>, "

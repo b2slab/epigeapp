@@ -138,15 +138,26 @@ MEDIA_ROOT = BASE_DIR.parent.parent / "media"
 # ==============================================================================
 if DEBUG:
     DATABASES = {
-        "default": dj_database_url.config(default='sqlite:///db.sqlite3'),
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'epigen_app',
+        'USER': 'epigen_user',
+        'PASSWORD': 'Erundig13',
+        'HOST': 'localhost',
+        'PORT': '',
     }
+}
 else:
     DATABASES = {
-        "default": dj_database_url.config(
-            default=config("DATABASE_URL", default="postgres://simple:simple@localhost:5432/simple"),
-            conn_max_age=600,
-        )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'epigen_app',
+        'USER': 'epigen_user',
+        'PASSWORD': 'Erundig13',
+        'HOST': 'localhost',
+        'PORT': '',
     }
+}
 
 # ==============================================================================
 # EMAIL SETTINGS

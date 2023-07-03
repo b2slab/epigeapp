@@ -6,6 +6,8 @@ library(webshot)
 library(formattable)
 options(warn=-1)
 
+Sys.setenv("OPENSSL_CONF"="/dev/null")
+
 #### My functions ####
 tablePlot <- function(dataframe, sampleName){
   Sample_ID <- c(sampleName)

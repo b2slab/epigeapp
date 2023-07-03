@@ -3,6 +3,8 @@ library(htmltools)
 library(webshot)
 library(formattable)
 
+Sys.setenv("OPENSSL_CONF"="/dev/null")
+
 export_formattable <- function(f, file, width = "100%", height = NULL, 
                                background = "white", delay = 0.2)
 {
