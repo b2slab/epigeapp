@@ -44,6 +44,14 @@ def information_view(request):
     return render(request, 'core_app/information.html')
 
 
+def tutorial_view(request):
+    return render(request, 'core_app/tutorial.html')
+
+
+def browser_view(request):
+    return render(request, 'core_app/browser.html')
+
+
 def about_view(request):
     return render(request, 'core_app/about_us.html')
 

@@ -33,24 +33,37 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'workflow:upload_data' %}">Start using the app</a>
+                    <a class="nav-link" href="{% url 'workflow:upload_data' %}">Run analysis</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'core_app:information' %}">Graphical abstract</a>
+                    <a class="nav-link" href="{% url 'core_app:tutorial' %}">Tutorial</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'core_app:protocols' %}">Protocols</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Protocols and Materials
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'core_app:protocols' %}#protocols">Protocols</a>
+                        <a class="dropdown-item" href="{% url 'core_app:protocols' %}#materials">Materials</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'core_app:protocols' %}#supplementary">Suplementary materials</a>
+                    </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'core_app:about' %}">About us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'core_app:contact' %}">Contact</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      About
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'core_app:about' %}">About us</a>
+                        <a class="dropdown-item" href="{% url 'core_app:contact' %}">Contact</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'core_app:browser' %}">Browser compatibility</a>
+                    </div>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0 ml-auto" method=POST action="{% url 'core_app:search-job' %}">
                 {% csrf_token %}
-                <input class="form-control mr-sm-2" type="search" placeholder="Search a Job ID" aria-label="Search"
+                <input class="form-control mr-sm-2" type="search" placeholder="Job ID" aria-label="Search"
                        name="searched">
                 <button class="btn btn-secondary my-2 my-sm-0" type="submit"><i class="fa-solid fa-magnifying-glass mr-1"></i>Search</button>
             </form>
@@ -71,6 +84,7 @@
 <footer>
     <div id="footer-1" class="py-4">
         <div class="container pb-3">
+            <hr>
             <p class="pb-4 text-muted text-center text-small">Fundació Sant Joan de Déu – Institut de Recerca Sant Joan de Déu. Edificio SJD Pediatric Cancer Center. Santa Rosa, 39-57 08950 Esplugues del Llobregat (Barcelona) · <a href="https://www.irsjd.org/en/" target="_blank">www.irsjd.org</a></p>
             <div class="row" style="display: flex; align-items: center; justify-content: center; text-align: center">
                 <div class="col">

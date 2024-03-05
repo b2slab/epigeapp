@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="col-md-12" style="text-align: justify;">
+        <h3 class="mb-3">Tutorial</h3>
+        <hr>
+        <h4>Getting Started</h4>
+        <p>This guide shows how to use your data with EpiGe-App webserver. For this, we will use as an example 
+            the file <b>EpiGe_sample_test.txt</b> which is available for download in the 
+            <a href="{% url 'core_app:protocols' %}#supplementary">Protocols and Materials</a> tab.</p>
+        <ul style="list-style-type: none;">
+            <li><a href="#section1">1. Description of the data</a></li>
+            <li><a href="#section2">2. Uploading Data</a></li>
+            <li><a href="#section3">3. Retrieve results</a></li>
+            <li><a href="#section4">4. Results</a></li>
+            <li><a href="#section41">4.1. Basic information</a></li>
+            <li><a href="#section42">4.2. Molecular classification of medulloblastoma</a></li>
+            <li><a href="#section43">4.3. Cytosine methylation status predictor</a></li>
+            <li><a href="#section44">4.4. Hamming distance-based similarity score</a></li>
+            <li><a href="#section45.">4.5. Quality control summary</a></li>
+            <li><a href="#section46">4.6. Technical report</a></li>
+            <li><a href="#section5">5. Download</a></li>
+        </ul>
+        <h4 id="section1">1. Description of the data</h4>
+        <p>This file was obtained directly from the Applied Biosystems QS5 thermocycler following the 
+            protocols available in the <a href="{% url 'core_app:protocols' %}#protocols">Protocols and Materials</a> tab. 
+            This tab-separated values text file contains the data and metadata of the experiment in the 
+            form of different tables such as sample setup, raw data, results and others.</p>
+        <h4 id="section2">2. Uploading Data</h4>
+        <p>The process of uploading the data is performed on the <b>Upload data</b> page which can be accessed 
+            from <a href="{% url 'workflow:upload_data' %}">Run analysis</a> in the navigation bar 
+            or through the <span style="color: green;">RUN ANALYSIS</span> button on the homepage. </p>
+        <p>Once there, the user encounters an input data form divided into two panels. The first panel is a 
+            list of conditions and requirements that the user <b>must accept</b> in order to upload a file to the server. 
+            Adherence to these conditions and requirements is essential to ensure the reliability of the results.</p>
+        <div class="container pb-3" style="text-align: center;">
+            <img src="{% static 'img/panel_1_upload_data.png' %}" alt="Panel 1 upload data" height="450px">
+        </div>
+        <p>In the second panel, the user is required to assign an identifier to the analysis and select the 
+            text file they intend to upload. Optionally, they may choose whether to receive the results and 
+            information via e-mail and provide their e-mail address.</p>
+        <div class="container pb-3" style="text-align: center;">
+            <img src="{% static 'img/panel_2_upload_data.png' %}" alt="Panel 2 upload data" height="450px">
+        </div>
+        <p>To complete the form successfully the user must accept and fill in the fields marked with <span style="color: red;">red boxes</span>. 
+            While the fields marked with <span style="color: blue;">blue boxes</span> are optional. In this example, we have typed 
+            <b>Sample test</b> in the Sample ID text box and selected 
+            <b>EpiGe_sample_test.txt</b> file in the Upload File Browser.</p>
+        <p>Then, to upload the file simply click on the <span style="color: green;">UPLOAD TO SERVER</span> button.</p>
+        <p>Once the data has been successfully uploaded to EpiGe-App, a window will display your <b>Job ID</b>.
+            You can automatically copy your Job ID to your clipboard by clicking the button in the <span style="color: red;">red box</span>.
+            If you haven't provided an email, we recommend saving your Job ID properly to access the analysis results later.
+        </p>
+        <div class="container pb-3" style="text-align: center;">
+            <img src="{% static 'img/job_id_page.png' %}" alt="Job ID page" height="300px">
+        </div>
+        <p>For instance, the Job ID for our submission is <b>51f96d55-4928-4c1f-a31e-eecdfd899d68</b>.</p>
+        <h4 id="section3">3. Retrieve results</h4>
+        <p>To check your results you can use the <b>search engine</b> in the top right corner. 
+            The results will be stored on our server for <b>30 days</b> after we receive the data.</p>
+        <div class="container pb-3" style="text-align: center;">
+            <img src="{% static 'img/search_job_id.png' %}" alt="Job ID searcher" height="55px">
+        </div>
+        <h4 id="section4">4. Results</h4>
+        <p>In the next part of the guide we will discuss the results of an analysis. For this purpose, 
+            we will use the results obtained by the following Job ID: <b>51f96d55-4928-4c1f-a31e-eecdfd899d68</b>.</p>
+        <h5 id="section41">4.1. Basic information</h5>
+        <p>The first result we see when accessing a results page is a table with information about the uploaded text file such as the 
+            sample ID, the file name, the file size and the date the analysis was performed.</p>
+        <div class="container pb-3" style="text-align: center;">
+            <img src="{% static 'img/resultados_1.png' %}" alt="Tabla de resultados 1" height="250px">
+        </div>
+        <h5 id="section42">4.2. Molecular classification of medulloblastoma</h5>
+        <p>The next result presented to us is the <b>molecular subgroup</b> of medulloblastoma. In this section, we present the molecular subgroup derived from the sample analysis. 
+            Sections <a href="#section43">4.3</a> and <a href="#section43">4.4</a> show the results of both the methylation status predictor and the similarity score, providing the basis for this classification. In addition, we also add here extra information about the assigned 
+            molecular subgroup such as <b>incidence, prognosis and genetic features</b>. In the figure below you can see the assigned molecular subgroup in 
+            the <span style="color: red;">red box</span> and the description of this group in the <span style="color: orange;">orange box</span>.</p>
+        <p> In this example, the identified molecular subgroup is <b>non-WNT/non-SHH</b>. Pertinent details about this subgroup indicate its composition, comprising two distinct subgroups (Group 3 and Group 4). 
+            However, these subgroups exhibit overlapping genetic characteristics, posing challenges in their differentiation.</p>
+        <p>Ultimately, a disclaimer is displayed to explicitly define its intended purpose. It explicitly states that while EpiGe-App serves as a <b>research tool</b>, it is not intended for diagnostic purposes.</p>
+        <div class="container pb-3" style="text-align: center;">
+            <img src="{% static 'img/resultados_2.png' %}" alt="Tabla de resultados 2" height="400px">
+        </div>
+        <h5 id="section43">4.3. Cytosine methylation status predictor</h5>
+        <p>This section reveals the findings regarding the predicted methylation status of the cytosines that constitute the MB methylation signature.</p>
+        <p>First, a table with the 3 different <b>reference methylation signatures</b> for each of the molecular subgroups is shown. These signatures have been 
+            obtained by binarising and coding in a specific order (cg18849583, cg01268345, cg10333416, cg12925355, cg25542041, and cg02227036) the 6 
+            cytosines from previously published MB tumour DNA methylation data (n = 3,044). The methylation pattern of these signatures is very stable, 
+            repeating 97% for the non-WNT/non-SHH subgroup, 95% for the WNT subgroup and 89% for the SHH subgroup. For more detail 
+            <a href="https://www.sciencedirect.com/science/article/pii/S2589004223016759" target="_blank" rel="noopener noreferrer">iScience</a>.</p>
+        <p>As can be seen in the figure below, the signatures differ in the methylation state of 4 cytosines between groups making it possible 
+            to distinguish between them.</p>
+        <div class="container pb-3" style="text-align: center;">
+            <img src="{% static 'img/reference_table.png' %}" alt="Tabla de referencia" height="130px">
+        </div>
+        <p>The following table shows the <b>methylation status</b> (methylated or unmethylated) assigned based on the probability of a cytosine being methylated.</p>
+        <p>This probability has been obtained through a logistic model trained with medulloblastoma data from patients at the Hospital Sant Joan de Déu. 
+            The AUC curve of this model is 0.98 (95% CI [0.96–0.99]), and the optimal cutoff value used is 0.456 based on the Youden index. 
+            Therefore, the sensitivity and specificity of the model are 94% (95% CI [87.5%–97.3%]) and 93.8% (95% CI [87.1%–97.2%]), respectively. For more detail 
+            <a href="https://www.sciencedirect.com/science/article/pii/S2589004223016759" target="_blank" rel="noopener noreferrer">iScience</a>.</p>
+        <div class="container pb-3" style="text-align: center;">
+            <img src="{% static 'img/resultados_3.png' %}" alt="Tabla de resultados 3" height="275px">
+        </div>
+        <p>Thus, the methylation signature obtained for this sample is as follows:</p>
+        <div class="container pb-3" style="text-align: center;">
+            <img src="{% static 'img/resultados_4.png' %}" alt="Tabla de resultados 4" height="105px">
+        </div>
+        <p>Now, we can use this methylation signature to calculate the Hamming distance between this and the three reference methylation signatures.</p>
+        <h5 id="section44">4.4. Hamming distance-based similarity score</h5>
+        <p>This section presents the assigned molecular subgroup for a given sample. For this purpose, 
+            the <b>Hamming distance (HD)</b>, the methylation signature of the sample, and the reference methylation signatures of the 3 subgroups are used. 
+            <b>The HD indicates the number of different symbols between two strings of equal size</b>. Hence, for 6-digit binary vectors, the HD can range from 0 to 6. 
+            A HD of 0 denotes identical character strings, while a measurement of 6 indicates complete dissimilarity between the strings. 
+            However, to enhance the interpretability of the HD, we have created a <b>similarity score</b> ranging from 0 to 1. This score can be interpreted as a perfect match if the <b>score is 1, a high match if the score is = 0.83, 
+            and a low match if the score is 0.67.</b></p>
+        <p>In this example, the strings that we want to compare are the sample string (<b>100101</b>) and the 
+            strings of the subgroups (<b>non-WNT/non-SHH, 100101; WNT, 011001; SHH, 010110</b>).</p>
+        <p><b>Similarity score between the sample string and the strings of the subgroups:</b></p>
+        <ul>
+            <li>HD score for non-WNT/non-SHH (<span style="color: green">100101</span>): 1.</li>
+            <li>HD score for WNT (<span style="color: red">1001</span><span style="color: green">01</span>): 0.33.</li>
+            <li>HD score for SHH (<span style="color: red">10</span><span style="color: green">01</span><span style="color: red">01</span>): 0.33.</li>
+        </ul>
+        <p>Within the parentheses, you can observe the methylation string that forms the sample's signature. The digits highlighted in <span style="color: green;">green</span> have the same 
+            value as the methylation string of reference for that subgroup, while the digits highlighted in <span style="color: red;">red</span> do not have the same value.</p>
+        <p>These results are presented graphically in the radar plot and in a table format.</p>
+        <p><b>Radar plot of similarity scores:</b></p>
+        <div class="container pb-3" style="text-align: center;">
+            <img src="{% static 'img/radar_plot.png' %}" alt="Radar plot" height="400px">
+        </div>
+        <p><b>Table of scores:</b></p>
+        <div class="container pb-3" style="text-align: center;">
+            <img src="{% static 'img/tabla_scores.png' %}" alt="Tabla de scores" height="100px">
+        </div>
+        <p>The next part of the results is about the quality control (QC) of the data uploaded to the server.</p>
+        <h5 id="section45">4.5. Quality control summary</h5>
+        <p>The first part of the QC results is a summary table of different incidents and suggestions on how to mitigate them.</p>
+        <div class="container pb-3" style="text-align: center;">
+            <img src="{% static 'img/qc_table.png' %}" alt="Tabla resumen control de calidad" height="275px">
+        </div>
+        <p>The possible incidences that we review in quality control that may influence the results are as follows:</p>
+        <ul>
+            <li><b>Text file complete:</b> The system checks the text file to ensure it contains all the required data tables essential for conducting the analysis. 
+                If these tables are not present, the analysis will not proceed..</li>
+            <li><b>All CpG:</b> The system verifies whether the CpGs in the results data table are accurately labeled with the following names: cg18849583, cg01268345, cg10333416, cg12925355, cg25542041, and cg02227036.
+                 If any of these names are missing or incorrect, the analysis will not proceed.</li>
+            <li><b>Dye calibration:</b> The system verifies the experiment metadata to determine if the dye is calibrated and checks its calibration date. If the calibration has lapsed, it's possible that the results might not be reliable. We recommend conducting the experiment again using properly calibrated dye for accuracy. 
+                However, please note that the data analysis will proceed regardless of the calibration status.</li>
+            <li><b>No template controls:</b> The system examines the amplification of No Template Controls (NTCs). 
+                If any amplification is detected, it raises doubts about the accuracy of the data amplification process. 
+                Consequently, we cannot assure the correctness of the results obtained through the analysis. 
+                It is highly advisable to conduct the experiment again if such amplification occurs, ensuring more reliable outcomes.</li>
+            <li><b>SD<0.5:</b> The system checks for consistent amplification among replicates. If there is notable variation among replicates, 
+                it suggests potential amplification errors in certain wells. Such variability could undermine the reliability of the experimental data. We consider deviations below 0.5 as standard and acceptable in our experiments. Deviations beyond this threshold might indicate potential issues.</li>
+        </ul>
+        <p>In this example our data passes all QC checkpoints except the standard deviations between replicates checkpoint. 
+            So we are instructed to review the technical report to see what happened.</p>
+        <h5 id="section46">4.6. Technical report</h5>
+        <p>The next part of the results goes more in depth into the incidences of the QC summary table.</p>
+        <h6>Calibration information</h6>
+        <div class="container pb-3" style="text-align: center;">
+            <img src="{% static 'img/dye_calibration.png' %}" alt="Tabla calibracion" height="100px">
+        </div>
+        <p>In the table above we can see how the different dyes are calibrated and when the last calibration was performed.</p>
+        <h6>Non template control amplication</h6>
+        <div class="container pb-3" style="text-align: center;">
+            <img src="{% static 'img/non_template_control.png' %}" alt="Tabla NTC" height="410px">
+        </div>
+        <p>In the table above we can see how no amplification (Undetermined value) is detected for the different NTCs for each of the cytosines.</p>
+        <h6>Standard deviations > 0.5</h6>
+        <div class="container pb-3" style="text-align: center;">
+            <img src="{% static 'img/standard_desviation.png' %}" alt="Tabla SD" height="230px">
+        </div>
+        <p>In the table above we can see the standard deviation for allele 1 (methylated allele) and allele 2 (unmethylated allele) 
+            for each cytosine. In this case, there are 2 cytosines (cg12925355 and cg25542041) where at least one allele is higher than 0.5. 
+            Therefore, we advise users to redo the qPCR experiment.</p>
+        <h4 id="section5">5. Download</h5>
+        <p>
+            Ultimately, users can obtain their analysis results by clicking the "Download as PDF file" button. 
+            This feature ensures access to data beyond the 30-day storage period maintained by the web server.</p>
+        <div class="container pb-3" style="text-align: center;">
+            <img src="{% static 'img/download.png' %}" alt="Boton descarga" height="50px">
+        </div>
+        
+    </div>
+{% endblock %}

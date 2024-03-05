@@ -5,6 +5,8 @@ from .functions import get_classification, send_report, fixing_radar_plot, get_c
 from django.core.mail import EmailMessage
 import time
 from time import process_time
+from datetime import date, timedelta
+import uuid
 
 
 
@@ -78,3 +80,14 @@ def analysis_notification(sample_id):
     email = EmailMessage(subject, message, 'hospitalbarcelona.PECA@sjd.es', [sample.email])
     email.send()
     print("Notification Sent!")
+    
+@shared_task(name="remove_old_samples")
+def remove_old_samples():
+    today = date.today()
+    query_time = today - timedelta(days=30)
+    old_samples = Sample.objects.filter(created__lte=query_time)
+       
+    for s in old_samples:
+        if str(s.id) != "51f96d55-4928-4c1f-a31e-eecdfd899d68":
+            s.delete()
+

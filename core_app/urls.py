@@ -13,9 +13,11 @@ urlpatterns = [
     # path('funding/', views.funding_view, name='funding'),
     path('protocols/', views.protocols_view, name='protocols'),
     path('contact/', views.contact_view, name='contact'),
-    path('information/', views.information_view, name='information'),
+    # path('information/', views.information_view, name='information'),
     path('download/<filename>/', views.download_pdf, name='download'),
     path('about_us/', views.about_view, name='about'),
     path('search_job/', views.search_view, name='search-job'),
     path('sample/<uuid:sample_id>/', views.sample_view, name='sample-detail'),
+    path('tutorial/', views.tutorial_view, name='tutorial'),
+    path('browser/', views.browser_view, name='browser'),
 ]

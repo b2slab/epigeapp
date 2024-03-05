@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="col-md-12">
+        <h3 class="mb-3">Browser compatibility</h3>
+        <hr>
+        <div class="text-center">
+            <table class="table table-hover table-bordered table-sm align-middle">
+                <thead>
+                <tr>
+                    <th scope="col"><b>OS</b></th>
+                    <th scope="col"><b>Version</b></th>
+                    <th scope="col"><b>Chrome</b></th>
+                    <th scope="col"><b>Firefox</b></th>
+                    <th scope="col"><b>Microsoft Edge</b></th>
+                    <th scope="col"><b>Safari</b></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td style="font-weight: bold;">Linux</td>
+                    <td>Ubuntu 22</td>
+                    <td>119</td>
+                    <td>120</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;">MacOS</td>
+                    <td>Ventura</td>
+                    <td>119</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>16</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;">Windows</td>
+                    <td>11</td>
+                    <td>119</td>
+                    <td>98</td>
+                    <td>119</td>
+                    <td>n/a</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

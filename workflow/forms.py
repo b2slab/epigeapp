@@ -32,7 +32,7 @@ class SampleModelForm(ModelForm):
 
     send_mail = forms.BooleanField(required=False,
                                     label="Do you want to receive the results via e-mail?",
-                                    help_text="If you accept, you will receive an e-mail with the results to the e-mail address below. Otherwise you will be able to consult the results on our web server for the next 30 days.")
+                                    help_text="If you accept, you will receive the results to the e-mail address. Otherwise you will be able to consult the results on our web server for the next 30 days.")
 
 
     diagnosis = forms.BooleanField(label="The sample has been reviewed and diagnosed as medulloblastoma by a pathologist.",
@@ -50,7 +50,7 @@ class SampleModelForm(ModelForm):
     
     cell_content = forms.BooleanField(label="The sample has more than 70% viable tumor cell content.")
 
-    only_one = forms.BooleanField(label="Analyse only one sample in each qPCR experiment.")
+    only_one = forms.BooleanField(label="Only one sample was analysed in each qPCR experiment.")
 
     instruments = forms.BooleanField(label="The sample has been analysed in one of the following real-time qPCR Instruments: "
                                       "Applied Biosystems 7500, QS1, QS3, QS5 or QS6.")

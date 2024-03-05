@@ -4,27 +4,91 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <div class="col-md-12">
-        <h3 class="mb-3">Protocols</h3>
-        <hr>
-        <p>Download and make sure to follow the guidelines below before proceeding:</p>
-        <ul>
-            <li><a href="{% url 'core_app:download' filename='EpiGe_Genotyping_Protocol.pdf' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_Genotyping_Protocol.pdf</a></li>
-            <li><a href="{% url 'core_app:download' filename='EpiGe_Genotyping_Template.pdf' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_Genotyping_Template.pdf</a></li>
-            <li><a href="{% url 'core_app:download' filename='EpiGe_QuantStudio_Configuration.pdf' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_QuantStudio_Configuration.pdf</a></li>
-        </ul>
-        <p>Download and make sure to use the corresponding template for your equipment:</p>
-        <ul>
-            <li><a href="{% static 'protocols/EpiGe_TEMPLATE_7500.edt' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_TEMPLATE_7500.edt</a></li>
-            <li><a href="{% static 'protocols/EpiGe_TEMPLATE_Q6Flex.edt' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_TEMPLATE_Q6Flex.edt</a></li>
-            <li><a href="{% static 'protocols/EpiGe_TEMPLATE_QS1.edt' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_TEMPLATE_QS1.edt</a></li>
-            <li><a href="{% static 'protocols/EpiGe_TEMPLATE_QS3.edt' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_TEMPLATE_QS3.edt</a></li>
-            <li><a href="{% static 'protocols/EpiGe_TEMPLATE_QS5.edt' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_TEMPLATE_QS5.edt</a></li>
-        </ul>
-        <p>Supplementary material for testing the web application:</p>
-        <ul>
-            <li><a href="{% static 'protocols/EpiGe_sample_example.txt' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_sample_test.txt</a></li>
-            <li><a href="{% static 'protocols/EpiGe_report_example.pdf' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_report_example.pdf</a></li>
-        </ul>
+    <div class="col-md-12" style="text-align: justify;">
+      <h3 class="mb-3" id="protocols">Protocols</h3>
+      <hr>
+      <p>Download and make sure to follow the guidelines below before proceeding:</p>
+      <ul>
+          <li><a href="{% url 'core_app:download' filename='EpiGe_Genotyping_Protocol.pdf' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_Genotyping_Protocol.pdf</a></li>
+          <li><a href="{% url 'core_app:download' filename='EpiGe_Genotyping_Template.pdf' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_Genotyping_Template.pdf</a></li>
+          <li><a href="{% url 'core_app:download' filename='EpiGe_QuantStudio_Configuration.pdf' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_QuantStudio_Configuration.pdf</a></li>
+      </ul>
+      <p>Download and make sure to use the corresponding template for your equipment:</p>
+      <ul>
+          <li><a href="{% static 'protocols/EpiGe_TEMPLATE_7500.edt' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_TEMPLATE_7500.edt</a></li>
+          <li><a href="{% static 'protocols/EpiGe_TEMPLATE_Q6Flex.edt' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_TEMPLATE_Q6Flex.edt</a></li>
+          <li><a href="{% static 'protocols/EpiGe_TEMPLATE_QS1.edt' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_TEMPLATE_QS1.edt</a></li>
+          <li><a href="{% static 'protocols/EpiGe_TEMPLATE_QS3.edt' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_TEMPLATE_QS3.edt</a></li>
+          <li><a href="{% static 'protocols/EpiGe_TEMPLATE_QS5.edt' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_TEMPLATE_QS5.edt</a></li>
+      </ul>
+      <h3 class="mb-3" id="materials">Materials</h3>
+      <hr>
+      <p>The following table shows the name of the primers, the associated CpG in the methylation arrays and the link to purchase the primer:</p>
+      <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">EpiGe_primer_ID</th>
+              <th scope="col">Illumina CpG ID</th>
+              <th scope="col">IDT_Primer_ID</th>
+              <th scope="col">Link to purchase</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>G1_1884</td>
+              <td>cg18849583</td>
+              <td>CD.GT.WFVP0601.1</td>
+              <td><a href="https://eu.idtdna.com/site/order/emailcart/SetEmailOrder?RemoteWishID=9fCZuJ1j3kw=&SpecID=3&RemoteSessionID=iBXBJAPvc4nI1AtknhoWB015dXfrqlNOIl7/eAgNULLVALpzA=" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-cart-shopping"></i></a></td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>G3_0126</td>
+              <td>cg01268345</td>
+              <td>CD.GT.PVWC1084.1</td>
+              <td><a href="https://eu.idtdna.com/site/order/emailcart/SetEmailOrder?RemoteWishID=LAhUY2SmrpI=&SpecID=3&RemoteSessionID=iBXBJAPvc4nI1AtknhoWB015dXfrqlNOIl7/eAgNULLVALpzA=" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-cart-shopping"></i></a></td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>S1_1033</td>
+              <td>cg10333416</td>
+              <td>CD.GT.SPDR8897.10</td>
+              <td><a href="https://eu.idtdna.com/site/order/emailcart/SetEmailOrder?RemoteWishID=kygjKqzHQ1A=&SpecID=3&RemoteSessionID=iBXBJAPvc4nI1AtknhoWB015dXfrqlNOIl7/eAgNULLVALpzA=" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-cart-shopping"></i></a></td>
+            </tr>
+            <tr>
+              <th scope="row">4</th>
+              <td>S3_1292</td>
+              <td>cg12925355</td>
+              <td>CD.GT.GYJV9231.1</td>
+              <td><a href="https://eu.idtdna.com/site/order/emailcart/SetEmailOrder?RemoteWishID=mAnXRNULLVALdByJ8=&SpecID=3&RemoteSessionID=iBXBJAPvc4nI1AtknhoWB015dXfrqlNOIl7/eAgNULLVALpzA=" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-cart-shopping"></i></a></td>
+            </tr>
+            <tr>
+              <th scope="row">5</th>
+              <td>W1_2554</td>
+              <td>cg25542041</td>
+              <td>CD.GT.JBHB3172.1</td>
+              <td><a href="https://eu.idtdna.com/site/order/emailcart/SetEmailOrder?RemoteWishID=5/K77obJlFk=&SpecID=3&RemoteSessionID=iBXBJAPvc4nI1AtknhoWB015dXfrqlNOIl7/eAgNULLVALpzA=" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-cart-shopping"></i></a></td>
+            </tr>
+            <tr>
+              <th scope="row">6</th>
+              <td>W3_0222</td>
+              <td>cg02227036</td>
+              <td>CD.GT.JYVK6101.1</td>
+              <td><a href="https://eu.idtdna.com/site/order/emailcart/SetEmailOrder?RemoteWishID=qUwRJ6W3RAM=&SpecID=3&RemoteSessionID=iBXBJAPvc4nI1AtknhoWB015dXfrqlNOIl7/eAgNULLVALpzA=" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-cart-shopping"></i></a></td>
+            </tr>
+          </tbody>
+        </table>
+      <h3 class="mb-3" id="supplementary">Supplementary materials</h3>
+      <hr>
+      <p>The following file is an example of a thermal cycler generated file. This file contains amplification data from a medulloblastoma sample using the Applied Biosystems QS5 thermocycler. It can be used to test the webserver without the need for your own data.</p>
+      <ul>
+          <li><a href="{% static 'protocols/EpiGe_sample_example.txt' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_sample_test.txt</a></li>
+      </ul>
+      <p>The following file is an example of a report generated by the webserver. Users can download their own analysis reports, such as this one, on their results pages. For a better understanding of the results the user can consult the <a href="{% url 'core_app:tutorial' %}">tutorial</a> or read the article published in <a href="https://www.sciencedirect.com/science/article/pii/S2589004223016759" 
+        target="_blank" rel="noopener noreferrer">iScience</a>.</p>
+      <ul>
+        <li><a href="{% static 'protocols/EpiGe_report_example.pdf' %}" target="_blank"><i class="fa-solid fa-file mr-1"></i>EpiGe_report_example.pdf</a></li>
+      </ul>
     </div>
 {% endblock %}
